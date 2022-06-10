@@ -1,4 +1,5 @@
 # vue-admin-template
+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
 
 English | [简体中文](./README-zh.md)
 

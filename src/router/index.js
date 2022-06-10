@@ -38,12 +38,6 @@ export const constantRoutes = [
   },
 
   {
-    path: '/404',
-    component: () => import('@/views/404'),
-    hidden: true
-  },
-
-  {
     path: '/',
     component: Layout,
     redirect: '/dashboard',
@@ -51,100 +45,98 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: {title: 'Dashboard', icon: 'dashboard'}
     }]
   },
 
   {
-    path: '/example',
+    path: '/carsRepair',
+    name: 'CarsRepair',
     component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
+    alwaysShow: true,
+    redirect: '/carsRepair',
+    meta: {title: 'CarsRepair', icon: 'el-icon-setting'},
     children: [
       {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        path: 'allCarsRepair',
+        name: 'allCarsRepair',
+        component: () => import('@/views/carsRepair/index'),
+        meta: {title: 'allCarsRepair', icon: 'table'}
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        path: 'addCarsRepair',
+        name: 'addCarsRepair',
+        component: () => import('@/views/carsRepair/addCarsRepair'),
+        meta: {title: 'addCarsRepair', icon: 'table'}
       }
     ]
   },
 
   {
-    path: '/form',
+    path: '/advices',
+    name: 'Advices',
     component: Layout,
+    alwaysShow: true,
+    redirect: '/advices',
+    meta: {title: 'Advices', icon: 'el-icon-s-help'},
     children: [
       {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        path: 'queryAllAdvice',
+        name: 'queryAllAdvice',
+        component: () => import('@/views/advices/index'),
+        meta: {title: 'queryAllAdvice', icon: 'table'}
       }
     ]
   },
 
   {
-    path: '/nested',
+    path: '/drivers',
+    name: 'Drivers',
     component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
-    },
+    alwaysShow: true,
+    redirect: '/drivers',
+    meta: {title: 'Drivers', icon: 'el-icon-truck'},
+    hidden: true,
     children: [
       {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: { title: 'Menu1' },
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
-          }
-        ]
-      },
+        path: 'queryAllDrivers',
+        name: 'queryAllDrivers',
+        component: () => import('@/views/driver/index'),
+        meta: {title: 'queryAllDrivers', icon: 'table'}
+      }
+    ]
+  },
+
+  {
+    path: '/cars',
+    name: 'Cars',
+    component: Layout,
+    alwaysShow: true,
+    redirect: '/cars',
+    meta: {title: 'Cars', icon: 'el-icon-truck'},
+    children: [
       {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        name: 'Menu2',
-        meta: { title: 'menu2' }
+        path: 'queryAllCars',
+        name: 'queryAllCars',
+        component: () => import('@/views/cars/index'),
+        meta: {title: 'queryAllCars', icon: 'table'}
+      }
+    ]
+  },
+
+  {
+    path: '/member',
+    name: 'Member',
+    component: Layout,
+    alwaysShow: true,
+    redirect: '/member',
+    meta: {title: 'Member', icon: 'el-icon-user'},
+    children: [
+      {
+        path: 'queryAllMember',
+        name: 'queryAllMember',
+        component: () => import('@/views/member/index'),
+        meta: {title: 'queryAllMember', icon: 'table'}
       }
     ]
   },
@@ -155,18 +147,27 @@ export const constantRoutes = [
     children: [
       {
         path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        meta: {title: 'External Link', icon: 'link'}
       }
     ]
   },
 
+  {
+    path: '/404',
+    component: () => import('@/views/404'),
+    hidden: true
+  },
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  {
+    path: '*',
+    redirect: '/404',
+    hidden: true
+  }
 ]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({y: 0}),
   routes: constantRoutes
 })
 
