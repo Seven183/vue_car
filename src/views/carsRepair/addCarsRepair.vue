@@ -2,7 +2,7 @@
   <div class="create">
     <div class="create-body">
       <el-form ref="job_form" label-width="100px" :rules="form_rules" :model="request_body" class="demo-ruleForm">
-        <el-form-item label="任务名称" prop="job_name">
+        <el-form-item label="姓名" prop="job_name">
           <el-input
             v-model="request_body.job_name"
             placeholder="请输入调度名称"
