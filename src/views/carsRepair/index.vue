@@ -1,16 +1,16 @@
 <template>
   <div class="app-container">
     <div class="app-header">
-      <el-input v-model="queryParams.job_name" placeholder="姓名" clearable style="width: 200px;margin: 5px;"
+      <el-input v-model="queryParams.userName" placeholder="姓名" clearable style="width: 200px;margin: 5px;"
                 class="filter-item"
                 @keyup.enter.native="handleFilter" @clear="getList"/>
-      <el-input v-model="queryParams.project_name" placeholder="车牌号" clearable style="width: 200px;margin: 5px;"
+      <el-input v-model="queryParams.phone" placeholder="手机号" clearable style="width: 200px;margin: 5px;"
                 class="filter-item"
                 @keyup.enter.native="handleFilter" @clear="getList"/>
-      <el-input v-model="queryParams.project_name" placeholder="手机号" clearable style="width: 200px;margin: 5px;"
+      <el-input v-model="queryParams.carNumber" placeholder="车牌号" clearable style="width: 200px;margin: 5px;"
                 class="filter-item"
                 @keyup.enter.native="handleFilter" @clear="getList"/>
-      <el-date-picker v-model="value" type="daterange" align="right" unlink-panels range-separator="至"
+      <el-date-picker v-model="queryParams.createTimeArray" type="daterange" align="right" unlink-panels range-separator="至"
                       start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptions">
       </el-date-picker>
       <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
@@ -49,7 +49,7 @@
   </div>
 </template>
 <script>
-import {deleteCarsRepair, queryAllCarsRepair, updateCarsRepair} from '@/api/carsRepair'
+import {deleteCarsRepair, queryAllCarsRepair} from '@/api/carsRepair'
 
 export default {
   name: 'CarRepair',
@@ -57,7 +57,8 @@ export default {
     return {
       list: [],
       total: 0,
-      queryParams: {pageNum: 1, pageSize: 10},
+      queryParams: {pageNum: 1, pageSize: 10, userName: null, phone: null, carNumber: null, createTimeArray: this.createTimeArray},
+      // queryParams: {pageNum: 1, pageSize: 10},
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -85,7 +86,7 @@ export default {
           }
         }]
       },
-      value: '',
+      createTimeArray: [],
       request_body: {
         username: null,
         phone: null,

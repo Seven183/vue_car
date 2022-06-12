@@ -12,7 +12,7 @@ export function deleteCarsRepair(carsRepairId) {
   return request({
     url: '/carsRepair/deleteCarsRepair/' + carsRepairId,
     method: 'get',
-    params: { carsRepairId }
+    params: carsRepairId
   })
 }
 
@@ -28,21 +28,23 @@ export function queryCarsRepairById(carsRepairId) {
   return request({
     url: 'carsRepair/select/' + carsRepairId,
     method: 'get',
-    params: { carsRepairId }
+    params: carsRepairId
   })
 }
 
-export function queryLikeCarsRepair() {
+export function queryLikeCarsRepair(data) {
   return request({
     url: 'carsRepair/queryLike',
-    method: 'get'
+    method: 'get',
+    params: data
   })
 }
 
-export function queryAllCarsRepair() {
+export function queryAllCarsRepair(data) {
   return request({
     url: 'carsRepair/allCarsRepair',
-    method: 'get'
+    method: 'get',
+    params: data
   })
 }
 
