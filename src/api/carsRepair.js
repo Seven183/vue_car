@@ -10,22 +10,23 @@ export function addCarsRepair(data) {
 
 export function deleteCarsRepair(carsRepairId) {
   return request({
-    url: '/carsRepair/deleteCarsRepair/{carsRepairId}',
+    url: '/carsRepair/deleteCarsRepair/' + carsRepairId,
     method: 'get',
     params: { carsRepairId }
   })
 }
 
-export function updateCarsRepair() {
+export function updateCarsRepair(data) {
   return request({
     url: 'carsRepair/updateCarsRepair',
-    method: 'post'
+    method: 'post',
+    data
   })
 }
 
 export function queryCarsRepairById(carsRepairId) {
   return request({
-    url: 'carsRepair/select/{carsRepairId}',
+    url: 'carsRepair/select/' + carsRepairId,
     method: 'get',
     params: { carsRepairId }
   })
