@@ -1,49 +1,43 @@
 <template>
-  <div class="app-container">
+  <div class="app-container" >
     <div class="app-header">
-      <el-input v-model="queryParams.userName" placeholder="姓名" clearable style="width: 200px;margin: 5px;"
-                class="filter-item"
+      <el-input v-model="queryParams.userName" placeholder="姓名" clearable style="width: 200px;margin-right: 5px;"
                 @keyup.enter.native="getList"
                 @clear="getList"
                 @input="getList"/>
       <el-input v-model="queryParams.phone" placeholder="手机号" clearable style="width: 200px;margin: 5px;"
-                class="filter-item"
                 @input="getList"
                 @keyup.enter.native="getList"
                 @clear="getList"/>
       <el-input v-model="queryParams.carNumber" placeholder="车牌号" clearable style="width: 200px;margin: 5px;"
-                class="filter-item"
                 @input="getList"
                 @keyup.enter.native="getList"
                 @clear="getList"/>
       <el-date-picker v-model="queryParams.startCreateTime" align="right" style="width: 200px;margin: 5px;" type="date"
-                      placeholder="开始日期" :picker-options="pickerOptions"></el-date-picker>
+                      placeholder="开始日期" :picker-options="pickerOptions" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
       <el-date-picker v-model="queryParams.endCreateTime" align="right" style="width: 200px;margin: 5px;" type="date"
-                      placeholder="结束日期" :picker-options="pickerOptions"></el-date-picker>
-      <el-button class="filter-item" style="margin: 5px;" type="primary" icon="el-icon-search" @click="getList">
+                      placeholder="结束日期" :picker-options="pickerOptions" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+      <el-button style="margin: 5px;" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
-      <el-button class="filter-item" style="margin: 5px;" type="primary" icon="el-icon-edit" @click="addCarsRepair">
+      <el-button style="margin: 5px;" type="primary" icon="el-icon-edit" @click="addCarsRepair">
         {{ $t('table.add') }}
       </el-button>
     </div>
     <div class="app-body">
-      <el-table :data="list" fit stripe border highlight-current-row style="width: 100%">
-        <el-table-column prop="userName" label="姓名" width="180" align="center"></el-table-column>
-        <el-table-column prop="phone" label="手机号" width="180" align="center"></el-table-column>
-        <el-table-column prop="carNumber" label="车牌号" width="180" align="center"></el-table-column>
-        <el-table-column prop="carsRepairType" label="维修类型" width="180" align="center"></el-table-column>
-        <el-table-column prop="carsRepairText" label="维修内容" width="180" align="center"></el-table-column>
+      <el-table :data="list" stripe fit border highlight-current-row>
+        <el-table-column prop="userName" label="姓名" width="200" align="center"></el-table-column>
+        <el-table-column prop="phone" label="手机号" width="200" align="center"></el-table-column>
+        <el-table-column prop="carNumber" label="车牌号" width="200" align="center"></el-table-column>
+        <el-table-column prop="carsRepairType" label="维修类型" width="200" align="center"></el-table-column>
+        <el-table-column prop="carsRepairText" label="维修内容" width="300" align="center" show-overflow-tooltip></el-table-column>
         <el-table-column prop="createTime" label="维修时间" width="240" align="center" sortable></el-table-column>
-        <el-table-column :label="$t('table.actions')"
-                         align="center"
-                         min-width="230"
-                         class-name="small-padding fixed-width">
+        <el-table-column :label="$t('table.actions')" align="center" min-width="200" class-name="small-padding fixed-width">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" style="min-width: 40px" @click="updateCarsRepair(scope.row)">编辑
-            </el-button>
-            <el-button type="danger" size="mini" style="min-width: 40px" @click="deleteCarsRepair(scope.row)">删除
-            </el-button>
+            <el-button type="primary" size="mini" style="min-width: 50px" @click="updateCarsRepair(scope.row)">编辑</el-button>
+            <el-popconfirm title="确定删除吗？" @confirm="deleteCarsRepair(scope.row)">
+              <el-button type="danger" size="mini" style="min-width: 40px" slot="reference">删除</el-button>
+            </el-popconfirm>
           </template>
         </el-table-column>
       </el-table>
@@ -136,11 +130,34 @@ export default {
 </script>
 
 <style>
-.app-body{
-  margin-top: 20px;
-}
-.app-footer {
-  margin-top: 50px;
-}
+  .app-container {
+    padding: 50px;
+    background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
+    /*background-image: url("~@/assets/404_images/404.png");*/
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+  }
+  .app-header {
+    padding-bottom: 30px;
+  }
+  .app-body{
+    margin-top: 20px;
+  }
+  .app-footer {
+    margin-top: 60px;
+  }
+
+  .el-table__row td, .has-gutter th {
+    border: 1px solid #e5e7da;
+  }
+
+  .el-table--border:after,
+  .el-table--group:after,
+  .el-table:before {
+    background-color: #e5e7da;
+  }
 
 </style>

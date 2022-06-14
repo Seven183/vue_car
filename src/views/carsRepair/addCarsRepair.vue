@@ -1,8 +1,7 @@
 <template>
   <div class="create">
     <div class="create-body">
-      <el-form ref="carsRepair_form" label-width="100px" :rules="form_rules" :model="request_body"
-               class="demo-ruleForm">
+      <el-form ref="carsRepair_form" label-width="100px" :rules="form_rules" :model="request_body" class="demo-ruleForm">
         <el-form-item label="姓名" prop="userName">
           <el-input v-model="request_body.userName" placeholder="请输入姓名" style="width: 240px"/>
         </el-form-item>
@@ -12,8 +11,13 @@
         <el-form-item label="车牌号" prop="carNumber">
           <el-input v-model="request_body.carNumber" placeholder="请输入车牌号" style="width: 240px"/>
         </el-form-item>
+<!--        <el-form-item label="维修类型" prop="carsRepairType">-->
+<!--          <el-input v-model="request_body.carsRepairType" placeholder="请输入维修类型" style="width: 240px"/>-->
+<!--        </el-form-item>-->
         <el-form-item label="维修类型" prop="carsRepairType">
-          <el-input v-model="request_body.carsRepairType" placeholder="请输入维修类型" style="width: 240px"/>
+          <el-select v-model="request_body.carsRepairType" style="width: 240px">
+            <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.id"/>
+          </el-select>
         </el-form-item>
         <el-form-item label="维修内容" prop="carsRepairText">
           <el-input v-model="request_body.carsRepairText" placeholder="请输入维修内容" style="width: 240px" type="textarea"/>
@@ -30,6 +34,7 @@
 
 <script>
 import {addCarsRepair, queryCarsRepairById, updateCarsRepair} from '@/api/carsRepair'
+import {queryMetaDataByType} from "@/api/metaData";
 
 export default {
   name: 'AddCarsRepair',
@@ -41,9 +46,14 @@ export default {
       this.queryCarsRepairById(this.carsRepairId)
     }
   },
+  mounted() {
+    this.queryMetaDataByType(this.metaDataType)
+  },
   data() {
     return {
       carsRepairId: '',
+      metaDataType: 'FAULT_TYPE',
+      metaDataList: [],
       createStatus: true,
       form_rules: {
         userName: [{required: true, message: '姓名不能为空', trigger: 'blur'}],
@@ -61,6 +71,11 @@ export default {
     }
   },
   methods: {
+    queryMetaDataByType() {
+      queryMetaDataByType(this.metaDataType).then((res) => {
+        this.metaDataList = res.data
+      })
+    },
     queryCarsRepairById() {
       queryCarsRepairById(this.carsRepairId).then((res) => {
         this.request_body = res.data
@@ -82,7 +97,6 @@ export default {
         if (valid) {
           addCarsRepair(this.request_body).then((res) => {
             var message = res.success
-            console.log(message)
             if (message === true) {
               this.$router.push('/carsRepair/allCarsRepair')
               this.$notify({title: '成功', message: '创建成功', type: 'success'})
