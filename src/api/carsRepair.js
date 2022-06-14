@@ -42,7 +42,7 @@ export function queryLikeCarsRepair(data) {
 
 export function queryAllCarsRepair(data) {
   return request({
-    url: 'carsRepair/allCarsRepair',
+    url: 'carsRepair/allCarsRepairs',
     method: 'get',
     params: data
   })

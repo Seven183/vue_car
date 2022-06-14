@@ -65,10 +65,10 @@ export default {
   },
   methods: {
     handleEdit(index, row) {
-      console.log(index, row);
+      console.log(listCars, row);
     },
     handleDelete(index, row) {
-      console.log(index, row);
+      console.log(listCars, row);
     }
   }
 }

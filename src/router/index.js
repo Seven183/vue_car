@@ -58,10 +58,10 @@ export const constantRoutes = [
     meta: {title: 'CarsRepair', icon: 'el-icon-setting'},
     children: [
       {
-        path: 'allCarsRepair',
-        name: 'allCarsRepair',
-        component: () => import('@/views/carsRepair/index'),
-        meta: {title: 'allCarsRepair', icon: 'table'}
+        path: 'allCarsRepairs',
+        name: 'allCarsRepairs',
+        component: () => import('@/views/carsRepair/listCarsRepairs'),
+        meta: {title: 'allCarsRepairs', icon: 'table'}
       },
       {
         path: 'addCarsRepair',
@@ -73,53 +73,71 @@ export const constantRoutes = [
   },
 
   {
-    path: '/advices',
-    name: 'Advices',
+    path: '/advice',
+    name: 'Advice',
     component: Layout,
     alwaysShow: true,
-    redirect: '/advices',
-    meta: {title: 'Advices', icon: 'el-icon-s-help'},
+    redirect: '/advice',
+    meta: {title: 'Advice', icon: 'el-icon-s-help'},
     children: [
       {
-        path: 'queryAllAdvice',
-        name: 'queryAllAdvice',
-        component: () => import('@/views/advices/index'),
-        meta: {title: 'queryAllAdvice', icon: 'table'}
+        path: 'allAdvices',
+        name: 'allAdvices',
+        component: () => import('@/views/advices/listAdvices'),
+        meta: {title: 'allAdvice', icon: 'table'}
+      },
+      {
+        path: 'addAdvice',
+        name: 'addAdvice',
+        component: () => import('@/views/advices/addAdvice'),
+        meta: {title: 'addAdvice', icon: 'table'}
       }
     ]
   },
 
   {
-    path: '/drivers',
-    name: 'Drivers',
+    path: '/driver',
+    name: 'Driver',
     component: Layout,
     alwaysShow: true,
-    redirect: '/drivers',
-    meta: {title: 'Drivers', icon: 'el-icon-truck'},
+    redirect: '/driver',
+    meta: {title: 'Driver', icon: 'el-icon-truck'},
     hidden: true,
     children: [
       {
-        path: 'queryAllDrivers',
-        name: 'queryAllDrivers',
-        component: () => import('@/views/driver/index'),
-        meta: {title: 'queryAllDrivers', icon: 'table'}
+        path: 'allDrivers',
+        name: 'allDrivers',
+        component: () => import('@/views/driver/listDrivers'),
+        meta: {title: 'allDrivers', icon: 'table'}
+      },
+      {
+        path: 'addDriver',
+        name: 'addDriver',
+        component: () => import('@/views/driver/addDriver'),
+        meta: {title: 'addDriver', icon: 'table'}
       }
     ]
   },
 
   {
-    path: '/cars',
-    name: 'Cars',
+    path: '/car',
+    name: 'Car',
     component: Layout,
     alwaysShow: true,
-    redirect: '/cars',
-    meta: {title: 'Cars', icon: 'el-icon-truck'},
+    redirect: '/car',
+    meta: {title: 'Car', icon: 'el-icon-truck'},
     children: [
       {
-        path: 'queryAllCars',
-        name: 'queryAllCars',
-        component: () => import('@/views/cars/index'),
-        meta: {title: 'queryAllCars', icon: 'table'}
+        path: 'allCars',
+        name: 'allCars',
+        component: () => import('@/views/cars/listCars'),
+        meta: {title: 'allCars', icon: 'table'}
+      },
+      {
+        path: 'addCar',
+        name: 'addCar',
+        component: () => import('@/views/cars/addCar'),
+        meta: {title: 'addCar', icon: 'table'}
       }
     ]
   },
@@ -133,10 +151,16 @@ export const constantRoutes = [
     meta: {title: 'Member', icon: 'el-icon-user'},
     children: [
       {
-        path: 'queryAllMember',
-        name: 'queryAllMember',
-        component: () => import('@/views/member/index'),
-        meta: {title: 'queryAllMember', icon: 'table'}
+        path: 'allMembers',
+        name: 'allMembers',
+        component: () => import('@/views/member/listMembers'),
+        meta: {title: 'allMembers', icon: 'table'}
+      },
+      {
+        path: 'addMember',
+        name: 'addMember',
+        component: () => import('@/views/member/addMember'),
+        meta: {title: 'addMember', icon: 'table'}
       }
     ]
   },

@@ -20,7 +20,7 @@
           <el-input v-model="request_body.carsRepairText" placeholder="请输入维修内容" style="width: 240px" type="textarea"/>
         </el-form-item>
         <el-form-item>
-          <el-button v-if="createStatus" type="primary" @click="addCarsRepairs">立即添加</el-button>
+          <el-button v-if="createStatus" type="primary" @click="addCarsRepair">立即添加</el-button>
           <el-button v-if="!createStatus" type="primary" @click="updateCarsRepair">立即保存</el-button>
           <el-button @click="backHistory">返回</el-button>
         </el-form-item>
