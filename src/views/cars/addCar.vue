@@ -82,7 +82,7 @@ export default {
       this.$refs['carsRepair_form'].validate((valid) => {
         if (valid) {
           updateCarsRepair(this.request_body).then((res) => {
-            this.$router.push('/carsRepair/allCarsRepair')
+            this.$router.push('/carsRepair/allCarsRepairs')
             this.$notify({title: '成功', message: '更新成功', type: 'success'})
           })
         }
@@ -95,7 +95,7 @@ export default {
           addCarsRepair(this.request_body).then((res) => {
             var message = res.success
             if (message === true) {
-              this.$router.push('/carsRepair/allCarsRepair')
+              this.$router.push('/carsRepair/allCarsRepairs')
               this.$notify({title: '成功', message: '创建成功', type: 'success'})
             } else {
               this.$alert(this.message['data'], '创建失败', {confirmButtonText: '确定'})

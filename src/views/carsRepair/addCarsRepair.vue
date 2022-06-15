@@ -20,7 +20,7 @@
           <el-input v-model="request_body.carsRepairText" placeholder="请输入维修内容" style="width: 240px" type="textarea"/>
         </el-form-item>
         <el-form-item>
-          <el-button v-if="createStatus" type="primary" @click="addCarsRepairs">立即添加</el-button>
+          <el-button v-if="createStatus" type="primary" @click="addCarsRepair">立即添加</el-button>
           <el-button v-if="!createStatus" type="primary" @click="updateCarsRepair">立即保存</el-button>
           <el-button @click="backHistory">返回</el-button>
         </el-form-item>
@@ -82,7 +82,7 @@ export default {
       this.$refs['carsRepair_form'].validate((valid) => {
         if (valid) {
           updateCarsRepair(this.request_body).then((res) => {
-            this.$router.push('/carsRepair/allCarsRepair')
+            this.$router.push('/carsRepair/allCarsRepairs')
             this.$notify({title: '成功', message: '更新成功', type: 'success'})
           })
         }
@@ -95,7 +95,7 @@ export default {
           addCarsRepair(this.request_body).then((res) => {
             var message = res.success
             if (message === true) {
-              this.$router.push('/carsRepair/allCarsRepair')
+              this.$router.push('/carsRepair/allCarsRepairs')
               this.$notify({title: '成功', message: '创建成功', type: 'success'})
             } else {
               this.$alert(this.message['data'], '创建失败', {confirmButtonText: '确定'})

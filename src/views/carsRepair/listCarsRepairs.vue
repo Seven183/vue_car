@@ -14,9 +14,9 @@
                 @keyup.enter.native="getList"
                 @clear="getList"/>
       <el-date-picker v-model="queryParams.startCreateTime" align="right" style="width: 200px;margin: 5px;" type="date"
-                      placeholder="开始日期" :picker-options="pickerOptions" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+                      placeholder="开始日期" @input="getList" @clear="getList" @keyup.enter.native="getList" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
       <el-date-picker v-model="queryParams.endCreateTime" align="right" style="width: 200px;margin: 5px;" type="date"
-                      placeholder="结束日期" :picker-options="pickerOptions" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+                      placeholder="结束日期" @input="getList" @clear="getList" @keyup.enter.native="getList" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
       <el-button style="margin: 5px;" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
@@ -58,7 +58,7 @@
 import {deleteCarsRepair, queryAllCarsRepair} from '@/api/carsRepair'
 
 export default {
-  name: 'CarRepair',
+  name: 'ListCarsRepairs',
   data() {
     return {
       list: [],
