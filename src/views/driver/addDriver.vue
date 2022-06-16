@@ -17,7 +17,7 @@
           <el-input v-model="request_body.phone" placeholder="请输入电话或者手机号" style="width: 240px"/>
         </el-form-item>
         <el-form-item label="联系地址" prop="address">
-          <el-input v-model="request_body.address" placeholder="请输入联系地址" style="width: 240px"/>
+          <el-input v-model="request_body.address" placeholder="请输入联系地址" style="width: 240px" type="textarea"/>
         </el-form-item>
         <el-form-item>
           <el-button v-if="createStatus" type="primary" @click="addDriver">立即添加</el-button>
