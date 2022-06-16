@@ -1,48 +1,48 @@
 import request from '@/utils/request'
 
-export function addCarsRepair(data) {
+export function addCar(data) {
   return request({
-    url: '/carsRepair/addCarsRepair',
+    url: '/car/addCar',
     method: 'post',
     data
   })
 }
 
-export function deleteCarsRepair(carsRepairId) {
+export function deleteCar(carId) {
   return request({
-    url: '/carsRepair/deleteCarsRepair/' + carsRepairId,
+    url: '/car/deleteCar/' + carId,
     method: 'get',
-    params: carsRepairId
+    params: carId
   })
 }
 
-export function updateCarsRepair(data) {
+export function updateCar(data) {
   return request({
-    url: 'carsRepair/updateCarsRepair',
+    url: 'car/updateCar',
     method: 'post',
     data
   })
 }
 
-export function queryCarsRepairById(carsRepairId) {
+export function selectCarById(carId) {
   return request({
-    url: 'carsRepair/select/' + carsRepairId,
+    url: 'car/select/' + carId,
     method: 'get',
-    params: carsRepairId
+    params: carId
   })
 }
 
-export function queryLikeCarsRepair(data) {
+export function queryLikeCars(data) {
   return request({
-    url: 'carsRepair/queryLike',
+    url: 'car/queryLikeCars',
     method: 'get',
     params: data
   })
 }
 
-export function queryAllCarsRepair(data) {
+export function allCars(data) {
   return request({
-    url: 'carsRepair/allCarsRepairs',
+    url: 'car/allCars',
     method: 'get',
     params: data
   })

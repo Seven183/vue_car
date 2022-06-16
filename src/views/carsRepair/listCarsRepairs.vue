@@ -1,21 +1,28 @@
 <template>
-  <div class="app-container" >
-    <div class="app-header">
-      <el-input v-model="queryParams.userName" placeholder="姓名" clearable style="width: 200px;margin-right: 5px;"
-                @keyup.enter.native="getList"
-                @clear="getList"
-                @input="getList"/>
-      <el-input v-model="queryParams.phone" placeholder="手机号" clearable style="width: 200px;margin: 5px;"
+  <div class="app-container">
+    <div class="app-header" style="width: 80%;">
+      <el-select filterable allow-create v-model="queryParams.carsRepairType" placeholder="维修类型" clearable
+                 style="width: 15%;margin-right: 5px;"
+                 @input="getList"
+                 @keyup.enter.native="getList"
+                 @clear="getList">
+        <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>
+      </el-select>
+<!--      <el-input v-model="queryParams.userName" placeholder="姓名" clearable style="width: 15%;margin-right: 5px;"-->
+<!--                @keyup.enter.native="getList"-->
+<!--                @clear="getList"-->
+<!--                @input="getList"/>-->
+<!--      <el-input v-model="queryParams.phone" placeholder="手机号" clearable style="width: 15%;margin: 5px;"-->
+<!--                @input="getList"-->
+<!--                @keyup.enter.native="getList"-->
+<!--                @clear="getList"/>-->
+      <el-input v-model="queryParams.carNumber" placeholder="车牌号" clearable style="width: 15%;margin: 5px;"
                 @input="getList"
                 @keyup.enter.native="getList"
                 @clear="getList"/>
-      <el-input v-model="queryParams.carNumber" placeholder="车牌号" clearable style="width: 200px;margin: 5px;"
-                @input="getList"
-                @keyup.enter.native="getList"
-                @clear="getList"/>
-      <el-date-picker v-model="queryParams.startCreateTime" align="right" style="width: 200px;margin: 5px;" type="date"
+      <el-date-picker v-model="queryParams.startCreateTime" align="right" style="width: 15%;margin: 5px;" type="date"
                       placeholder="开始日期" @input="getList" @clear="getList" @keyup.enter.native="getList" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
-      <el-date-picker v-model="queryParams.endCreateTime" align="right" style="width: 200px;margin: 5px;" type="date"
+      <el-date-picker v-model="queryParams.endCreateTime" align="right" style="width: 15%;margin: 5px;" type="date"
                       placeholder="结束日期" @input="getList" @clear="getList" @keyup.enter.native="getList" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
       <el-button style="margin: 5px;" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
@@ -26,15 +33,15 @@
     </div>
     <div class="app-body">
       <el-table :data="list" stripe fit border highlight-current-row>
-        <el-table-column prop="userName" label="姓名" width="200" align="center"></el-table-column>
-        <el-table-column prop="phone" label="手机号" width="200" align="center"></el-table-column>
-        <el-table-column prop="carNumber" label="车牌号" width="200" align="center"></el-table-column>
-        <el-table-column prop="carsRepairType" label="维修类型" width="200" align="center"></el-table-column>
-        <el-table-column prop="carsRepairText" label="维修内容" width="300" align="center" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="createTime" label="维修时间" width="240" align="center" sortable></el-table-column>
+        <el-table-column prop="userName" label="姓名" align="center"></el-table-column>
+        <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
+        <el-table-column prop="carNumber" label="车牌号" align="center"></el-table-column>
+        <el-table-column prop="carsRepairType" label="维修类型" align="center"></el-table-column>
+        <el-table-column prop="carsRepairText" label="维修内容" align="center" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="createTime" label="维修时间" align="center" sortable></el-table-column>
         <el-table-column :label="$t('table.actions')" align="center" min-width="200" class-name="small-padding fixed-width">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" style="min-width: 50px" @click="updateCarsRepair(scope.row)">编辑</el-button>
+            <el-button type="primary" size="mini" style="min-width: 50px; margin-right: 10px" @click="updateCarsRepair(scope.row)">编辑</el-button>
             <el-popconfirm title="确定删除吗？" @confirm="deleteCarsRepair(scope.row)">
               <el-button type="danger" size="mini" style="min-width: 40px" slot="reference">删除</el-button>
             </el-popconfirm>
@@ -56,6 +63,7 @@
 </template>
 <script>
 import {deleteCarsRepair, queryAllCarsRepair} from '@/api/carsRepair'
+import {queryMetaDataByType} from '@/api/metaData'
 
 export default {
   name: 'ListCarsRepairs',
@@ -63,6 +71,8 @@ export default {
     return {
       list: [],
       total: 0,
+      metaDataList: [],
+      metaDataType: 'FAULT_TYPE',
       queryParams: {
         pageNum: 1,
         pageSize: 10,
@@ -71,17 +81,13 @@ export default {
         carNumber: null,
         startCreateTime: null,
         endCreateTime: null
-      },
-      request_body: {
-        username: null,
-        phone: null,
-        carNumber: null,
-        carsRepairType: null,
-        carsRepairText: null
       }
     }
   },
-  created() {
+  mounted() {
+    queryMetaDataByType(this.metaDataType).then((res) => {
+      this.metaDataList = res.data
+    })
     this.getList()
   },
   methods: {

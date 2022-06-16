@@ -45,7 +45,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: {title: 'Dashboard', icon: 'dashboard'}
+      meta: {title: '首页', icon: 'dashboard'}
     }]
   },
 
@@ -55,17 +55,18 @@ export const constantRoutes = [
     component: Layout,
     alwaysShow: true,
     redirect: '/carsRepair',
-    meta: {title: 'CarsRepair', icon: 'el-icon-setting'},
+    meta: {title: '车辆维修', icon: 'el-icon-setting'},
     children: [
       {
         path: 'allCarsRepairs',
         name: 'allCarsRepairs',
         component: () => import('@/views/carsRepair/listCarsRepairs'),
-        meta: {title: 'allCarsRepairs', icon: 'table'}
+        meta: {title: '车辆维修列表', icon: 'table'}
       },
       {
         path: 'addCarsRepair',
         name: 'addCarsRepair',
+        hidden: true,
         component: () => import('@/views/carsRepair/addCarsRepair'),
         meta: {title: 'addCarsRepair', icon: 'table'}
       }
@@ -78,19 +79,20 @@ export const constantRoutes = [
     component: Layout,
     alwaysShow: true,
     redirect: '/advice',
-    meta: {title: 'Advice', icon: 'el-icon-s-help'},
+    meta: {title: '设备信息', icon: 'el-icon-s-help'},
     children: [
       {
         path: 'allAdvices',
         name: 'allAdvices',
         component: () => import('@/views/advices/listAdvices'),
-        meta: {title: 'allAdvice', icon: 'table'}
+        meta: {title: '设备信息列表', icon: 'table'}
       },
       {
         path: 'addAdvice',
         name: 'addAdvice',
+        hidden: true,
         component: () => import('@/views/advices/addAdvice'),
-        meta: {title: 'addAdvice', icon: 'table'}
+        meta: {title: '添加设备信息', icon: 'table'}
       }
     ]
   },
@@ -101,20 +103,21 @@ export const constantRoutes = [
     component: Layout,
     alwaysShow: true,
     redirect: '/driver',
-    meta: {title: 'Driver', icon: 'el-icon-truck'},
-    hidden: true,
+    meta: {title: '驾驶人信息', icon: 'el-icon-truck'},
+    // hidden: true,
     children: [
       {
         path: 'allDrivers',
         name: 'allDrivers',
         component: () => import('@/views/driver/listDrivers'),
-        meta: {title: 'allDrivers', icon: 'table'}
+        meta: {title: '驾驶人信息列表', icon: 'table'}
       },
       {
         path: 'addDriver',
         name: 'addDriver',
+        hidden: true,
         component: () => import('@/views/driver/addDriver'),
-        meta: {title: 'addDriver', icon: 'table'}
+        meta: {title: '添加驾驶人', icon: 'table'}
       }
     ]
   },
@@ -125,19 +128,20 @@ export const constantRoutes = [
     component: Layout,
     alwaysShow: true,
     redirect: '/car',
-    meta: {title: 'Car', icon: 'el-icon-truck'},
+    meta: {title: '车辆信息', icon: 'el-icon-truck'},
     children: [
       {
         path: 'allCars',
         name: 'allCars',
         component: () => import('@/views/cars/listCars'),
-        meta: {title: 'allCars', icon: 'table'}
+        meta: {title: '车辆信息列表', icon: 'table'}
       },
       {
         path: 'addCar',
         name: 'addCar',
+        hidden: true,
         component: () => import('@/views/cars/addCar'),
-        meta: {title: 'addCar', icon: 'table'}
+        meta: {title: '添加车辆信息', icon: 'table'}
       }
     ]
   },
@@ -148,19 +152,20 @@ export const constantRoutes = [
     component: Layout,
     alwaysShow: true,
     redirect: '/member',
-    meta: {title: 'Member', icon: 'el-icon-user'},
+    meta: {title: '会员信息', icon: 'el-icon-user'},
     children: [
       {
         path: 'allMembers',
         name: 'allMembers',
         component: () => import('@/views/member/listMembers'),
-        meta: {title: 'allMembers', icon: 'table'}
+        meta: {title: '会员信息列表', icon: 'table'}
       },
       {
         path: 'addMember',
         name: 'addMember',
+        hidden: true,
         component: () => import('@/views/member/addMember'),
-        meta: {title: 'addMember', icon: 'table'}
+        meta: {title: '添加会员信息', icon: 'table'}
       }
     ]
   },

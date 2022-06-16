@@ -1,7 +1,7 @@
 <template>
   <div class="create">
     <div class="create-body">
-      <el-form ref="carsRepair_form" label-width="100px" :rules="form_rules" :model="request_body" class="demo-ruleForm">
+      <el-form ref="carsRepair_form" label-width="200px" :rules="form_rules" :model="request_body" class="demo-ruleForm">
         <el-form-item label="姓名" prop="userName">
           <el-input v-model="request_body.userName" placeholder="请输入姓名" style="width: 240px"/>
         </el-form-item>
@@ -12,7 +12,7 @@
           <el-input v-model="request_body.carNumber" placeholder="请输入车牌号" style="width: 240px"/>
         </el-form-item>
         <el-form-item label="维修类型" prop="carsRepairType">
-          <el-select v-model="request_body.carsRepairType" style="width: 240px">
+          <el-select filterable allow-create clearable v-model="request_body.carsRepairType" style="width: 240px">
             <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>
           </el-select>
         </el-form-item>
@@ -35,20 +35,20 @@ import {queryMetaDataByType} from "@/api/metaData";
 
 export default {
   name: 'AddCarsRepair',
-  created() {
+  mounted() {
     const query = this.$route.query
     if (query.carsRepairId) {
       this.createStatus = false
-      this.carsRepairId = query.carsRepairId
-      this.queryCarsRepairById(this.carsRepairId)
+      queryCarsRepairById(query.carsRepairId).then((res) => {
+        this.request_body = res.data
+      })
     }
-  },
-  mounted() {
-    this.queryMetaDataByType(this.metaDataType)
+    queryMetaDataByType(this.metaDataType).then((res) => {
+      this.metaDataList = res.data
+    })
   },
   data() {
     return {
-      carsRepairId: '',
       metaDataType: 'FAULT_TYPE',
       metaDataList: [],
       createStatus: true,
@@ -68,16 +68,6 @@ export default {
     }
   },
   methods: {
-    queryMetaDataByType() {
-      queryMetaDataByType(this.metaDataType).then((res) => {
-        this.metaDataList = res.data
-      })
-    },
-    queryCarsRepairById() {
-      queryCarsRepairById(this.carsRepairId).then((res) => {
-        this.request_body = res.data
-      })
-    },
     updateCarsRepair() {
       this.$refs['carsRepair_form'].validate((valid) => {
         if (valid) {
@@ -112,6 +102,17 @@ export default {
 </script>
 
 <style scoped>
+.app-container {
+  padding: 50px;
+  background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
+  /*background-image: url("~@/assets/404_images/404.png");*/
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+}
+
 .create .create-body {
   padding: 50px 20px
 }

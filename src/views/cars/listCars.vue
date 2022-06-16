@@ -1,79 +1,162 @@
 <template>
-  <el-table
-    :data="tableData"
-    style="width: 100%">
-    <el-table-column
-      label="日期"
-      width="180">
-      <template slot-scope="scope">
-        <i class="el-icon-time"></i>
-        <span style="margin-left: 10px">{{ scope.row.date }}</span>
-      </template>
-    </el-table-column>
-    <el-table-column
-      label="姓名"
-      width="180">
-      <template slot-scope="scope">
-        <el-popover trigger="hover" placement="top">
-          <p>姓名: {{ scope.row.name }}</p>
-          <p>住址: {{ scope.row.address }}</p>
-          <div slot="reference" class="name-wrapper">
-            <el-tag size="medium">{{ scope.row.name }}</el-tag>
-          </div>
-        </el-popover>
-      </template>
-    </el-table-column>
-    <el-table-column label="操作">
-      <template slot-scope="scope">
-        <el-button
-          size="mini"
-          @click="handleEdit(scope.$index, scope.row)">编辑
-        </el-button>
-        <el-button
-          size="mini"
-          type="danger"
-          @click="handleDelete(scope.$index, scope.row)">删除
-        </el-button>
-      </template>
-    </el-table-column>
-  </el-table>
+  <div class="app-container" >
+    <div class="app-header" style="width: 80%;">
+      <el-select filterable allow-create v-model="queryParams.carBrand" placeholder="车品牌" clearable
+                 style="width: 15%;margin-right: 5px;"
+                 @input="getList"
+                 @keyup.enter.native="getList"
+                 @clear="getList">
+        <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>
+      </el-select>
+      <el-input v-model="queryParams.carName" placeholder="车名称" clearable style="width: 15%;margin: 5px;"
+                @keyup.enter.native="getList"
+                @clear="getList"
+                @input="getList"/>
+      <el-input v-model="queryParams.carNumber" placeholder="车牌号" clearable style="width: 15%;margin: 5px;"
+                @input="getList"
+                @keyup.enter.native="getList"
+                @clear="getList"/>
+      <el-input v-model="queryParams.engineNumber" placeholder="车架号" clearable style="width: 20%;margin: 5px;"
+                @input="getList"
+                @keyup.enter.native="getList"
+                @clear="getList"/>
+      <el-button style="margin: 5px;" type="primary" icon="el-icon-search" @click="getList">
+        {{ $t('table.search') }}
+      </el-button>
+      <el-button style="margin: 5px;" type="primary" icon="el-icon-edit" @click="addCar">
+        {{ $t('table.add') }}
+      </el-button>
+    </div>
+    <div class="app-body">
+      <el-table :data="list" stripe fit border highlight-current-row>
+        <el-table-column prop="carBrand" label="车品牌" align="center"></el-table-column>
+        <el-table-column prop="carName" label="车名称" align="center"></el-table-column>
+        <el-table-column prop="carNumber" label="车牌号" align="center"></el-table-column>
+        <el-table-column prop="engineNumber" label="车架号" align="center"></el-table-column>
+        <el-table-column :label="$t('table.actions')" align="center" min-width="180" class-name="small-padding fixed-width">
+          <template slot-scope="scope">
+            <el-button type="primary" size="mini" style="min-width: 50px;margin-right: 10px" @click="updateCar(scope.row)">编辑</el-button>
+            <el-popconfirm title="确定删除吗？" @confirm="deleteCar(scope.row)">
+              <el-button type="danger" size="mini" style="min-width: 40px" slot="reference">删除</el-button>
+            </el-popconfirm>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <div class="app-footer">
+      <el-pagination
+        v-show="total>0"
+        :total="total"
+        layout="total, sizes, prev, pager, next, jumper"
+        :page-count="queryParams.pageNum"
+        :page-size="queryParams.pageSize"
+        @current-change="getListByNumber"
+        @size-change="getListByPage"/>
+    </div>
+  </div>
 </template>
-
 <script>
+
+import {allCars, deleteCar} from '@/api/cars';
+import {queryMetaDataByType} from "@/api/metaData";
+
 export default {
-  name: 'Cars',
+  name: 'ListCars',
   data() {
     return {
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+      list: [],
+      total: 0,
+      metaDataList: [],
+      metaDataType: 'CAR_BRANF_TYPE',
+      queryParams: {
+        pageNum: 1,
+        pageSize: 10,
+        carBrand: null,
+        carName: null,
+        carNumber: null,
+        engineNumber: null
+      }
     }
   },
+  mounted() {
+    queryMetaDataByType(this.metaDataType).then((res) => {
+      this.metaDataList = res.data
+    })
+    this.getList()
+  },
   methods: {
-    handleEdit(index, row) {
-      console.log(listCars, row);
+    handleFilter() {
+      this.getList()
     },
-    handleDelete(index, row) {
-      console.log(listCars, row);
+    getList() {
+      allCars(this.queryParams).then(res => {
+        this.list = res.data.list
+        this.total = res.data.total
+      })
+    },
+    getListByPage(size) {
+      this.queryParams.pageSize = size
+      allCars(this.queryParams).then(res => {
+        this.list = res.data.list
+        this.total = res.data.total
+      })
+    },
+    getListByNumber(number) {
+      this.queryParams.pageNum = number
+      allCars(this.queryParams).then(res => {
+        this.list = res.data.list
+        this.total = res.data.total
+      })
+    },
+    updateCar(row) {
+      this.$router.push({
+        path: '/car/addCar',
+        query: {
+          carId: row.carId
+        }
+      })
+    },
+    deleteCar(row) {
+      deleteCar(row.carId).then(res => {
+        this.getList()
+        this.$notify({title: '成功', message: '删除成功', type: 'success'})
+      })
+    },
+    addCar() {
+      this.$router.push('/car/addCar')
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
+  .app-container {
+    padding: 50px;
+    background-image: linear-gradient(to top, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
+    width: 100%;
+    position: absolute;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+  }
+  .app-header {
+    padding-bottom: 30px;
+  }
+  .app-body{
+    margin-top: 20px;
+  }
+  .app-footer {
+    margin-top: 60px;
+  }
+
+  .el-table__row td, .has-gutter th {
+    border: 1px solid #e5e7da;
+  }
+
+  .el-table--border:after,
+  .el-table--group:after,
+  .el-table:before {
+    background-color: #e5e7da;
+  }
 
 </style>

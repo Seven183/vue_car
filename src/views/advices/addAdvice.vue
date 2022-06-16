@@ -3,7 +3,7 @@
     <div class="create-body">
       <el-form ref="advices_form" label-width="200px" :rules="form_rules" :model="request_body" class="demo-ruleForm">
         <el-form-item label="设备类型" prop="advicesType">
-          <el-select v-model="request_body.advicesType" style="width: 240px">
+          <el-select filterable allow-create clearable v-model="request_body.advicesType" style="width: 240px">
             <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>
           </el-select>
         </el-form-item>
@@ -14,10 +14,10 @@
           <el-input v-model="request_body.advicesNumber" placeholder="请输入设备编号" style="width: 240px"/>
         </el-form-item>
         <el-form-item label="设备数量" prop="advicesQuantity">
-          <el-input v-model="request_body.advicesQuantity" placeholder="请输入设备数量" style="width: 240px"/>
+          <el-input v-model.number="request_body.advicesQuantity" placeholder="请输入设备数量" style="width: 240px" @input="advicesFullAmount"/>
         </el-form-item>
         <el-form-item label="设备单价金额" prop="advicesPriceAmount">
-          <el-input v-model="request_body.advicesPriceAmount" placeholder="请输入设备单价金额" style="width: 240px"/>
+          <el-input v-model="request_body.advicesPriceAmount" placeholder="请输入设备单价金额" style="width: 240px" @input="advicesFullAmount"/>
         </el-form-item>
         <el-form-item label="设备总金额" prop="advicesFullAmount">
           <el-input v-model="request_body.advicesFullAmount" placeholder="请输入设备总金额" style="width: 240px"/>
@@ -33,35 +33,46 @@
 </template>
 
 <script>
-import {queryMetaDataByType} from "@/api/metaData";
-import {addAdvice, selectAdvicesById, updateAdvice} from "@/api/advices";
+import {queryMetaDataByType} from '@/api/metaData';
+import {addAdvice, selectAdvicesById, updateAdvice} from '@/api/advices';
 
 export default {
   name: 'AddAdvices',
-  created() {
+  mounted() {
     const query = this.$route.query
     if (query.advicesId) {
       this.createStatus = false
-      this.advicesId = query.advicesId
-      this.selectAdvicesById(this.advicesId)
+      selectAdvicesById(query.advicesId).then((res) => {
+        this.request_body = res.data
+      })
     }
-  },
-  mounted() {
-    this.queryMetaDataByType(this.metaDataType)
+    queryMetaDataByType(this.metaDataType).then((res) => {
+      this.metaDataList = res.data
+    })
   },
   data() {
+    const moneyReg = (rule, value, callback) => {
+      if (value.length > 10) {
+        callback(new Error('长度在 0 到 10 个字符'))
+      } else {
+        setTimeout(() => {
+          if (!/^\d+[.]?\d{0,2}$/.test(value) && value) {
+            callback(new Error('请输入正整数或小数保留两位小数'))
+          } else {
+            callback()
+          }
+        }, 500)
+      }
+    }
     return {
-      advicesId: '',
-      metaDataType: 'FAULT_TYPE',
+      metaDataType: 'ADVICE_TYPE',
       metaDataList: [],
       createStatus: true,
       form_rules: {
         advicesType: [{required: true, message: '设备类型不能为空', trigger: 'blur'}],
         advicesName: [{required: true, message: '设备名称不能为空', trigger: 'change'}],
-        advicesNumber: [{required: true, message: '设备编号不能为空', trigger: 'change'}],
-        advicesQuantity: [{required: true, message: '设备数量不能为空', trigger: 'change'}],
-        advicesPriceAmount: [{required: true, message: '设备单价金额不能为空', trigger: 'change'}],
-        advicesFullAmount: [{required: true, message: '设备总金额不能为空', trigger: 'change'}]
+        advicesQuantity: [{type: 'number', required: true, message: '设备数量不能为空且为整数', trigger: 'change'}],
+        advicesPriceAmount: [{validator: moneyReg, trigger: 'blur'}, {required: true, message: '设备单价金额不能为空'}]
       },
       request_body: {
         advicesType: null,
@@ -74,15 +85,8 @@ export default {
     }
   },
   methods: {
-    queryMetaDataByType() {
-      queryMetaDataByType(this.metaDataType).then((res) => {
-        this.metaDataList = res.data
-      })
-    },
-    selectAdvicesById() {
-      selectAdvicesById(this.advicesId).then((res) => {
-        this.request_body = res.data
-      })
+    advicesFullAmount() {
+      this.request_body.advicesFullAmount = this.request_body.advicesQuantity * this.request_body.advicesPriceAmount
     },
     updateAdvice() {
       this.$refs['advices_form'].validate((valid) => {

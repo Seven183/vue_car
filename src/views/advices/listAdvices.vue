@@ -1,15 +1,17 @@
 <template>
-  <div class="app-container" >
-    <div class="app-header">
-      <el-input v-model="queryParams.advicesType" placeholder="设备类型" clearable style="width: 200px;"
-                @input="getList"
-                @keyup.enter.native="getList"
-                @clear="getList"/>
-      <el-input v-model="queryParams.advicesName" placeholder="设备名称" clearable style="width: 200px;margin-right: 5px;"
+  <div class="app-container">
+    <div class="app-header" style="width: 80%;">
+      <el-select filterable allow-create clearable placeholder="设备类型" v-model="queryParams.advicesType" style="width: 15%; margin-right: 5px;"
+                 @keyup.enter.native="getList"
+                 @input="getList"
+                 @clear="getList">
+        <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>
+      </el-select>
+      <el-input v-model="queryParams.advicesName" placeholder="设备名称" clearable style="width: 15%;margin: 5px;"
                 @keyup.enter.native="getList"
                 @clear="getList"
                 @input="getList"/>
-      <el-input v-model="queryParams.advicesNumber" placeholder="设备编号" clearable style="width: 200px;margin: 5px;"
+      <el-input v-model="queryParams.advicesNumber" placeholder="设备编号" clearable style="width: 20%;margin: 5px;"
                 @input="getList"
                 @keyup.enter.native="getList"
                 @clear="getList"/>
@@ -22,15 +24,15 @@
     </div>
     <div class="app-body">
       <el-table :data="list" stripe fit border highlight-current-row>
-        <el-table-column prop="advicesType" label="设备类型" width="200" align="center"></el-table-column>
-        <el-table-column prop="advicesName" label="设备名称" width="200" align="center"></el-table-column>
-        <el-table-column prop="advicesNumber" label="设备编号" width="200" align="center"></el-table-column>
-        <el-table-column prop="advicesQuantity" label="设备数量" width="200" align="center"></el-table-column>
-        <el-table-column prop="advicesPriceAmount" label="设备单价金额" width="300" align="center" sortable></el-table-column>
-        <el-table-column prop="advicesFullAmount" label="设备总金额" width="240" align="center" sortable></el-table-column>
+        <el-table-column prop="advicesType" label="设备类型" align="center"></el-table-column>
+        <el-table-column prop="advicesName" label="设备名称" align="center"></el-table-column>
+        <el-table-column prop="advicesNumber" label="设备编号" align="center"></el-table-column>
+        <el-table-column prop="advicesQuantity" label="设备数量" align="center"></el-table-column>
+        <el-table-column prop="advicesPriceAmount" label="设备单价金额" align="center" sortable></el-table-column>
+        <el-table-column prop="advicesFullAmount" label="设备总金额" align="center" sortable></el-table-column>
         <el-table-column :label="$t('table.actions')" align="center" min-width="200" class-name="small-padding fixed-width">
           <template slot-scope="scope">
-            <el-button type="primary" size="mini" style="min-width: 50px" @click="updateAdvice(scope.row)">编辑</el-button>
+            <el-button type="primary" size="mini" style="min-width: 50px; margin-right: 10px" @click="updateAdvice(scope.row)">编辑</el-button>
             <el-popconfirm title="确定删除吗？" @confirm="deleteAdvice(scope.row)">
               <el-button type="danger" size="mini" style="min-width: 40px" slot="reference">删除</el-button>
             </el-popconfirm>
@@ -51,7 +53,8 @@
   </div>
 </template>
 <script>
-import {allAdvices, deleteAdvice} from "@/api/advices";
+import {allAdvices, deleteAdvice} from '@/api/advices';
+import {queryMetaDataByType} from "@/api/metaData";
 
 export default {
   name: 'ListAdvices',
@@ -59,24 +62,21 @@ export default {
     return {
       list: [],
       total: 0,
+      metaDataList: [],
+      metaDataType: 'ADVICE_TYPE',
       queryParams: {
         pageNum: 1,
         pageSize: 10,
         advicesType: null,
         advicesName: null,
         advicesNumber: null
-      },
-      request_body: {
-        advicesType: null,
-        advicesName: null,
-        advicesNumber: null,
-        advicesQuantity: null,
-        advicesPriceAmount: null,
-        advicesFullAmount: null
       }
     }
   },
-  created() {
+  mounted() {
+    queryMetaDataByType(this.metaDataType).then((res) => {
+      this.metaDataList = res.data
+    })
     this.getList()
   },
   methods: {
@@ -104,7 +104,6 @@ export default {
       })
     },
     updateAdvice(row) {
-      console.log('dasdasda', row)
       this.$router.push({
         path: '/advice/addAdvice',
         query: {
