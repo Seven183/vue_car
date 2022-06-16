@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container" >
+  <div class="app-container">
     <div class="app-header" style="width: 80%;">
       <el-input v-model="queryParams.memberName" placeholder="会员名" clearable style="width: 15%;margin-right: 5px;"
                 @input="getList"

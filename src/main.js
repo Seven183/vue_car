@@ -20,10 +20,8 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
-// if (process.env.NODE_ENV === 'production') {
-//   const { mockXHR } = require('../mock')
-//   mockXHR()
-// }
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 
 // set ElementUI lang to EN
 // Vue.use(ElementUI, { locale })
@@ -33,10 +31,11 @@ Vue.use(ViewUI)
 
 Vue.config.productionTip = false
 
-new Vue({
+const vm = new Vue({
   el: '#app',
   router,
   store,
   i18n,
   render: h => h(App)
 })
+console.log(vm)
