@@ -5,6 +5,9 @@
         <el-form-item label="会员名" prop="memberName">
           <el-input v-model="request_body.memberName" placeholder="请输入会员名" style="width: 240px"/>
         </el-form-item>
+        <el-form-item label="车牌号" prop="carNumber">
+          <el-input v-model="request_body.carNumber" placeholder="请输入车牌号" style="width: 240px"/>
+        </el-form-item>
         <el-form-item label="会员性别" prop="memberSex">
           <el-select filterable allow-create clearable v-model="request_body.memberSex" style="width: 240px">
             <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>
@@ -52,15 +55,30 @@ export default {
     })
   },
   data() {
+    const moneyReg = (rule, value, callback) => {
+      if (value.length > 10) {
+        callback(new Error('长度在 0 到 10 个字符'))
+      } else {
+        setTimeout(() => {
+          if (!/^\d+[.]?\d{0,2}$/.test(value) && value) {
+            callback(new Error('请输入正整数或小数保留两位小数'))
+          } else {
+            callback()
+          }
+        }, 500)
+      }
+    }
     return {
       metaDataType: 'SEX_TYPE',
       metaDataList: [],
       createStatus: true,
       form_rules: {
+        carNumber: [{required: true, message: '车牌号不能为空', trigger: 'blur'}],
         memberName: [{required: true, message: '姓名不能为空', trigger: 'blur'}],
         memberSex: [{required: true, message: '性别不能为空', trigger: 'change'}],
         age: [{type: 'number', message: '年龄必须为整数', trigger: 'change'}],
-        phone: [{required: true, message: '联系方式不能为空', trigger: 'change'}]
+        phone: [{required: true, message: '联系方式不能为空', trigger: 'change'}],
+        rechargeAmount: [{validator: moneyReg, trigger: 'change'}]
       },
       request_body: {
         memberName: null,

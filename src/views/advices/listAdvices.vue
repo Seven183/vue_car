@@ -1,7 +1,15 @@
 <template>
   <div class="app-container">
     <div class="app-header" style="width: 80%;">
-      <el-select filterable allow-create clearable placeholder="设备类型" v-model="queryParams.advicesType" style="width: 15%; margin-right: 5px;"
+      <el-select filterable allow-create v-model="queryParams.carNumber" placeholder="车牌号" clearable
+                 style="width: 15%;margin: 5px;"
+                 @input="getList"
+                 @keyup.enter.native="getList"
+                 @clear="getList">
+        <el-option v-for="item in carNumberList" :key="item" :label="item" :value="item"/>
+      </el-select>
+      <el-select filterable allow-create clearable placeholder="设备类型" v-model="queryParams.advicesType"
+                 style="width: 15%; margin-right: 5px;"
                  @keyup.enter.native="getList"
                  @input="getList"
                  @clear="getList">
@@ -11,10 +19,10 @@
                 @keyup.enter.native="getList"
                 @clear="getList"
                 @input="getList"/>
-      <el-input v-model="queryParams.advicesNumber" placeholder="设备编号" clearable style="width: 20%;margin: 5px;"
-                @input="getList"
-                @keyup.enter.native="getList"
-                @clear="getList"/>
+<!--      <el-input v-model="queryParams.advicesNumber" placeholder="设备编号" clearable style="width: 20%;margin: 5px;"-->
+<!--                @input="getList"-->
+<!--                @keyup.enter.native="getList"-->
+<!--                @clear="getList"/>-->
       <el-button style="margin: 5px;" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
@@ -24,6 +32,7 @@
     </div>
     <div class="app-body">
       <el-table :data="list" stripe fit border highlight-current-row>
+        <el-table-column prop="carNumber" label="车牌号" align="center"></el-table-column>
         <el-table-column prop="advicesType" label="设备类型" align="center"></el-table-column>
         <el-table-column prop="advicesName" label="设备名称" align="center"></el-table-column>
         <el-table-column prop="advicesNumber" label="设备编号" align="center"></el-table-column>
@@ -55,6 +64,7 @@
 <script>
 import {allAdvices, deleteAdvice} from '@/api/advices';
 import {queryMetaDataByType} from "@/api/metaData";
+import {selectCarNumbers} from "@/api/carsRepair";
 
 export default {
   name: 'ListAdvices',
@@ -63,10 +73,12 @@ export default {
       list: [],
       total: 0,
       metaDataList: [],
+      carNumberList: [],
       metaDataType: 'ADVICE_TYPE',
       queryParams: {
         pageNum: 1,
         pageSize: 10,
+        carNumber: null,
         advicesType: null,
         advicesName: null,
         advicesNumber: null
@@ -76,6 +88,9 @@ export default {
   mounted() {
     queryMetaDataByType(this.metaDataType).then((res) => {
       this.metaDataList = res.data
+    })
+    selectCarNumbers().then((res) => {
+      this.carNumberList = res.data
     })
     this.getList()
   },

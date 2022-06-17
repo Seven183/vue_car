@@ -32,11 +32,10 @@ export function selectMemberById(memberId) {
   })
 }
 
-export function queryLikeCarsRepair(data) {
+export function selectCarNumbers() {
   return request({
-    url: 'member/queryLike',
-    method: 'get',
-    params: data
+    url: 'member/selectCarNumbers',
+    method: 'get'
   })
 }
 

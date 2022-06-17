@@ -1,25 +1,32 @@
 <template>
   <div class="app-container">
     <div class="app-header" style="width: 80%;">
-      <el-input v-model="queryParams.memberName" placeholder="会员名" clearable style="width: 15%;margin-right: 5px;"
+      <el-input filterable allow-create v-model="queryParams.memberName" placeholder="会员名" clearable style="width: 15%;margin-right: 5px;"
                 @input="getList"
                 @keyup.enter.native="getList"
                 @clear="getList"/>
-      <el-select filterable allow-create v-model="queryParams.memberSex" placeholder="会员性别" clearable
+      <el-select filterable allow-create v-model="queryParams.carNumber" placeholder="车牌号" clearable
                  style="width: 15%;margin: 5px;"
                  @keyup.enter.native="getList"
                  @clear="getList"
                  @input="getList">
-        <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>
+        <el-option v-for="item in carNumberList" :key="item" :label="item" :value="item"/>
       </el-select>
       <el-input v-model="queryParams.phone" placeholder="联系方式" clearable style="width: 15%;margin: 5px;"
                 @input="getList"
                 @keyup.enter.native="getList"
                 @clear="getList"/>
-      <el-input v-model="queryParams.address" placeholder="联系地址" clearable style="width: 15%;margin: 5px;"
-                @input="getList"
-                @keyup.enter.native="getList"
-                @clear="getList"/>
+<!--      <el-select filterable allow-create v-model="queryParams.memberSex" placeholder="会员性别" clearable-->
+<!--                 style="width: 15%;margin: 5px;"-->
+<!--                 @keyup.enter.native="getList"-->
+<!--                 @clear="getList"-->
+<!--                 @input="getList">-->
+<!--        <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>-->
+<!--      </el-select>-->
+<!--      <el-input v-model="queryParams.address" placeholder="联系地址" clearable style="width: 15%;margin: 5px;"-->
+<!--                @input="getList"-->
+<!--                @keyup.enter.native="getList"-->
+<!--                @clear="getList"/>-->
       <el-button style="margin: 5px;" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
@@ -30,6 +37,7 @@
     <div class="app-body">
       <el-table :data="list" stripe fit border highlight-current-row>
         <el-table-column prop="memberName" label="会员名" align="center"></el-table-column>
+        <el-table-column prop="carNumber" label="车牌号" align="center"></el-table-column>
         <el-table-column prop="memberSex" label="会员性别" align="center"></el-table-column>
         <el-table-column prop="age" label="年龄" align="center"></el-table-column>
         <el-table-column prop="phone" label="联系方式" align="center"></el-table-column>
@@ -60,7 +68,7 @@
 </template>
 <script>
 
-import {allMember, deleteMember} from '@/api/member'
+import {allMember, deleteMember, selectCarNumbers} from '@/api/member'
 import {queryMetaDataByType} from '@/api/metaData'
 
 export default {
@@ -69,12 +77,14 @@ export default {
     return {
       list: [],
       total: 0,
+      carNumberList: [],
       metaDataList: [],
       metaDataType: 'SEX_TYPE',
       queryParams: {
         pageNum: 1,
         pageSize: 10,
         memberName: null,
+        carNumber: null,
         memberSex: null,
         phone: null,
         address: null
@@ -84,6 +94,9 @@ export default {
   mounted() {
     queryMetaDataByType(this.metaDataType).then((res) => {
       this.metaDataList = res.data
+    })
+    selectCarNumbers().then((res) => {
+      this.carNumberList = res.data
     })
     this.getList()
   },

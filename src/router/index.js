@@ -79,20 +79,20 @@ export const constantRoutes = [
     component: Layout,
     alwaysShow: true,
     redirect: '/advice',
-    meta: {title: '设备信息', icon: 'el-icon-s-help'},
+    meta: {title: '维修设备信息', icon: 'el-icon-s-help'},
     children: [
       {
         path: 'allAdvices',
         name: 'allAdvices',
         component: () => import('@/views/advices/listAdvices'),
-        meta: {title: '设备信息列表', icon: 'table'}
+        meta: {title: '维修设备信息列表', icon: 'table'}
       },
       {
         path: 'addAdvice',
         name: 'addAdvice',
         hidden: true,
         component: () => import('@/views/advices/addAdvice'),
-        meta: {title: '添加设备信息', icon: 'table'}
+        meta: {title: '添加维修设备信息', icon: 'table'}
       }
     ]
   },

@@ -1,6 +1,13 @@
 <template>
   <div class="app-container" >
     <div class="app-header" style="width: 80%;">
+      <el-select filterable allow-create v-model="queryParams.carNumber" placeholder="车牌号" clearable
+                 style="width: 15%;margin: 5px;"
+                 @input="getList"
+                 @keyup.enter.native="getList"
+                 @clear="getList">
+        <el-option v-for="item in carNumberList" :key="item" :label="item" :value="item"/>
+      </el-select>
       <el-select filterable allow-create v-model="queryParams.carBrand" placeholder="车品牌" clearable
                  style="width: 15%;margin-right: 5px;"
                  @input="getList"
@@ -12,10 +19,6 @@
                 @keyup.enter.native="getList"
                 @clear="getList"
                 @input="getList"/>
-      <el-input v-model="queryParams.carNumber" placeholder="车牌号" clearable style="width: 15%;margin: 5px;"
-                @input="getList"
-                @keyup.enter.native="getList"
-                @clear="getList"/>
       <el-input v-model="queryParams.engineNumber" placeholder="车架号" clearable style="width: 20%;margin: 5px;"
                 @input="getList"
                 @keyup.enter.native="getList"
@@ -29,9 +32,9 @@
     </div>
     <div class="app-body">
       <el-table :data="list" stripe fit border highlight-current-row>
+        <el-table-column prop="carNumber" label="车牌号" align="center"></el-table-column>
         <el-table-column prop="carBrand" label="车品牌" align="center"></el-table-column>
         <el-table-column prop="carName" label="车名称" align="center"></el-table-column>
-        <el-table-column prop="carNumber" label="车牌号" align="center"></el-table-column>
         <el-table-column prop="engineNumber" label="车架号" align="center"></el-table-column>
         <el-table-column :label="$t('table.actions')" align="center" min-width="180" class-name="small-padding fixed-width">
           <template slot-scope="scope">
@@ -59,6 +62,7 @@
 
 import {allCars, deleteCar} from '@/api/cars';
 import {queryMetaDataByType} from "@/api/metaData";
+import {selectCarNumbers} from "@/api/carsRepair";
 
 export default {
   name: 'ListCars',
@@ -66,6 +70,7 @@ export default {
     return {
       list: [],
       total: 0,
+      carNumberList: [],
       metaDataList: [],
       metaDataType: 'CAR_BRANF_TYPE',
       queryParams: {
@@ -81,6 +86,9 @@ export default {
   mounted() {
     queryMetaDataByType(this.metaDataType).then((res) => {
       this.metaDataList = res.data
+    })
+    selectCarNumbers().then((res) => {
+      this.carNumberList = res.data
     })
     this.getList()
   },

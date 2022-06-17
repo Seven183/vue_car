@@ -2,11 +2,16 @@
   <div class="create">
     <div class="create-body">
       <el-form ref="driver_form" label-width="200px" :rules="form_rules" :model="request_body" class="demo-ruleForm">
-        <el-form-item label="驾驶人" prop="driverName">
-          <el-input v-model="request_body.driverName" placeholder="请输入驾驶人" style="width: 240px"/>
+        <el-form-item label="车牌号" prop="carNumber">
+          <el-select filterable allow-create clearable placeholder="请输入车牌号" v-model="request_body.carNumber" style="width: 240px">
+            <el-option v-for="item in carNumberList" :key="item" :label="item" :value="item"/>
+          </el-select>
         </el-form-item>
-        <el-form-item label="驾驶人性别" prop="sex">
-          <el-select filterable allow-create clearable placeholder="性别" v-model="request_body.sex" style="width: 240px">
+        <el-form-item label="姓名" prop="driverName">
+          <el-input v-model="request_body.driverName" placeholder="请输入姓名" style="width: 240px"/>
+        </el-form-item>
+        <el-form-item label="性别" prop="sex">
+          <el-select filterable allow-create clearable placeholder="请输入性别" v-model="request_body.sex" style="width: 240px">
             <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>
           </el-select>
         </el-form-item>
@@ -33,27 +38,18 @@
 
 import {queryMetaDataByType} from '@/api/metaData';
 import {addDriver, selectDriverById, updateDriver} from '@/api/driver';
+import {selectCarNumbers} from "@/api/carsRepair";
 
 export default {
   name: 'AddDriver',
-  mounted() {
-    const query = this.$route.query
-    if (query.driverId) {
-      this.createStatus = false
-      selectDriverById(query.driverId).then((res) => {
-        this.request_body = res.data
-      })
-    }
-    queryMetaDataByType(this.metaDataType).then((res) => {
-      this.metaDataList = res.data
-    })
-  },
   data() {
     return {
       metaDataType: 'SEX_TYPE',
       metaDataList: [],
+      carNumberList: [],
       createStatus: true,
       form_rules: {
+        carNumber: [{required: true, message: '车牌号不能为空', trigger: 'blur'}],
         driverName: [{required: true, message: '驾驶人姓名不能为空', trigger: 'blur'}],
         sex: [{required: true, message: '性别不能为空', trigger: 'change'}],
         age: [{type: 'number', message: '年龄必须为数字', trigger: 'change'}],
@@ -68,6 +64,21 @@ export default {
         photo: null
       }
     }
+  },
+  mounted() {
+    const query = this.$route.query
+    if (query.driverId) {
+      this.createStatus = false
+      selectDriverById(query.driverId).then((res) => {
+        this.request_body = res.data
+      })
+    }
+    queryMetaDataByType(this.metaDataType).then((res) => {
+      this.metaDataList = res.data
+    })
+    selectCarNumbers().then((res) => {
+      this.carNumberList = res.data
+    })
   },
   methods: {
     updateDriver() {

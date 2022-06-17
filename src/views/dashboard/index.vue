@@ -1,9 +1,9 @@
 <template>
-<!--  <div class="dashboard-container">-->
-<!--    <div class="dashboard-text">name: {{ name }}</div>-->
-<!--  </div>-->
-  <div>
-    <div style="width:500px;height:500px" ref="chart"></div>
+  <div class="dashboard-container">
+    <div class="dashboard-text">name: {{ name }}</div>
+    <div>
+      <div style="width:500px;height:500px" ref="chart"></div>
+    </div>
   </div>
 </template>
 
@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     initCharts() {
-      const myChart = this.$echarts.init(this.$refs.chart)
+      const myChart = echarts.init(this.$refs.chart)
       // 绘制图表
       myChart.setOption({
         title: {text: '在Vue中使用echarts'},

@@ -11,7 +11,10 @@
           <el-input v-model="request_body.carName" placeholder="请输入车名称" style="width: 240px"/>
         </el-form-item>
         <el-form-item label="车牌号" prop="carNumber">
-          <el-input v-model="request_body.carNumber" placeholder="请输入车牌号" style="width: 240px"/>
+          <el-select filterable allow-create clearable placeholder="请输入车牌号" v-model="request_body.carNumber"
+                     style="width: 240px">
+            <el-option v-for="item in carNumberList" :key="item" :label="item" :value="item"/>
+          </el-select>
         </el-form-item>
         <el-form-item label="车架号" prop="engineNumber">
           <el-input v-model="request_body.engineNumber" placeholder="请输入车架号" style="width: 240px"/>
@@ -30,23 +33,13 @@
 
 import {queryMetaDataByType} from '@/api/metaData';
 import {addCar, selectCarById, updateCar} from "@/api/cars";
+import {selectCarNumbers} from "@/api/carsRepair";
 
 export default {
   name: 'AddCar',
-  mounted() {
-    const query = this.$route.query
-    if (query.carId) {
-      this.createStatus = false
-      selectCarById(query.carId).then((res) => {
-        this.request_body = res.data
-      })
-    }
-    queryMetaDataByType(this.metaDataType).then((res) => {
-      this.metaDataList = res.data
-    })
-  },
   data() {
     return {
+      carNumberList: [],
       metaDataType: 'CAR_BRANF_TYPE',
       metaDataList: [],
       createStatus: true,
@@ -62,6 +55,21 @@ export default {
         engineNumber: null
       }
     }
+  },
+  mounted() {
+    const query = this.$route.query
+    if (query.carId) {
+      this.createStatus = false
+      selectCarById(query.carId).then((res) => {
+        this.request_body = res.data
+      })
+    }
+    queryMetaDataByType(this.metaDataType).then((res) => {
+      this.metaDataList = res.data
+    })
+    selectCarNumbers().then((res) => {
+      this.carNumberList = res.data
+    })
   },
   methods: {
     updateCar() {

@@ -20,9 +20,6 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
-import echarts from 'echarts'
-Vue.prototype.$echarts = echarts
-
 // set ElementUI lang to EN
 // Vue.use(ElementUI, { locale })
 // 如果想要中文版 element-ui，按如下方式声明

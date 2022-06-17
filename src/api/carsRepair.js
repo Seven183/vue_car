@@ -32,19 +32,26 @@ export function queryCarsRepairById(carsRepairId) {
   })
 }
 
-export function queryLikeCarsRepair(data) {
-  return request({
-    url: 'carsRepair/queryLike',
-    method: 'get',
-    params: data
-  })
-}
-
 export function queryAllCarsRepair(data) {
   return request({
     url: 'carsRepair/allCarsRepairs',
     method: 'get',
     params: data
+  })
+}
+
+export function selectLikeCarNumber(data) {
+  return request({
+    url: 'carsRepair/selectLikeCarNumber',
+    method: 'get',
+    params: data
+  })
+}
+
+export function selectCarNumbers() {
+  return request({
+    url: 'carsRepair/selectCarNumbers',
+    method: 'get'
   })
 }
 
