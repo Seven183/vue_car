@@ -28,11 +28,10 @@ Vue.use(ViewUI)
 
 Vue.config.productionTip = false
 
-const vm = new Vue({
+new Vue({
   el: '#app',
   router,
   store,
   i18n,
   render: h => h(App)
 })
-console.log(vm)

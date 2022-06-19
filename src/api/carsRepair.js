@@ -40,11 +40,11 @@ export function queryAllCarsRepair(data) {
   })
 }
 
-export function selectLikeCarNumber(data) {
+export function detailsByCarNumber(carNumber) {
   return request({
-    url: 'carsRepair/selectLikeCarNumber',
+    url: 'carsRepair/detailsByCarNumber/' + carNumber,
     method: 'get',
-    params: data
+    params: carNumber
   })
 }
 
@@ -55,3 +55,10 @@ export function selectCarNumbers() {
   })
 }
 
+export function statusOperate(carsRepairId, status) {
+  return request({
+    url: 'carsRepair/statusOperate',
+    method: 'get',
+    params: { carsRepairId, status }
+  })
+}

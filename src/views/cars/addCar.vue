@@ -40,7 +40,7 @@ export default {
   data() {
     return {
       carNumberList: [],
-      metaDataType: 'CAR_BRANF_TYPE',
+      metaDataType: 'CAR_BRAND_TYPE',
       metaDataList: [],
       createStatus: true,
       form_rules: {

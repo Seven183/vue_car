@@ -5,6 +5,10 @@
                 @input="getList"
                 @keyup.enter.native="getList"
                 @clear="getList"/>
+      <el-input v-model="queryParams.phone" placeholder="联系方式" clearable style="width: 15%;margin: 5px;"
+                @input="getList"
+                @keyup.enter.native="getList"
+                @clear="getList"/>
       <el-select filterable allow-create v-model="queryParams.carNumber" placeholder="车牌号" clearable
                  style="width: 15%;margin: 5px;"
                  @keyup.enter.native="getList"
@@ -12,21 +16,13 @@
                  @input="getList">
         <el-option v-for="item in carNumberList" :key="item" :label="item" :value="item"/>
       </el-select>
-      <el-input v-model="queryParams.phone" placeholder="联系方式" clearable style="width: 15%;margin: 5px;"
-                @input="getList"
-                @keyup.enter.native="getList"
-                @clear="getList"/>
-<!--      <el-select filterable allow-create v-model="queryParams.memberSex" placeholder="会员性别" clearable-->
-<!--                 style="width: 15%;margin: 5px;"-->
-<!--                 @keyup.enter.native="getList"-->
-<!--                 @clear="getList"-->
-<!--                 @input="getList">-->
-<!--        <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>-->
-<!--      </el-select>-->
-<!--      <el-input v-model="queryParams.address" placeholder="联系地址" clearable style="width: 15%;margin: 5px;"-->
-<!--                @input="getList"-->
-<!--                @keyup.enter.native="getList"-->
-<!--                @clear="getList"/>-->
+      <el-select filterable allow-create v-model="queryParams.carBrand" placeholder="车品牌" clearable
+                 style="width: 15%;margin-right: 5px;"
+                 @input="getList"
+                 @keyup.enter.native="getList"
+                 @clear="getList">
+        <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>
+      </el-select>
       <el-button style="margin: 5px;" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
@@ -42,10 +38,9 @@
         <el-table-column prop="age" label="年龄" align="center"></el-table-column>
         <el-table-column prop="phone" label="联系方式" align="center"></el-table-column>
         <el-table-column prop="address" label="联系地址" align="center"></el-table-column>
-        <el-table-column prop="rechargeAmount" label="充值金额 (元)" align="center" sortable></el-table-column>
-        <el-table-column prop="remainAmount" label="剩余金额 (元)" align="center" sortable></el-table-column>
         <el-table-column :label="$t('table.actions')" align="center" min-width="180" class-name="small-padding fixed-width">
           <template slot-scope="scope">
+            <el-button type="info" size="mini" style="min-width: 50px" @click="details(scope.row)">详情</el-button>
             <el-button type="primary" size="mini" style="min-width: 50px;margin-right: 10px" @click="updateMember(scope.row)">编辑</el-button>
             <el-popconfirm title="确定删除吗？" @confirm="deleteMember(scope.row)">
               <el-button type="danger" size="mini" style="min-width: 40px" slot="reference">删除</el-button>
@@ -64,6 +59,34 @@
         @current-change="getListByNumber"
         @size-change="getListByPage"/>
     </div>
+    <el-dialog center title="会员详细信息" top :visible.sync="dialogVisible">
+<!--      <pre>{{ this.detailsMessage }}</pre>-->
+      <div align="center">
+        <el-descriptions title="基本信息" class="margin-top" :column="2" :size="size" border>
+          <el-descriptions-item label="会员名">{{ this.detailsMessage.memberName }}</el-descriptions-item>
+          <el-descriptions-item label="性别">{{ this.detailsMessage.memberSex }}</el-descriptions-item>
+          <el-descriptions-item label="年龄">{{ this.detailsMessage.age }}</el-descriptions-item>
+          <el-descriptions-item label="联系方式">{{ this.detailsMessage.phone }}</el-descriptions-item>
+          <el-descriptions-item label="联系地址">{{ this.detailsMessage.address }}</el-descriptions-item>
+          <el-descriptions-item label="会员照片">{{ this.detailsMessage.photo }}</el-descriptions-item>
+          <el-descriptions-item label="充值金额">{{ this.detailsMessage.rechargeAmount }}</el-descriptions-item>
+          <el-descriptions-item label="剩余金额">{{ this.detailsMessage.remainAmount }}</el-descriptions-item>
+          <el-descriptions-item label="创建时间">{{ this.detailsMessage.createTime }}</el-descriptions-item>
+          <el-descriptions-item label="更新时间">{{ this.detailsMessage.updateTime }}</el-descriptions-item>
+        </el-descriptions><br><br>
+        <el-descriptions title="车辆信息" class="margin-top" :column="2" :size="size" border>
+          <el-descriptions-item label="车牌号">{{ this.detailsMessage.carNumber }}</el-descriptions-item>
+          <el-descriptions-item label="汽车品牌">{{ this.detailsMessage.carBrand }}</el-descriptions-item>
+          <el-descriptions-item label="汽车名称">{{ this.detailsMessage.carName }}</el-descriptions-item>
+          <el-descriptions-item label="车架号">{{ this.detailsMessage.engineNumber }}</el-descriptions-item>
+          <el-descriptions-item label="汽车图片">{{ this.detailsMessage.carPhoto }}</el-descriptions-item>
+        </el-descriptions>
+      </div>
+      <span slot="footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -79,7 +102,9 @@ export default {
       total: 0,
       carNumberList: [],
       metaDataList: [],
-      metaDataType: 'SEX_TYPE',
+      metaDataType: 'CAR_BRAND_TYPE',
+      dialogVisible: false,
+      detailsMessage: '',
       queryParams: {
         pageNum: 1,
         pageSize: 10,
@@ -141,6 +166,10 @@ export default {
     },
     addMember() {
       this.$router.push('/member/addMember')
+    },
+    details(row) {
+      this.dialogVisible = true
+      this.detailsMessage = row
     }
   }
 }

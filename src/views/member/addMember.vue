@@ -5,12 +5,9 @@
         <el-form-item label="会员名" prop="memberName">
           <el-input v-model="request_body.memberName" placeholder="请输入会员名" style="width: 240px"/>
         </el-form-item>
-        <el-form-item label="车牌号" prop="carNumber">
-          <el-input v-model="request_body.carNumber" placeholder="请输入车牌号" style="width: 240px"/>
-        </el-form-item>
         <el-form-item label="会员性别" prop="memberSex">
           <el-select filterable allow-create clearable v-model="request_body.memberSex" style="width: 240px">
-            <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>
+            <el-option v-for="item in sexMetaDataList" :key="item.id" :label="item.value" :value="item.value"/>
           </el-select>
         </el-form-item>
         <el-form-item label="年龄" prop="age">
@@ -24,6 +21,20 @@
         </el-form-item>
         <el-form-item label="充值金额" prop="rechargeAmount">
           <el-input v-model="request_body.rechargeAmount" placeholder="请输入充值金额" style="width: 240px" @input="remainAmount"/>
+        </el-form-item>
+        <el-form-item label="车品牌" prop="carBrand">
+          <el-select filterable allow-create clearable v-model="request_body.carBrand" style="width: 240px">
+            <el-option v-for="item in carBrandMetaDataList" :key="item.id" :label="item.value" :value="item.value"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="车名称" prop="carName">
+          <el-input v-model="request_body.carName" placeholder="请输入车名称" style="width: 240px"/>
+        </el-form-item>
+        <el-form-item label="车牌号" prop="carNumber">
+          <el-input v-model="request_body.carNumber" placeholder="请输入车牌号" style="width: 240px"/>
+        </el-form-item>
+        <el-form-item label="车架号" prop="engineNumber">
+          <el-input v-model="request_body.engineNumber" placeholder="请输入车架号" style="width: 240px"/>
         </el-form-item>
         <el-form-item>
           <el-button v-if="createStatus" type="primary" @click="addMember">立即添加</el-button>
@@ -42,18 +53,6 @@ import {addMember, selectMemberById, updateMember} from '@/api/member';
 
 export default {
   name: 'AddMember',
-  mounted() {
-    const query = this.$route.query
-    if (query.memberId) {
-      this.createStatus = false
-      selectMemberById(query.memberId).then((res) => {
-        this.request_body = res.data
-      })
-    }
-    queryMetaDataByType(this.metaDataType).then((res) => {
-      this.metaDataList = res.data
-    })
-  },
   data() {
     const moneyReg = (rule, value, callback) => {
       if (value.length > 10) {
@@ -69,16 +68,20 @@ export default {
       }
     }
     return {
-      metaDataType: 'SEX_TYPE',
-      metaDataList: [],
+      sexMetaDataType: 'SEX_TYPE',
+      carBrandMetaDataType: 'CAR_BRAND_TYPE',
+      sexMetaDataList: [],
+      carBrandMetaDataList: [],
       createStatus: true,
       form_rules: {
-        carNumber: [{required: true, message: '车牌号不能为空', trigger: 'blur'}],
         memberName: [{required: true, message: '姓名不能为空', trigger: 'blur'}],
         memberSex: [{required: true, message: '性别不能为空', trigger: 'change'}],
         age: [{type: 'number', message: '年龄必须为整数', trigger: 'change'}],
         phone: [{required: true, message: '联系方式不能为空', trigger: 'change'}],
-        rechargeAmount: [{validator: moneyReg, trigger: 'change'}]
+        rechargeAmount: [{validator: moneyReg, trigger: 'change'}],
+        carBrand: [{required: true, message: '车品牌不能为空', trigger: 'blur'}],
+        carName: [{required: true, message: '车名称不能为空', trigger: 'change'}],
+        carNumber: [{required: true, message: '车牌号不能为空', trigger: 'change'}]
       },
       request_body: {
         memberName: null,
@@ -87,9 +90,28 @@ export default {
         phone: null,
         address: null,
         rechargeAmount: null,
-        remainAmount: null
+        remainAmount: null,
+        carBrand: null,
+        carName: null,
+        carNumber: null,
+        engineNumber: null
       }
     }
+  },
+  mounted() {
+    const query = this.$route.query
+    if (query.memberId) {
+      this.createStatus = false
+      selectMemberById(query.memberId).then((res) => {
+        this.request_body = res.data
+      })
+    }
+    queryMetaDataByType(this.sexMetaDataType).then((res) => {
+      this.sexMetaDataList = res.data
+    })
+    queryMetaDataByType(this.carBrandMetaDataType).then((res) => {
+      this.carBrandMetaDataList = res.data
+    })
   },
   methods: {
     remainAmount() {

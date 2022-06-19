@@ -68,7 +68,7 @@ export const constantRoutes = [
         name: 'addCarsRepair',
         hidden: true,
         component: () => import('@/views/carsRepair/addCarsRepair'),
-        meta: {title: 'addCarsRepair', icon: 'table'}
+        meta: {title: '添加车辆维修', icon: 'table'}
       }
     ]
   },
@@ -79,20 +79,20 @@ export const constantRoutes = [
     component: Layout,
     alwaysShow: true,
     redirect: '/advice',
-    meta: {title: '维修设备信息', icon: 'el-icon-s-help'},
+    meta: {title: '维修设备', icon: 'el-icon-s-help'},
     children: [
       {
         path: 'allAdvices',
         name: 'allAdvices',
         component: () => import('@/views/advices/listAdvices'),
-        meta: {title: '维修设备信息列表', icon: 'table'}
+        meta: {title: '维修设备列表', icon: 'table'}
       },
       {
         path: 'addAdvice',
         name: 'addAdvice',
         hidden: true,
         component: () => import('@/views/advices/addAdvice'),
-        meta: {title: '添加维修设备信息', icon: 'table'}
+        meta: {title: '添加维修设备', icon: 'table'}
       }
     ]
   },
@@ -103,21 +103,21 @@ export const constantRoutes = [
     component: Layout,
     alwaysShow: true,
     redirect: '/driver',
-    meta: {title: '驾驶人信息', icon: 'el-icon-truck'},
+    meta: {title: '车主信息', icon: 'el-icon-truck'},
     // hidden: true,
     children: [
       {
         path: 'allDrivers',
         name: 'allDrivers',
         component: () => import('@/views/driver/listDrivers'),
-        meta: {title: '驾驶人信息列表', icon: 'table'}
+        meta: {title: '车主信息列表', icon: 'table'}
       },
       {
         path: 'addDriver',
         name: 'addDriver',
         hidden: true,
         component: () => import('@/views/driver/addDriver'),
-        meta: {title: '添加驾驶人', icon: 'table'}
+        meta: {title: '添加车主', icon: 'table'}
       }
     ]
   },
@@ -128,6 +128,7 @@ export const constantRoutes = [
     component: Layout,
     alwaysShow: true,
     redirect: '/car',
+    hidden: true,
     meta: {title: '车辆信息', icon: 'el-icon-truck'},
     children: [
       {

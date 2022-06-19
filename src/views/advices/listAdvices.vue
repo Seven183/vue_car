@@ -2,7 +2,7 @@
   <div class="app-container">
     <div class="app-header" style="width: 80%;">
       <el-select filterable allow-create v-model="queryParams.carNumber" placeholder="车牌号" clearable
-                 style="width: 15%;margin: 5px;"
+                 style="width: 15%;margin-right: 5px;"
                  @input="getList"
                  @keyup.enter.native="getList"
                  @clear="getList">
@@ -19,10 +19,6 @@
                 @keyup.enter.native="getList"
                 @clear="getList"
                 @input="getList"/>
-<!--      <el-input v-model="queryParams.advicesNumber" placeholder="设备编号" clearable style="width: 20%;margin: 5px;"-->
-<!--                @input="getList"-->
-<!--                @keyup.enter.native="getList"-->
-<!--                @clear="getList"/>-->
       <el-button style="margin: 5px;" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
@@ -35,12 +31,13 @@
         <el-table-column prop="carNumber" label="车牌号" align="center"></el-table-column>
         <el-table-column prop="advicesType" label="设备类型" align="center"></el-table-column>
         <el-table-column prop="advicesName" label="设备名称" align="center"></el-table-column>
-        <el-table-column prop="advicesNumber" label="设备编号" align="center"></el-table-column>
         <el-table-column prop="advicesQuantity" label="设备数量" align="center"></el-table-column>
         <el-table-column prop="advicesPriceAmount" label="设备单价金额" align="center" sortable></el-table-column>
         <el-table-column prop="advicesFullAmount" label="设备总金额" align="center" sortable></el-table-column>
+        <el-table-column prop="createTime" label="添加设备时间" align="center" sortable></el-table-column>
         <el-table-column :label="$t('table.actions')" align="center" min-width="200" class-name="small-padding fixed-width">
           <template slot-scope="scope">
+            <el-button type="info" size="mini" style="min-width: 50px" @click="details(scope.row)">详情</el-button>
             <el-button type="primary" size="mini" style="min-width: 50px; margin-right: 10px" @click="updateAdvice(scope.row)">编辑</el-button>
             <el-popconfirm title="确定删除吗？" @confirm="deleteAdvice(scope.row)">
               <el-button type="danger" size="mini" style="min-width: 40px" slot="reference">删除</el-button>
@@ -59,6 +56,26 @@
         @current-change="getListByNumber"
         @size-change="getListByPage"/>
     </div>
+    <el-dialog center title="维修设备详细信息" top :visible.sync="dialogVisible">
+<!--            <pre>{{ this.detailsMessage}}</pre>-->
+      <div align="center">
+        <el-descriptions title="设备信息" class="margin-top" :column="2" :size="size" border>
+          <el-descriptions-item label="车牌号">{{ this.detailsMessage.carNumber }}</el-descriptions-item>
+          <el-descriptions-item label="设备类型">{{ this.detailsMessage.advicesType }}</el-descriptions-item>
+          <el-descriptions-item label="设备名称">{{ this.detailsMessage.advicesName }}</el-descriptions-item>
+          <el-descriptions-item label="设备编号">{{ this.detailsMessage.advicesNumber }}</el-descriptions-item>
+          <el-descriptions-item label="设备数量">{{ this.detailsMessage.advicesQuantity }}</el-descriptions-item>
+          <el-descriptions-item label="设备单价金额">{{ this.detailsMessage.advicesPriceAmount }}</el-descriptions-item>
+          <el-descriptions-item label="设备总金额">{{ this.detailsMessage.advicesFullAmount }}</el-descriptions-item>
+          <el-descriptions-item label="创建时间">{{ this.detailsMessage.createTime }}</el-descriptions-item>
+          <el-descriptions-item label="更新时间">{{ this.detailsMessage.updateTime }}</el-descriptions-item>
+        </el-descriptions>
+      </div>
+      <span slot="footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -75,6 +92,8 @@ export default {
       metaDataList: [],
       carNumberList: [],
       metaDataType: 'ADVICE_TYPE',
+      dialogVisible: false,
+      detailsMessage: '',
       queryParams: {
         pageNum: 1,
         pageSize: 10,
@@ -134,6 +153,10 @@ export default {
     },
     addAdvice() {
       this.$router.push('/advice/addAdvice')
+    },
+    details(row) {
+      this.dialogVisible = true
+      this.detailsMessage = row
     }
   }
 }
