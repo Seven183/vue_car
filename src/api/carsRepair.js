@@ -40,11 +40,11 @@ export function queryAllCarsRepair(data) {
   })
 }
 
-export function detailsByCarNumber(carNumber) {
+export function detailsByCarsRepairNumber(carsRepairNumber) {
   return request({
-    url: 'carsRepair/detailsByCarNumber/' + carNumber,
+    url: 'carsRepair/detailsByCarsRepairNumber/' + carsRepairNumber,
     method: 'get',
-    params: carNumber
+    params: carsRepairNumber
   })
 }
 

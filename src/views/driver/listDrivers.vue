@@ -1,7 +1,7 @@
 <template>
   <div class="app-container" >
     <div class="app-header" style="width: 80%;">
-      <el-input v-model="queryParams.driverName" placeholder="姓名" clearable style="width: 15%;margin-right: 5px;"
+      <el-input v-model="queryParams.userName" placeholder="姓名" clearable style="width: 15%;margin-right: 5px;"
                 @input="getList"
                 @keyup.enter.native="getList"
                 @clear="getList"/>
@@ -23,30 +23,44 @@
                  @clear="getList">
         <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>
       </el-select>
+      <el-select filterable allow-create v-model="queryParams.status" placeholder="维修状态" clearable
+                 style="width: 15%;margin-right: 5px;"
+                 @input="getList"
+                 @keyup.enter.native="getList"
+                 @clear="getList">
+        <el-option v-for="item in carRepairStatusMetaDataList" :key="item.id" :label="item.code" :value="item.value"/>
+      </el-select>
       <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>
       </el-select>
       <el-button style="margin: 5px;" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
-      <el-button style="margin: 5px;" type="primary" icon="el-icon-edit" @click="addDriver">
-        {{ $t('table.add') }}
-      </el-button>
+<!--      <el-button style="margin: 5px;" type="primary" icon="el-icon-edit" @click="addDriver">-->
+<!--        {{ $t('table.add') }}-->
+<!--      </el-button>-->
     </div>
     <div class="app-body">
       <el-table :data="list" stripe fit border highlight-current-row style="overflow:auto">
-        <el-table-column prop="driverName" label="姓名" align="center"></el-table-column>
+        <el-table-column prop="userName" label="姓名" align="center"></el-table-column>
         <el-table-column prop="phone" label="联系方式" align="center"></el-table-column>
         <el-table-column prop="carNumber" label="车牌号" align="center"></el-table-column>
         <el-table-column prop="carBrand" label="车辆品牌" align="center"></el-table-column>
         <el-table-column prop="carName" label="车辆名称" align="center"></el-table-column>
         <el-table-column prop="createTime" label="维修时间" align="center" sortable></el-table-column>
+        <el-table-column prop="status" label="维修状态" align="center" sortable>
+          <template slot-scope="scope">
+            <el-tag v-for="item in status_list" v-if="item.key === scope.row.status" :type="item.type">
+              {{ item.value }}
+            </el-tag>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('table.actions')" align="center" min-width="180" class-name="small-padding fixed-width">
           <template slot-scope="scope">
             <el-button type="info" size="mini" style="min-width: 50px" @click="details(scope.row)">详情</el-button>
             <el-button type="primary" size="mini" style="min-width: 50px;margin-right: 10px" @click="updateDriver(scope.row)">编辑</el-button>
-            <el-popconfirm title="确定删除吗？" @confirm="deleteDriver(scope.row)">
-              <el-button type="danger" size="mini" style="min-width: 40px" slot="reference">删除</el-button>
-            </el-popconfirm>
+<!--            <el-popconfirm title="确定删除吗？" @confirm="deleteDriver(scope.row)">-->
+<!--              <el-button type="danger" size="mini" style="min-width: 40px" slot="reference">删除</el-button>-->
+<!--            </el-popconfirm>-->
           </template>
         </el-table-column>
       </el-table>
@@ -61,11 +75,11 @@
         @current-change="getListByNumber"
         @size-change="getListByPage"/>
     </div>
-    <el-dialog center title="车主详细信息" top :visible.sync="dialogVisible">
+    <el-dialog center title="车主详细信息" top="10vh" :visible.sync="dialogVisible">
 <!--      <pre>{{ this.detailsMessage}}</pre>-->
       <div align="center">
         <el-descriptions title="车主信息" class="margin-top" :column="2" :size="size" border>
-          <el-descriptions-item label="用户名">{{ this.detailsMessage.driverName }}</el-descriptions-item>
+          <el-descriptions-item label="用户名">{{ this.detailsMessage.userName }}</el-descriptions-item>
           <el-descriptions-item label="性别">{{ this.detailsMessage.sex }}</el-descriptions-item>
           <el-descriptions-item label="年龄">{{ this.detailsMessage.age }}</el-descriptions-item>
           <el-descriptions-item label="手机号">{{ this.detailsMessage.phone }}</el-descriptions-item>
@@ -73,6 +87,7 @@
           <el-descriptions-item label="驾驶人照片">{{ this.detailsMessage.driverPhoto }}</el-descriptions-item>
           <el-descriptions-item label="创建时间">{{ this.detailsMessage.createTime }}</el-descriptions-item>
           <el-descriptions-item label="更新时间">{{ this.detailsMessage.updateTime }}</el-descriptions-item>
+          <el-descriptions-item label="结束时间">{{ this.detailsMessage.endTime }}</el-descriptions-item>
         </el-descriptions> <br><br>
         <el-descriptions title="车主车辆信息" class="margin-top" :column="2" :size="size" border>
           <el-descriptions-item label="车牌号">{{ this.detailsMessage.carNumber }}</el-descriptions-item>
@@ -93,7 +108,7 @@
 
 import {allDrivers, deleteDriver} from '@/api/driver';
 import {queryMetaDataByType} from '@/api/metaData';
-import {detailsByCarNumber, selectCarNumbers} from "@/api/carsRepair";
+import {selectCarNumbers} from "@/api/carsRepair";
 
 export default {
   name: 'ListDriver',
@@ -104,13 +119,19 @@ export default {
       metaDataList: [],
       carNumberList: [],
       metaDataType: 'CAR_BRAND_TYPE',
+      carRepairStatusMetaDataList: [],
+      carRepairStatusMetaDataType: 'CARREPAIR_STATUS_TYPE',
+      status_list: [
+        {key: 0, value: '维修中', type: "warn"},
+        {key: 1, value: '维修完成', type: "success"}
+      ],
       dialogVisible: false,
       detailsMessage: '',
       queryParams: {
         pageNum: 1,
         pageSize: 10,
         carNumber: null,
-        driverName: null,
+        userName: null,
         sex: null,
         phone: null,
         address: null
@@ -120,6 +141,9 @@ export default {
   mounted() {
     queryMetaDataByType(this.metaDataType).then((res) => {
       this.metaDataList = res.data
+    })
+    queryMetaDataByType(this.carRepairStatusMetaDataType).then((res) => {
+      this.carRepairStatusMetaDataList = res.data
     })
     selectCarNumbers().then((res) => {
       this.carNumberList = res.data
@@ -154,7 +178,7 @@ export default {
       this.$router.push({
         path: '/driver/addDriver',
         query: {
-          driverId: row.driverId
+          carsRepairNumber: row.carsRepairNumber
         }
       })
     },

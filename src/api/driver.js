@@ -26,9 +26,17 @@ export function updateDriver(data) {
 
 export function selectDriverById(driverId) {
   return request({
-    url: 'driver/select/' + driverId,
+    url: 'driver/selectById/' + driverId,
     method: 'get',
     params: driverId
+  })
+}
+
+export function selectDriverByCarsRepairNumber(carsRepairNumber) {
+  return request({
+    url: 'driver/selectByCarsRepairNumber/' + carsRepairNumber,
+    method: 'get',
+    params: carsRepairNumber
   })
 }
 

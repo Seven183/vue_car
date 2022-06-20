@@ -1,18 +1,25 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
-    <div>
-      <div style="width:500px;height:500px" ref="chart"></div>
-    </div>
+<!--    <div class="dashboard-text">name: {{ name }}</div>-->
+    <div class="dashboard-text">维修总金额: {{ this.totalAmount }}</div>
+<!--    <div>-->
+<!--      <div style="width:500px;height:500px" ref="chart"></div>-->
+<!--    </div>-->
   </div>
 </template>
 
 <script>
 import {mapGetters} from 'vuex'
+import {selectTotalAmount} from "@/api/dashBoard";
 // eslint-disable-next-line no-unused-vars
 const echarts = require('echarts')
 export default {
   name: 'Dashboard',
+  data () {
+    return {
+      totalAmount: 0,
+    }
+  },
   computed: {
     ...mapGetters([
       'name'
@@ -20,6 +27,10 @@ export default {
   },
   mounted() {
     this.initCharts()
+    selectTotalAmount().then((res) => {
+      console.log(res.data)
+      this.totalAmount = res.data
+    })
   },
   methods: {
     initCharts() {

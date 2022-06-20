@@ -39,7 +39,7 @@
 
 <script>
 import {queryMetaDataByType} from '@/api/metaData';
-import {addAdvice, selectAdvicesById, updateAdvice} from '@/api/advices';
+import {addAdvice, selectAdvicesByCarsRepairNumber, updateAdvice} from '@/api/advices';
 import {selectCarNumbers} from "@/api/carsRepair";
 
 export default {
@@ -83,9 +83,9 @@ export default {
   },
   mounted() {
     const query = this.$route.query
-    if (query.advicesId) {
+    if (query.carsRepairNumber) {
       this.createStatus = false
-      selectAdvicesById(query.advicesId).then((res) => {
+      selectAdvicesByCarsRepairNumber(query.carsRepairNumber).then((res) => {
         this.request_body = res.data
       })
     }

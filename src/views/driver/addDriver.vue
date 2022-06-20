@@ -3,7 +3,7 @@
     <div class="create-body">
       <el-form ref="driver_form" label-width="200px" :rules="form_rules" :model="request_body" class="demo-ruleForm">
         <el-form-item label="姓名" prop="driverName">
-          <el-input v-model="request_body.driverName" placeholder="请输入姓名" style="width: 240px"/>
+          <el-input v-model="request_body.userName" placeholder="请输入姓名" style="width: 240px"/>
         </el-form-item>
         <el-form-item label="性别" prop="sex">
           <el-select filterable allow-create clearable placeholder="请输入性别" v-model="request_body.sex" style="width: 240px">
@@ -49,7 +49,7 @@
 <script>
 
 import {queryMetaDataByType} from '@/api/metaData';
-import {addDriver, selectDriverById, updateDriver} from '@/api/driver';
+import {addDriver, selectDriverByCarsRepairNumber, updateDriver} from '@/api/driver';
 import {selectCarNumbers} from "@/api/carsRepair";
 
 export default {
@@ -63,7 +63,7 @@ export default {
       carNumberList: [],
       createStatus: true,
       form_rules: {
-        driverName: [{required: true, message: '驾驶人姓名不能为空', trigger: 'blur'}],
+        userName: [{required: true, message: '驾驶人姓名不能为空', trigger: 'blur'}],
         sex: [{required: true, message: '性别不能为空', trigger: 'change'}],
         age: [{type: 'number', message: '年龄必须为数字', trigger: 'change'}],
         phone: [{required: true, message: '联系方式不能为空', trigger: 'change'}],
@@ -87,9 +87,9 @@ export default {
   },
   mounted() {
     const query = this.$route.query
-    if (query.driverId) {
+    if (query.carsRepairNumber) {
       this.createStatus = false
-      selectDriverById(query.driverId).then((res) => {
+      selectDriverByCarsRepairNumber(query.carsRepairNumber).then((res) => {
         this.request_body = res.data
       })
     }

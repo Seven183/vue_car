@@ -103,6 +103,7 @@ export const constantRoutes = [
     component: Layout,
     alwaysShow: true,
     redirect: '/driver',
+    // hidden: true,
     meta: {title: '车主信息', icon: 'el-icon-truck'},
     // hidden: true,
     children: [
@@ -153,6 +154,7 @@ export const constantRoutes = [
     component: Layout,
     alwaysShow: true,
     redirect: '/member',
+    hidden: true,
     meta: {title: '会员信息', icon: 'el-icon-user'},
     children: [
       {

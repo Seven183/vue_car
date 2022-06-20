@@ -17,5 +17,6 @@ export default {
   top: 50px;
   bottom: 0px;
   left: 0px;
+  overflow-y:auto
 }
 </style>

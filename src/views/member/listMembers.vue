@@ -59,7 +59,7 @@
         @current-change="getListByNumber"
         @size-change="getListByPage"/>
     </div>
-    <el-dialog center title="会员详细信息" top :visible.sync="dialogVisible">
+    <el-dialog center title="会员详细信息" top="10vh" :visible.sync="dialogVisible">
 <!--      <pre>{{ this.detailsMessage }}</pre>-->
       <div align="center">
         <el-descriptions title="基本信息" class="margin-top" :column="2" :size="size" border>

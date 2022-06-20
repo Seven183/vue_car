@@ -26,9 +26,17 @@ export function updateAdvice(data) {
 
 export function selectAdvicesById(advicesId) {
   return request({
-    url: 'advice/select/' + advicesId,
+    url: 'advice/selectById/' + advicesId,
     method: 'get',
     params: advicesId
+  })
+}
+
+export function selectAdvicesByCarsRepairNumber(carsRepairNumber) {
+  return request({
+    url: 'advice/selectByCarsRepairNumber/' + carsRepairNumber,
+    method: 'get',
+    params: carsRepairNumber
   })
 }
 
