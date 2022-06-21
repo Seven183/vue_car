@@ -7,9 +7,9 @@ export function selectTotalAmount() {
   })
 }
 
-export function selectAmountLastYearByMonth() {
+export function selectTotalAmountLastYear() {
   return request({
-    url: '/dashBoard/selectAmountLastYearByMonth',
+    url: '/dashBoard/selectTotalAmountLastYear',
     method: 'get'
   })
 }
@@ -28,9 +28,30 @@ export function selectCountUserLastYear() {
   })
 }
 
+export function selectAmountLastYearByMonth() {
+  return request({
+    url: '/dashBoard/selectAmountLastYearByMonth',
+    method: 'get'
+  })
+}
+
 export function selectCarCountByBrandLastYear() {
   return request({
     url: '/dashBoard/selectCarCountByBrandLastYear',
+    method: 'get'
+  })
+}
+
+export function selectCarCountByBrandAndNameLastMonth() {
+  return request({
+    url: '/dashBoard/selectCarCountByBrandAndNameLastMonth',
+    method: 'get'
+  })
+}
+
+export function selectCarNameAndCountLastYear() {
+  return request({
+    url: '/dashBoard/selectCarNameAndCountLastYear',
     method: 'get'
   })
 }
