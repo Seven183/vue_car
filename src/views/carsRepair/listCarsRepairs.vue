@@ -99,7 +99,6 @@
         </el-descriptions>
         <br><br>
         <el-descriptions title="设备信息" class="margin-top" :column="2" :size="size" border>
-          <el-descriptions-item label="车牌号">{{ this.detailsMessage.carNumber }}</el-descriptions-item>
           <el-descriptions-item label="设备类型">{{ this.detailsMessage.advicesType }}</el-descriptions-item>
           <el-descriptions-item label="设备名称">{{ this.detailsMessage.advicesName }}</el-descriptions-item>
           <el-descriptions-item label="设备编号">{{ this.detailsMessage.advicesNumber }}</el-descriptions-item>
