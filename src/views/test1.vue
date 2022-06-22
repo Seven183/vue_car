@@ -31,7 +31,7 @@
           <el-button type="success" class="check_filter" icon="el-icon-plus" @click="add_item()">添加设备信息</el-button>
         </el-form-item>
 
-        <el-form v-for="(filter,index) in request_body.items" ref="advices_form" :key="filter.id" label-width="200px" :model="filter" inline>
+        <el-form v-for="(filter,index) in request_body.items" :key="filter.id" label-width="200px" :model="filter" inline>
           <el-form-item label="设备类型" prop="advicesType" :rules="form_rules.advicesType">
             <el-select v-model="filter.advicesType" filterable allow-create clearable style="width: 300px">
               <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>
@@ -44,7 +44,7 @@
             <el-input v-model="filter.advicesNumber" placeholder="请输入设备编号" style="width: 300px"/>
           </el-form-item>
           <el-form-item label="设备数量" prop="advicesQuantity" :rules="form_rules.advicesQuantity">
-            <el-input v-model="filter.advicesQuantity" placeholder="请输入设备数量" style="width: 300px"
+            <el-input v-model.number="filter.advicesQuantity" placeholder="请输入设备数量" style="width: 300px"
                       @input="advicesItemsFullAmount(index)"/>
           </el-form-item>
           <el-form-item label="设备单价金额" prop="advicesPriceAmount" :rules="form_rules.advicesPriceAmount">
@@ -159,7 +159,7 @@ export default {
       this.$refs['advices_form'].validate((valid) => {
         if (valid) {
           updateAdvice(this.request_body).then((res) => {
-            this.$router.push('/advice/allAdvices')
+            this.$router.push('/test/test1')
             this.$notify({title: '成功', message: '更新成功', type: 'success'})
           })
         }
@@ -167,17 +167,13 @@ export default {
     },
 
     addAdvice() {
-      this.$refs['advices_form'].validate((valid) => {
-        if (valid) {
-          addAdvice(this.request_body).then((res) => {
-            var message = res.success
-            if (message === true) {
-              this.$router.push('/advice/allAdvices')
-              this.$notify({title: '成功', message: '创建成功', type: 'success'})
-            } else {
-              this.$alert(this.message['data'], '创建失败', {confirmButtonText: '确定'})
-            }
-          })
+      addAdvice(this.request_body.carNumber, this.request_body.items).then((res) => {
+        var message = res.success
+        if (message === true) {
+          this.$router.push('/test/test1')
+          this.$notify({title: '成功', message: '创建成功', type: 'success'})
+        } else {
+          this.$alert(this.message['data'], '创建失败', {confirmButtonText: '确定'})
         }
       })
     },
