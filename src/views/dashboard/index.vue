@@ -1,30 +1,30 @@
 <template>
   <div ref="dashboard-chart">
-    <div style="margin-top: 100px" align="center">
-      <div style="width: 25%;display: inline-block">
+    <div class="cards" style="margin-top: 50px" align="center" >
+      <div style="width: 20%;display: inline-block">
         <h2>
           维修总金额: {{ this.totalAmount }}
         </h2>
       </div>
-      <div style="width: 25%;display: inline-block">
+      <div style="width: 20%;display: inline-block">
         <h2>
           近一年维修金额: {{ this.totalAmountLastYear }}
         </h2>
       </div>
-      <div style="width: 25%;display: inline-block">
+      <div style="width: 20%;display: inline-block">
         <h2>
           总用户数: {{ this.CountUser }}
         </h2>
       </div>
-      <div style="width: 25%;display: inline-block">
+      <div style="width: 20%;display: inline-block">
         <h2>
           近一年的用户数: {{ this.CountUserLastYear }}
         </h2>
       </div>
     </div>
     <div style="margin-top: 150px">
-      <div ref="AmountLastYearByMonth" style="width:50%;height:200px;display: inline-block"></div>
-      <div ref="UserLastYearByMonth" style="width:50%;height:200px;display: inline-block"></div>
+      <div ref="AmountLastYearByMonth" style="width:45%;height:350px;display: inline-block;margin: 0 60px"></div>
+      <div ref="UserLastYearByMonth" style="width:45%;height:350px;display: inline-block"></div>
     </div>
     <div>
       <div ref="selectCarCountByBrandLastYear" style="width:30%;height:500px;margin-top: 100px;display: inline-block"></div>
@@ -119,9 +119,15 @@ export default {
           left: 'center'
         },
         xAxis: {
-          data: this.monthList
+          data: this.monthList,
+          boundaryGap: false,
+          axisTick: {
+            show: true
+          }
         },
-        yAxis: {type: 'value'},
+        yAxis: {
+          type: 'value'
+        },
         series: [
           {
             label: {
@@ -142,7 +148,11 @@ export default {
           left: 'center'
         },
         xAxis: {
-          data: this.monthList
+          data: this.monthList,
+          boundaryGap: false,
+          axisTick: {
+            show: true
+          }
         },
         yAxis: {
           type: 'value'
@@ -259,5 +269,13 @@ export default {
     font-size: 30px;
     line-height: 46px;
   }
+}
+.cards div{
+  background: rgba(182, 228, 234, 0.66);
+  margin: 0 20px;
+  height: 100px;
+  text-align: center;
+  font-size: 14px;
+  padding-top: 30px;
 }
 </style>

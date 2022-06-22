@@ -53,14 +53,36 @@ export const constantRoutes = [
     path: '/test',
     component: Layout,
     redirect: '/test',
-    children: [{
-      path: 'test',
-      name: '测试',
-      component: () => import('@/views/test'),
-      meta: {title: '测试', icon: 'dashboard'}
-    }]
+    children: [
+      {
+        path: 'test',
+        name: '测试',
+        component: () => import('@/views/test'),
+        meta: {title: '测试', icon: 'dashboard'}
+      },
+      {
+        path: 'test1',
+        name: 'test1',
+        hidden: true,
+        component: () => import('@/views/test1'),
+        meta: {title: '测试车辆维修', icon: 'table'}
+      }
+    ]
   },
 
+  {
+    path: '/test2',
+    component: Layout,
+    redirect: '/test2',
+    children: [
+      {
+        path: 'test2',
+        name: '卡片',
+        component: () => import('@/views/test2'),
+        meta: {title: '卡片', icon: 'dashboard'}
+      }
+    ]
+  },
   {
     path: '/carsRepair',
     name: 'CarsRepair',
