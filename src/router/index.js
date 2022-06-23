@@ -53,6 +53,7 @@ export const constantRoutes = [
     path: '/test',
     component: Layout,
     redirect: '/test',
+    hidden: true,
     children: [
       {
         path: 'test',
@@ -66,20 +67,6 @@ export const constantRoutes = [
         hidden: true,
         component: () => import('@/views/test1'),
         meta: {title: '测试车辆维修', icon: 'table'}
-      }
-    ]
-  },
-
-  {
-    path: '/test2',
-    component: Layout,
-    redirect: '/test2',
-    children: [
-      {
-        path: 'test2',
-        name: '卡片',
-        component: () => import('@/views/test2'),
-        meta: {title: '卡片', icon: 'dashboard'}
       }
     ]
   },
@@ -210,6 +197,7 @@ export const constantRoutes = [
   {
     path: 'external-link',
     component: Layout,
+    hidden: true,
     children: [
       {
         path: 'https://panjiachen.github.io/vue-element-admin-site/#/',

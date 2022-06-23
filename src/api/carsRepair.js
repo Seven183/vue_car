@@ -8,11 +8,11 @@ export function addCarsRepair(data) {
   })
 }
 
-export function deleteCarsRepair(carsRepairId) {
+export function deleteCarsRepair(carsRepairNumber) {
   return request({
-    url: '/carsRepair/deleteCarsRepair/' + carsRepairId,
+    url: '/carsRepair/deleteCarsRepair/' + carsRepairNumber,
     method: 'get',
-    params: carsRepairId
+    params: carsRepairNumber
   })
 }
 
@@ -24,11 +24,11 @@ export function updateCarsRepair(data) {
   })
 }
 
-export function queryCarsRepairById(carsRepairId) {
+export function queryCarsRepairByCarsRepairNumber(carsRepairNumber) {
   return request({
-    url: 'carsRepair/select/' + carsRepairId,
+    url: 'carsRepair/select/' + carsRepairNumber,
     method: 'get',
-    params: carsRepairId
+    params: carsRepairNumber
   })
 }
 
@@ -55,10 +55,10 @@ export function selectCarNumbers() {
   })
 }
 
-export function statusOperate(carsRepairId, status) {
+export function statusOperate(carsRepairNumber, status) {
   return request({
     url: 'carsRepair/statusOperate',
     method: 'get',
-    params: { carsRepairId, status }
+    params: { carsRepairNumber, status }
   })
 }

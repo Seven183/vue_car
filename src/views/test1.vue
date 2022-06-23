@@ -107,12 +107,6 @@ export default {
       request_body: {
         carNumber: null,
         items: []
-        // advicesType: null,
-        // advicesName: null,
-        // advicesNumber: null,
-        // advicesQuantity: null,
-        // advicesPriceAmount: null,
-        // advicesFullAmount: null
       }
     }
   },
@@ -135,12 +129,12 @@ export default {
     add_item() {
       const item = {
         id: createUniqueString(),
-        advicesType: this.request_body.advicesType,
-        advicesName: this.request_body.advicesName,
-        advicesNumber: this.request_body.advicesNumber,
-        advicesQuantity: this.request_body.advicesQuantity,
-        advicesPriceAmount: this.request_body.advicesPriceAmount,
-        advicesFullAmount: this.request_body.advicesFullAmount
+        advicesType: null,
+        advicesName: null,
+        advicesNumber: null,
+        advicesQuantity: null,
+        advicesPriceAmount: null,
+        advicesFullAmount: null
       }
       this.request_body.items.push(item)
     },
@@ -159,7 +153,7 @@ export default {
       this.$refs['advices_form'].validate((valid) => {
         if (valid) {
           updateAdvice(this.request_body).then((res) => {
-            this.$router.push('/test/test1')
+            this.$router.push('/test/test')
             this.$notify({title: '成功', message: '更新成功', type: 'success'})
           })
         }
@@ -167,10 +161,10 @@ export default {
     },
 
     addAdvice() {
-      addAdvice(this.request_body.carNumber, this.request_body.items).then((res) => {
+      addAdvice(this.request_body).then((res) => {
         var message = res.success
         if (message === true) {
-          this.$router.push('/test/test1')
+          this.$router.push('/test/test')
           this.$notify({title: '成功', message: '创建成功', type: 'success'})
         } else {
           this.$alert(this.message['data'], '创建失败', {confirmButtonText: '确定'})

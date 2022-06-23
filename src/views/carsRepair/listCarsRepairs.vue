@@ -98,14 +98,15 @@
           <el-descriptions-item label="汽车图片">{{ this.detailsMessage.carPhoto }}</el-descriptions-item>
         </el-descriptions>
         <br><br>
-        <el-descriptions title="设备信息" class="margin-top" :column="2" :size="size" border>
-          <el-descriptions-item label="设备类型">{{ this.detailsMessage.advicesType }}</el-descriptions-item>
-          <el-descriptions-item label="设备名称">{{ this.detailsMessage.advicesName }}</el-descriptions-item>
-          <el-descriptions-item label="设备编号">{{ this.detailsMessage.advicesNumber }}</el-descriptions-item>
-          <el-descriptions-item label="设备数量">{{ this.detailsMessage.advicesQuantity }}</el-descriptions-item>
-          <el-descriptions-item label="设备单价金额">{{ this.detailsMessage.advicesPriceAmount }}</el-descriptions-item>
-          <el-descriptions-item label="设备总金额">{{ this.detailsMessage.advicesFullAmount }}</el-descriptions-item>
-        </el-descriptions>
+        <el-descriptions title="设备信息"/>
+        <el-table :data="this.detailsMessage.advicesItems">
+          <el-table-column property="advicesType" label="设备类型" width="150"></el-table-column>
+          <el-table-column property="advicesName" label="设备名称" width="150"></el-table-column>
+          <el-table-column property="advicesNumber" label="设备编号" width="150"></el-table-column>
+          <el-table-column property="advicesQuantity" label="设备数量" width="150"></el-table-column>
+          <el-table-column property="advicesPriceAmount" label="设备单价金额" width="150"></el-table-column>
+          <el-table-column property="advicesFullAmount" label="设备总金额" width="150"></el-table-column>
+        </el-table>
       </div>
       <span slot="footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -192,18 +193,18 @@ export default {
       this.$router.push({
         path: '/carsRepair/addCarsRepair',
         query: {
-          carsRepairId: row.carsRepairId
+          carsRepairNumber: row.carsRepairNumber
         }
       })
     },
     deleteCarsRepair(row) {
-      deleteCarsRepair(row.carsRepairId).then(res => {
+      deleteCarsRepair(row.carsRepairNumber).then(res => {
         this.getList()
         this.$notify({title: '成功', message: '删除成功', type: 'success'})
       })
     },
     statusOperate(row, status) {
-      statusOperate(row.carsRepairId, status).then(res => {
+      statusOperate(row.carsRepairNumber, status).then(res => {
         this.getList()
         this.$notify({title: '成功', message: '已完成', type: 'success'})
       })
@@ -211,7 +212,7 @@ export default {
     detailsByCarsRepairNumber(row) {
       this.dialogVisible = true
       detailsByCarsRepairNumber(row.carsRepairNumber).then(res => {
-        this.detailsMessage = res.data[0]
+        this.detailsMessage = res.data
       })
     },
     addCarsRepair() {

@@ -42,6 +42,7 @@
         <el-table-column prop="advicesPriceAmount" label="设备单价金额" align="center" sortable></el-table-column>
         <el-table-column prop="advicesFullAmount" label="设备总金额" align="center" sortable></el-table-column>
         <el-table-column prop="createTime" label="添加设备时间" align="center" sortable></el-table-column>
+        <el-table-column prop="updateTime" label="更新设备时间" align="center" sortable></el-table-column>
         <el-table-column prop="status" label="维修状态" align="center" sortable>
           <template slot-scope="scope">
             <el-tag v-for="item in status_list" v-if="item.key === scope.row.status" :type="item.type">
@@ -49,15 +50,15 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('table.actions')" align="center" min-width="200" class-name="small-padding fixed-width">
-          <template slot-scope="scope">
-            <el-button type="info" size="mini" style="min-width: 50px" @click="details(scope.row)">详情</el-button>
-            <el-button type="primary" size="mini" style="min-width: 50px; margin-right: 10px" @click="updateAdvice(scope.row)">编辑</el-button>
+<!--        <el-table-column :label="$t('table.actions')" align="center" min-width="200" class-name="small-padding fixed-width">-->
+<!--          <template slot-scope="scope">-->
+<!--            <el-button type="info" size="mini" style="min-width: 50px" @click="details(scope.row)">详情</el-button>-->
+<!--            <el-button type="primary" size="mini" style="min-width: 50px; margin-right: 10px" @click="updateAdvice(scope.row)">编辑</el-button>-->
 <!--            <el-popconfirm title="确定删除吗？" @confirm="deleteAdvice(scope.row)">-->
 <!--              <el-button type="danger" size="mini" style="min-width: 40px" slot="reference">删除</el-button>-->
 <!--            </el-popconfirm>-->
-          </template>
-        </el-table-column>
+<!--          </template>-->
+<!--        </el-table-column>-->
       </el-table>
     </div>
     <div class="app-footer">
@@ -72,19 +73,17 @@
     </div>
     <el-dialog center title="维修设备详细信息" top="10vh" :visible.sync="dialogVisible">
 <!--            <pre>{{ this.detailsMessage}}</pre>-->
-      <div align="center">
-        <el-descriptions title="设备信息" class="margin-top" :column="2" :size="size" border>
-          <el-descriptions-item label="车牌号">{{ this.detailsMessage.carNumber }}</el-descriptions-item>
-          <el-descriptions-item label="设备类型">{{ this.detailsMessage.advicesType }}</el-descriptions-item>
-          <el-descriptions-item label="设备名称">{{ this.detailsMessage.advicesName }}</el-descriptions-item>
-          <el-descriptions-item label="设备编号">{{ this.detailsMessage.advicesNumber }}</el-descriptions-item>
-          <el-descriptions-item label="设备数量">{{ this.detailsMessage.advicesQuantity }}</el-descriptions-item>
-          <el-descriptions-item label="设备单价金额">{{ this.detailsMessage.advicesPriceAmount }}</el-descriptions-item>
-          <el-descriptions-item label="设备总金额">{{ this.detailsMessage.advicesFullAmount }}</el-descriptions-item>
-          <el-descriptions-item label="创建时间">{{ this.detailsMessage.createTime }}</el-descriptions-item>
-          <el-descriptions-item label="更新时间">{{ this.detailsMessage.updateTime }}</el-descriptions-item>
-        </el-descriptions>
-      </div>
+      <el-table :data="this.list">
+        <el-table-column property="carNumber" label="车牌号" width="130"></el-table-column>
+        <el-table-column property="advicesType" label="设备类型" width="130"></el-table-column>
+        <el-table-column property="advicesName" label="设备名称" width="130"></el-table-column>
+        <el-table-column property="advicesNumber" label="设备编号" width="130"></el-table-column>
+        <el-table-column property="advicesQuantity" label="设备数量" width="130"></el-table-column>
+        <el-table-column property="advicesPriceAmount" label="设备单价金额" width="130"></el-table-column>
+        <el-table-column property="advicesFullAmount" label="设备总金额" width="130"></el-table-column>
+        <el-table-column property="createTime" label="创建时间" width="180"></el-table-column>
+        <el-table-column property="updateTime" label="更新时间" width="180"></el-table-column>
+      </el-table>
       <span slot="footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>

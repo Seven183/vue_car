@@ -1,13 +1,13 @@
 import request from '@/utils/request'
 
-export function addAdvice(carNumber, items) {
+export function addAdvice(data) {
   return request({
-    url: '/advice/addAdvice',
+    url: '/advice/addAdvices',
     method: 'post',
-    transformRequest: [function (items) {
-      return JSON.stringify(items)
-    }],
-    params: { carNumber, items }
+    // headers: {
+    //   'Content-Type': 'application/json'
+    // },
+    data
   })
 }
 

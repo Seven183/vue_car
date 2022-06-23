@@ -23,13 +23,13 @@
       </div>
     </div>
     <div style="margin-top: 150px">
-      <div ref="AmountLastYearByMonth" style="width:45%;height:350px;display: inline-block;margin: 0 60px"></div>
-      <div ref="UserLastYearByMonth" style="width:45%;height:350px;display: inline-block"></div>
+      <div ref="AmountLastYearByMonth" style="width:45%;height:350px;display: inline-block;margin-left: 5%"></div>
+      <div ref="UserLastYearByMonth" style="width:45%;height:350px;display: inline-block;margin-right: 5%"></div>
     </div>
-    <div>
-      <div ref="selectCarCountByBrandLastYear" style="width:30%;height:500px;margin-top: 100px;display: inline-block"></div>
+    <div style="margin-top: 100px">
+      <div ref="selectCarCountByBrandLastYear" style="width:30%;height:500px;margin-left: 5%;display: inline-block"></div>
       <div ref="selectCarNameAndCountLastYear" style="width:30%; height:500px;display: inline-block"></div>
-      <div ref="selectCarCountByBrandAndNameLastMonth" style="width:30%; height:500px;display: inline-block"></div>
+      <div ref="selectCarCountByBrandAndNameLastMonth" style="width:30%; height:500px;display: inline-block;margin-right: 5%"></div>
     </div>
   </div>
 </template>
@@ -44,7 +44,7 @@ import {
   selectCountUser,
   selectCountUserLastYear,
   selectTotalAmount,
-  selectTotalAmountLastYear
+  selectTotalAmountLastYear, selectUserCountLastYearByMonth
 } from "@/api/dashBoard";
 
 const echarts = require('echarts')
@@ -57,6 +57,7 @@ export default {
       CountUser: 0,
       CountUserLastYear: 0,
       moneyPerMonthList: [],
+      userPerMonthList: [],
       monthList: [],
       moneyList: [],
       userList: [],
@@ -89,7 +90,11 @@ export default {
       this.moneyPerMonthList = res.data
       this.monthList = this.moneyPerMonthList.collectMonthList
       this.moneyList = this.moneyPerMonthList.collectMoneyList
-      this.userList = this.moneyPerMonthList.collectUserList
+      this.initCharts()
+    })
+    selectUserCountLastYearByMonth().then((res) => {
+      this.userPerMonthList = res.data
+      this.userList = this.userPerMonthList.collectUserList
       this.initCharts()
     })
     selectCarCountByBrandLastYear().then((res) => {
@@ -253,6 +258,13 @@ export default {
             animationDuration: 2600
           }
         ]
+      })
+      window.addEventListener("resize", () => {
+        myChart.resize()
+        myChart2.resize()
+        myChart3.resize()
+        myChart4.resize()
+        myChart5.resize()
       })
     }
   }

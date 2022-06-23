@@ -35,6 +35,13 @@ export function selectAmountLastYearByMonth() {
   })
 }
 
+export function selectUserCountLastYearByMonth() {
+  return request({
+    url: '/dashBoard/selectUserCountLastYearByMonth',
+    method: 'get'
+  })
+}
+
 export function selectCarCountByBrandLastYear() {
   return request({
     url: '/dashBoard/selectCarCountByBrandLastYear',
