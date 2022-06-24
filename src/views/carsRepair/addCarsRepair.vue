@@ -44,7 +44,9 @@
           <el-input v-model="request_body.engineNumber" placeholder="请输入车架号" style="width: 200px"/>
         </el-form-item>
 
-        <el-form v-for="(filter,index) in request_body.advicesItems" :key="filter.id" label-width=auto :model="filter" inline>
+        <el-form v-for="(filter,index) in request_body.advicesItems" :key="filter.id" label-width=auto :model="filter"
+                 inline>
+          <el-divider></el-divider>
           <el-form-item label="设备类型" prop="advicesType" :rules="form_rules.advicesType">
             <el-select v-model="filter.advicesType" filterable allow-create clearable style="width: 200px">
               <el-option v-for="item in adviceMetaDataList" :key="item.id" :label="item.value" :value="item.value"/>
@@ -65,7 +67,8 @@
                       @input="advicesItemsFullAmount(index)"/>
           </el-form-item>
           <el-form-item label="设备总金额">
-            <el-input v-model="filter.advicesFullAmount" placeholder="请输入设备总金额" style="width: 200px ;margin-right: 30px"/>
+            <el-input v-model="filter.advicesFullAmount" placeholder="请输入设备总金额"
+                      style="width: 200px ;margin-right: 30px"/>
             <el-button type="danger" icon="el-icon-delete" circle class="delete_icon" @click="delete_item(filter)"/>
             <br><br>
           </el-form-item>
