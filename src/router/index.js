@@ -100,7 +100,7 @@ export const constantRoutes = [
     component: Layout,
     alwaysShow: true,
     redirect: '/advice',
-    meta: {title: '维修设备', icon: 'el-icon-s-help'},
+    meta: {title: '维修设备查询', icon: 'el-icon-s-help'},
     children: [
       {
         path: 'allAdvices',
@@ -125,7 +125,7 @@ export const constantRoutes = [
     alwaysShow: true,
     redirect: '/driver',
     // hidden: true,
-    meta: {title: '车主信息', icon: 'el-icon-truck'},
+    meta: {title: '车主信息查询', icon: 'el-icon-truck'},
     // hidden: true,
     children: [
       {

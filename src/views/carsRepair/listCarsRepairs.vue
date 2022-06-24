@@ -100,12 +100,12 @@
         <br><br>
         <el-descriptions title="设备信息"/>
         <el-table :data="this.detailsMessage.advicesItems">
-          <el-table-column property="advicesType" label="设备类型" width="150"></el-table-column>
-          <el-table-column property="advicesName" label="设备名称" width="150"></el-table-column>
-          <el-table-column property="advicesNumber" label="设备编号" width="150"></el-table-column>
-          <el-table-column property="advicesQuantity" label="设备数量" width="150"></el-table-column>
-          <el-table-column property="advicesPriceAmount" label="设备单价金额" width="150"></el-table-column>
-          <el-table-column property="advicesFullAmount" label="设备总金额" width="150"></el-table-column>
+          <el-table-column property="advicesType" label="设备类型" width="170"></el-table-column>
+          <el-table-column property="advicesName" label="设备名称" width="170"></el-table-column>
+          <el-table-column property="advicesNumber" label="设备编号" width="170"></el-table-column>
+          <el-table-column property="advicesQuantity" label="设备数量" width="160"></el-table-column>
+          <el-table-column property="advicesPriceAmount" label="设备单价金额" width="170"></el-table-column>
+          <el-table-column property="advicesFullAmount" label="设备总金额" width="170"></el-table-column>
         </el-table>
       </div>
       <span slot="footer">

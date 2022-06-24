@@ -61,25 +61,6 @@
       <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
     </span>
   </el-dialog>
-
-
-  <!--        <el-form-item v-for="(filter,index) in request_body.items" :key="filter.id">-->
-<!--          设备类型:-->
-<!--          <el-select v-model="filter.advicesType" placeholder="请输入设备类型" filterable allow-create clearable style="width: 240px">-->
-<!--            <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>-->
-<!--          </el-select>-->
-<!--          设备名称:-->
-<!--          <el-input v-model="filter.advicesName" placeholder="请输入设备名称" style="width: 240px"/>-->
-<!--          设备编号:-->
-<!--          <el-input v-model="filter.advicesNumber" placeholder="请输入设备编号" style="width: 240px"/><br><br>-->
-<!--          设备数量:-->
-<!--          <el-input v-model.number="filter.advicesQuantity" placeholder="请输入设备数量" style="width: 240px" @input="advicesItemsFullAmount(index)"/>-->
-<!--          设备单价金额:-->
-<!--          <el-input v-model="filter.advicesPriceAmount" placeholder="请输入设备单价金额" style="width: 240px" @input="advicesItemsFullAmount(index)"/>-->
-<!--          设备总金额:-->
-<!--          <el-input v-model="filter.advicesFullAmount" placeholder="请输入设备总金额" style="width: 240px"/>-->
-<!--          <el-button type="danger" icon="el-icon-delete" circle class="delete_icon" @click="delete_item(filter)"/>-->
-<!--        </el-form-item>-->
 </template>
 
 <script>
