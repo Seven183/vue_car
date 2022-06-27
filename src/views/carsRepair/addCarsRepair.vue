@@ -5,23 +5,19 @@
         <el-form-item label="姓名" prop="userName">
           <el-input v-model="request_body.userName" placeholder="请输入姓名" style="width: 200px"/>
         </el-form-item>
-        <el-form-item label="性别" prop="sex">
-          <el-select filterable allow-create clearable placeholder="请输入性别" v-model="request_body.sex"
-                     style="width: 200px">
-            <el-option v-for="item in sexMetaDataList" :key="item.id" :label="item.value" :value="item.value"/>
-          </el-select>
-        </el-form-item>
         <el-form-item label="联系方式" prop="phone">
           <el-input v-model="request_body.phone" placeholder="请输入电话或者手机号" style="width: 200px"/>
         </el-form-item>
-        <el-form-item label="年龄" prop="age">
-          <el-input v-model.number="request_body.age" placeholder="请输入年龄" style="width: 200px"/>
-        </el-form-item>
-        <el-form-item label="联系地址" prop="address">
-          <el-input v-model="request_body.address" placeholder="请输入联系地址" style="width: 200px" type="textarea"/>
-        </el-form-item>
         <el-form-item label="车牌号" prop="carNumber">
           <el-input v-model="request_body.carNumber" placeholder="请输入车牌号" style="width: 200px"/>
+        </el-form-item>
+        <el-form-item label="车品牌" prop="carBrand">
+          <el-select filterable allow-create v-model="request_body.carBrand" clearable style="width: 200px">
+            <el-option v-for="item in carBrandMetaDataList" :key="item.id" :label="item.value" :value="item.value"/>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="车名称" prop="carName">
+          <el-input v-model="request_body.carName" placeholder="请输入车名称" style="width: 200px"/>
         </el-form-item>
         <el-form-item label="维修类型" prop="carsRepairType">
           <el-select filterable allow-create clearable v-model="request_body.carsRepairType" style="width: 200px">
@@ -32,18 +28,37 @@
           <el-input v-model="request_body.carsRepairText" placeholder="请输入维修内容" style="width: 200px"
                     type="textarea"/>
         </el-form-item>
-        <el-form-item label="车品牌" prop="carBrand">
-          <el-select filterable allow-create v-model="request_body.carBrand" clearable style="width: 200px">
-            <el-option v-for="item in carBrandMetaDataList" :key="item.id" :label="item.value" :value="item.value"/>
+        <el-form-item label="性别" prop="sex">
+          <el-select filterable allow-create clearable placeholder="请输入性别" v-model="request_body.sex"
+                     style="width: 200px">
+            <el-option v-for="item in sexMetaDataList" :key="item.id" :label="item.value" :value="item.value"/>
           </el-select>
         </el-form-item>
-        <el-form-item label="车名称" prop="carName">
-          <el-input v-model="request_body.carName" placeholder="请输入车名称" style="width: 200px"/>
+        <el-form-item label="年龄" prop="age">
+          <el-input v-model.number="request_body.age" placeholder="请输入年龄" style="width: 200px"/>
+        </el-form-item>
+        <el-form-item label="联系地址" prop="address">
+          <el-input v-model="request_body.address" placeholder="请输入联系地址" style="width: 200px" type="textarea"/>
         </el-form-item>
         <el-form-item label="车架号" prop="engineNumber">
           <el-input v-model="request_body.engineNumber" placeholder="请输入车架号" style="width: 200px"/>
         </el-form-item>
-
+        <!--        <el-form-item label="汽车照片" prop="carPhoto">-->
+        <!--          <el-input v-model="request_body.carPhoto" placeholder="请上传汽车照片" style="width: 200px"/>-->
+        <!--        </el-form-item>-->
+        <el-upload
+          class="upload-demo"
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :before-remove="beforeRemove"
+          multiple
+          :limit="3"
+          :on-exceed="handleExceed"
+          :file-list="fileList">
+          <el-button type="primary">点击上传汽车图片</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
+        </el-upload>
         <el-form v-for="(filter,index) in request_body.advicesItems" :key="filter.id" label-width=auto :model="filter"
                  inline>
           <el-divider></el-divider>
@@ -108,6 +123,13 @@ export default {
       }
     }
     return {
+      fileList: [{
+        name: 'food.jpeg',
+        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+      }, {
+        name: 'food2.jpeg',
+        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
+      }],
       sexMetaDataType: 'SEX_TYPE',
       sexMetaDataList: [],
       carBrandMetaDataType: 'CAR_BRAND_TYPE',
@@ -142,6 +164,7 @@ export default {
         carBrand: null,
         carName: null,
         engineNumber: null,
+        carPhoto: null,
         advicesItems: []
       }
     }
@@ -168,6 +191,18 @@ export default {
     })
   },
   methods: {
+    handleRemove(file, fileList) {
+      console.log(file, fileList)
+    },
+    handlePreview(file) {
+      console.log(file)
+    },
+    handleExceed(files, fileList) {
+      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+    },
+    beforeRemove(file, fileList) {
+      return this.$confirm(`确定移除 ${file.name}？`)
+    },
     add_item() {
       const item = {
         id: createUniqueString(),
