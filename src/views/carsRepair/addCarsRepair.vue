@@ -43,22 +43,23 @@
         <el-form-item label="车架号" prop="engineNumber">
           <el-input v-model="request_body.engineNumber" placeholder="请输入车架号" style="width: 200px"/>
         </el-form-item>
-        <!--        <el-form-item label="汽车照片" prop="carPhoto">-->
-        <!--          <el-input v-model="request_body.carPhoto" placeholder="请上传汽车照片" style="width: 200px"/>-->
-        <!--        </el-form-item>-->
-        <el-upload
-          class="upload-demo"
-          action="https://jsonplaceholder.typicode.com/posts/"
-          :on-preview="handlePreview"
-          :on-remove="handleRemove"
-          :before-remove="beforeRemove"
-          multiple
-          :limit="3"
-          :on-exceed="handleExceed"
-          :file-list="fileList">
-          <el-button type="primary">点击上传汽车图片</el-button>
-          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-        </el-upload>
+<!--        <el-form-item label="汽车图片">-->
+
+<!--        </el-form-item>-->
+<!--        <el-upload-->
+<!--          class="upload-demo"-->
+<!--          action="https://jsonplaceholder.typicode.com/posts/"-->
+<!--          auto-upload="false"-->
+<!--          :before-remove="beforeRemove"-->
+<!--          :on-progress="uploadPhoto"-->
+<!--          multiple-->
+<!--          :limit="5"-->
+<!--          :on-exceed="handleExceed"-->
+<!--          :file-list="fileList"-->
+<!--          list-type="picture">-->
+<!--          <el-button size="small" type="primary">点击上传汽车图片</el-button>-->
+<!--          <div slot="tip" class="el-upload__tip">上传照片总大小不超过100M</div>-->
+<!--        </el-upload>-->
         <el-form v-for="(filter,index) in request_body.advicesItems" :key="filter.id" label-width=auto :model="filter"
                  inline>
           <el-divider></el-divider>
@@ -105,6 +106,7 @@
 import {addCarsRepair, queryCarsRepairByCarsRepairNumber, queryCarsRepairById, updateCarsRepair} from '@/api/carsRepair'
 import {queryMetaDataByType} from "@/api/metaData";
 import {createUniqueString} from "@/utils";
+import {fileUpload} from "@/api/fileUpload";
 
 export default {
   name: 'AddCarsRepair',
@@ -165,7 +167,8 @@ export default {
         carName: null,
         engineNumber: null,
         carPhoto: null,
-        advicesItems: []
+        advicesItems: [],
+        photoList: []
       }
     }
   },
@@ -191,14 +194,17 @@ export default {
     })
   },
   methods: {
-    handleRemove(file, fileList) {
-      console.log(file, fileList)
-    },
-    handlePreview(file) {
-      console.log(file)
+    uploadPhoto(event, file, fileList) {
+      const formData = new FormData()
+      this.fileList.map(item => {
+        formData.append('files', item.raw)
+      })
+      fileUpload(file).then((res) => {
+        this.photoList.add(res.data)
+      })
     },
     handleExceed(files, fileList) {
-      this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.$message.warning(`当前限制选择 10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
     },
     beforeRemove(file, fileList) {
       return this.$confirm(`确定移除 ${file.name}？`)
