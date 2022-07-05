@@ -95,7 +95,7 @@
           <el-descriptions-item label="汽车品牌">{{ this.detailsMessage.carBrand }}</el-descriptions-item>
           <el-descriptions-item label="汽车名称">{{ this.detailsMessage.carName }}</el-descriptions-item>
           <el-descriptions-item label="车架号">{{ this.detailsMessage.engineNumber }}</el-descriptions-item>
-          <el-descriptions-item label="汽车图片">{{ this.detailsMessage.carPhoto }}</el-descriptions-item>
+          <el-descriptions-item label="汽车图片">{{ this.detailsMessageImagesUrl }}</el-descriptions-item>
         </el-descriptions>
         <br><br>
         <el-descriptions title="设备信息"/>
@@ -141,6 +141,7 @@ export default {
         {key: 1, value: '维修完成', type: "success"}
       ],
       detailsMessage: '',
+      detailsMessageImagesUrl: '',
       dialogVisible: false,
       queryParams: {
         pageNum: 1,
@@ -213,6 +214,7 @@ export default {
       this.dialogVisible = true
       detailsByCarsRepairNumber(row.carsRepairNumber).then(res => {
         this.detailsMessage = res.data
+        this.detailsMessageImagesUrl = res.data.carPhoto.map(x => x.url)
       })
     },
     addCarsRepair() {

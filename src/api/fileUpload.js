@@ -4,10 +4,15 @@ export function fileUpload(data) {
   return request({
     url: '/fileUpload',
     method: 'post',
-    headers: {
-      'Content-Type': 'multipart/form-data', // 默认值
-    },
     data
+  })
+}
+
+export function fileDelete(imageName) {
+  return request({
+    url: '/fileDelete',
+    method: 'get',
+    params: { imageName }
   })
 }
 

@@ -43,25 +43,22 @@
         <el-form-item label="车架号" prop="engineNumber">
           <el-input v-model="request_body.engineNumber" placeholder="请输入车架号" style="width: 200px"/>
         </el-form-item>
-<!--        <el-form-item label="汽车图片">-->
-
-<!--        </el-form-item>-->
-<!--        <el-upload-->
-<!--          class="upload-demo"-->
-<!--          action="https://jsonplaceholder.typicode.com/posts/"-->
-<!--          auto-upload="false"-->
-<!--          :before-remove="beforeRemove"-->
-<!--          :on-progress="uploadPhoto"-->
-<!--          multiple-->
-<!--          :limit="5"-->
-<!--          :on-exceed="handleExceed"-->
-<!--          :file-list="fileList"-->
-<!--          list-type="picture">-->
-<!--          <el-button size="small" type="primary">点击上传汽车图片</el-button>-->
-<!--          <div slot="tip" class="el-upload__tip">上传照片总大小不超过100M</div>-->
-<!--        </el-upload>-->
-        <el-form v-for="(filter,index) in request_body.advicesItems" :key="filter.id" label-width=auto :model="filter"
-                 inline>
+        <el-form-item label="汽车图片">
+          <el-upload
+            action="https://jsonplaceholder.typicode.com/posts/"
+            multiple
+            :limit="5"
+            :before-remove="beforeRemove"
+            :before-upload="beforeAvatarUpload"
+            :on-progress="uploadPhoto"
+            :on-exceed="handleExceed"
+            :file-list="fileList"
+            list-type="picture">
+            <el-button size="small" type="primary">点击上传汽车图片</el-button>
+            <div slot="tip" class="el-upload__tip">上传照片总大小不超过100M</div>
+          </el-upload>
+        </el-form-item>
+        <el-form v-for="(filter,index) in request_body.advicesItems" :key="filter.id" label-width=auto :model="filter" inline>
           <el-divider></el-divider>
           <el-form-item label="设备类型" prop="advicesType" :rules="form_rules.advicesType">
             <el-select v-model="filter.advicesType" filterable allow-create clearable style="width: 200px">
@@ -106,7 +103,8 @@
 import {addCarsRepair, queryCarsRepairByCarsRepairNumber, queryCarsRepairById, updateCarsRepair} from '@/api/carsRepair'
 import {queryMetaDataByType} from "@/api/metaData";
 import {createUniqueString} from "@/utils";
-import {fileUpload} from "@/api/fileUpload";
+import {fileDelete, fileUpload} from "@/api/fileUpload";
+import * as uploadFiles from "core-js";
 
 export default {
   name: 'AddCarsRepair',
@@ -125,13 +123,7 @@ export default {
       }
     }
     return {
-      fileList: [{
-        name: 'food.jpeg',
-        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-      }, {
-        name: 'food2.jpeg',
-        url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-      }],
+      fileList: [],
       sexMetaDataType: 'SEX_TYPE',
       sexMetaDataList: [],
       carBrandMetaDataType: 'CAR_BRAND_TYPE',
@@ -166,9 +158,8 @@ export default {
         carBrand: null,
         carName: null,
         engineNumber: null,
-        carPhoto: null,
-        advicesItems: [],
-        photoList: []
+        carPhoto: [],
+        advicesItems: []
       }
     }
   },
@@ -178,6 +169,7 @@ export default {
       this.createStatus = false
       queryCarsRepairByCarsRepairNumber(query.carsRepairNumber).then((res) => {
         this.request_body = res.data
+        this.fileList = res.data.carPhoto
       })
     }
     queryMetaDataByType(this.faultMetaDataType).then((res) => {
@@ -194,20 +186,41 @@ export default {
     })
   },
   methods: {
+    // 图片上传前验证
+    beforeAvatarUpload(file) {
+      const isLt2M = file.size / 1024 / 1024 < 100
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 100MB!')
+      }
+      return isLt2M
+    },
     uploadPhoto(event, file, fileList) {
       const formData = new FormData()
-      this.fileList.map(item => {
-        formData.append('files', item.raw)
-      })
-      fileUpload(file).then((res) => {
-        this.photoList.add(res.data)
+      // this.fileList = fileList
+      formData.append('file', file.raw)
+      fileUpload(formData).then((res) => {
+        const item = {
+          name: file.name,
+          url: res.data
+        }
+        this.request_body.carPhoto.push(item)
+        console.log('this.request_body.carPhoto', this.request_body.carPhoto)
+        console.log('fileList', fileList)
       })
     },
     handleExceed(files, fileList) {
-      this.$message.warning(`当前限制选择 10 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`)
+      this.$message.warning(`当前限制上传5个文件，已上传了 ${fileList.length} 个文件`)
     },
     beforeRemove(file, fileList) {
-      return this.$confirm(`确定移除 ${file.name}？`)
+      fileDelete(file.name).then((res) => {
+        if (res.data) {
+          this.request_body.carPhoto = this.request_body.carPhoto.filter(x => x.name !== file.name)
+          fileList.filter(x => x.name !== file.name)
+          console.log('this.request_body.carPhoto', this.request_body.carPhoto)
+          console.log('fileList', fileList)
+          return 1
+        }
+      })
     },
     add_item() {
       const item = {
