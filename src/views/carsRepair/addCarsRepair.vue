@@ -45,7 +45,7 @@
         </el-form-item>
         <el-form-item label="汽车图片">
           <el-upload
-            action="https://jsonplaceholder.typicode.com/posts/"
+            :action="actionUrl"
             multiple
             :limit="5"
             :before-remove="beforeRemove"
@@ -123,6 +123,7 @@ export default {
       }
     }
     return {
+      actionUrl: '',
       fileList: [],
       sexMetaDataType: 'SEX_TYPE',
       sexMetaDataList: [],
@@ -164,6 +165,11 @@ export default {
     }
   },
   mounted() {
+    if (process.env.VUE_APP_BASE_API === '/prod-api') {
+      this.actionUrl = 'http://42.192.48.125' + process.env.VUE_APP_BASE_API + '/fileUpload'
+    } else {
+      this.actionUrl = 'http://localhost:9528' + process.env.VUE_APP_BASE_API + '/fileUpload'
+    }
     const query = this.$route.query
     if (query.carsRepairNumber) {
       this.createStatus = false
