@@ -100,11 +100,10 @@
 </template>
 
 <script>
-import {addCarsRepair, queryCarsRepairByCarsRepairNumber, queryCarsRepairById, updateCarsRepair} from '@/api/carsRepair'
+import {addCarsRepair, queryCarsRepairByCarsRepairNumber, updateCarsRepair} from '@/api/carsRepair'
 import {queryMetaDataByType} from "@/api/metaData";
 import {createUniqueString} from "@/utils";
 import {fileDelete, fileUpload} from "@/api/fileUpload";
-import * as uploadFiles from "core-js";
 
 export default {
   name: 'AddCarsRepair',
@@ -202,7 +201,6 @@ export default {
     },
     uploadPhoto(event, file, fileList) {
       const formData = new FormData()
-      // this.fileList = fileList
       formData.append('file', file.raw)
       fileUpload(formData).then((res) => {
         const item = {

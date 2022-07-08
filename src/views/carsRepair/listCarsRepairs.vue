@@ -79,7 +79,7 @@
     <el-dialog center title="车辆维修详细信息" top="5vh" :visible.sync="dialogVisible">
 <!--      <pre>{{ this.detailsMessage }}</pre>-->
       <div align="center">
-        <el-descriptions title="基本信息" class="margin-top" :column="2" :size="size" border>
+        <el-descriptions title="基本信息" class="margin-top" :column="2" border>
           <el-descriptions-item label="姓名">{{ this.detailsMessage.userName }}</el-descriptions-item>
           <el-descriptions-item label="性别">{{ this.detailsMessage.sex }}</el-descriptions-item>
           <el-descriptions-item label="年龄">{{ this.detailsMessage.age }}</el-descriptions-item>
@@ -90,7 +90,7 @@
           <el-descriptions-item label="更新时间">{{ this.detailsMessage.updateTime }}</el-descriptions-item>
         </el-descriptions>
         <br><br>
-        <el-descriptions title="车辆信息" class="margin-top" :column="2" :size="size" border>
+        <el-descriptions title="车辆信息" class="margin-top" :column="2" border>
           <el-descriptions-item label="车牌号">{{ this.detailsMessage.carNumber }}</el-descriptions-item>
           <el-descriptions-item label="汽车品牌">{{ this.detailsMessage.carBrand }}</el-descriptions-item>
           <el-descriptions-item label="汽车名称">{{ this.detailsMessage.carName }}</el-descriptions-item>
