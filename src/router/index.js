@@ -90,18 +90,7 @@ export const constantRoutes = [
         hidden: true,
         component: () => import('@/views/carsRepair/addCarsRepair'),
         meta: {title: '添加车辆维修', icon: 'table'}
-      }
-    ]
-  },
-
-  {
-    path: '/advice',
-    name: 'Advice',
-    component: Layout,
-    alwaysShow: true,
-    redirect: '/advice',
-    meta: {title: '维修设备查询', icon: 'el-icon-s-help'},
-    children: [
+      },
       {
         path: 'allAdvices',
         name: 'allAdvices',
@@ -109,25 +98,12 @@ export const constantRoutes = [
         meta: {title: '维修设备列表', icon: 'table'}
       },
       {
-        path: 'addAdvice',
-        name: 'addAdvice',
+        path: 'addInsurance.vue',
+        name: 'addInsurance.vue',
         hidden: true,
         component: () => import('@/views/advices/addAdvice'),
         meta: {title: '添加维修设备', icon: 'table'}
-      }
-    ]
-  },
-
-  {
-    path: '/driver',
-    name: 'Driver',
-    component: Layout,
-    alwaysShow: true,
-    redirect: '/driver',
-    // hidden: true,
-    meta: {title: '车主信息查询', icon: 'el-icon-truck'},
-    // hidden: true,
-    children: [
+      },
       {
         path: 'allDrivers',
         name: 'allDrivers',
@@ -143,6 +119,56 @@ export const constantRoutes = [
       }
     ]
   },
+
+  // {
+  //   path: '/advice',
+  //   name: 'Advice',
+  //   component: Layout,
+  //   alwaysShow: true,
+  //   redirect: '/advice',
+  //   meta: {title: '维修设备查询', icon: 'el-icon-s-help'},
+  //   children: [
+  //     {
+  //       path: 'allAdvices',
+  //       name: 'allAdvices',
+  //       component: () => import('@/views/advices/listAdvices'),
+  //       meta: {title: '维修设备列表', icon: 'table'}
+  //     },
+  //     {
+  //       path: 'addAdvice',
+  //       name: 'addAdvice',
+  //       hidden: true,
+  //       component: () => import('@/views/advices/addAdvice'),
+  //       meta: {title: '添加维修设备', icon: 'table'}
+  //     }
+  //   ]
+  // },
+
+  // {
+  //   path: '/driver',
+  //   name: 'Driver',
+  //   component: Layout,
+  //   alwaysShow: true,
+  //   redirect: '/driver',
+  //   // hidden: true,
+  //   meta: {title: '车主信息查询', icon: 'el-icon-truck'},
+  //   // hidden: true,
+  //   children: [
+  //     {
+  //       path: 'allDrivers',
+  //       name: 'allDrivers',
+  //       component: () => import('@/views/driver/listDrivers'),
+  //       meta: {title: '车主信息列表', icon: 'table'}
+  //     },
+  //     {
+  //       path: 'addDriver',
+  //       name: 'addDriver',
+  //       hidden: true,
+  //       component: () => import('@/views/driver/addDriver'),
+  //       meta: {title: '添加车主', icon: 'table'}
+  //     }
+  //   ]
+  // },
 
   {
     path: '/car',
@@ -190,6 +216,31 @@ export const constantRoutes = [
         hidden: true,
         component: () => import('@/views/member/addMember'),
         meta: {title: '添加会员信息', icon: 'table'}
+      }
+    ]
+  },
+
+  {
+    path: '/insurance',
+    name: 'Insurance',
+    component: Layout,
+    alwaysShow: true,
+    redirect: '/insurance',
+    // hidden: true,
+    meta: {title: '保险信息', icon: 'el-icon-suitcase-1'},
+    children: [
+      {
+        path: 'allInsurance',
+        name: 'allInsurance',
+        component: () => import('@/views/insurance/listInsurance'),
+        meta: {title: '保险信息列表', icon: 'table'}
+      },
+      {
+        path: 'addInsurance',
+        name: 'addInsurance',
+        hidden: true,
+        component: () => import('@/views/insurance/addInsurance'),
+        meta: {title: '添加保险信息', icon: 'table'}
       }
     ]
   },

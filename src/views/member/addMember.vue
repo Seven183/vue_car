@@ -1,7 +1,7 @@
 <template>
   <div class="create">
     <div class="create-body">
-      <el-form ref="member_form" label-width="200px" :rules="form_rules" :model="request_body" class="demo-ruleForm">
+      <el-form ref="member_form" label-width="200px" :rules="form_rules" :model="request_body" class="demo-ruleForm" inline>
         <el-form-item label="会员名" prop="memberName">
           <el-input v-model="request_body.memberName" placeholder="请输入会员名" style="width: 240px"/>
         </el-form-item>

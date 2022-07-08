@@ -54,10 +54,10 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('table.actions')" align="center" min-width="180" class-name="small-padding fixed-width">
+        <el-table-column :label="$t('table.actions')" align="center" min-width="100" class-name="small-padding fixed-width">
           <template slot-scope="scope">
             <el-button type="info" size="mini" style="min-width: 50px" @click="details(scope.row)">详情</el-button>
-            <el-button type="primary" size="mini" style="min-width: 50px;margin-right: 10px" @click="updateDriver(scope.row)">编辑</el-button>
+<!--            <el-button type="primary" size="mini" style="min-width: 50px;margin-right: 10px" @click="updateDriver(scope.row)">编辑</el-button>-->
 <!--            <el-popconfirm title="确定删除吗？" @confirm="deleteDriver(scope.row)">-->
 <!--              <el-button type="danger" size="mini" style="min-width: 40px" slot="reference">删除</el-button>-->
 <!--            </el-popconfirm>-->
@@ -78,7 +78,7 @@
     <el-dialog center title="车主详细信息" top="10vh" :visible.sync="dialogVisible">
 <!--      <pre>{{ this.detailsMessage}}</pre>-->
       <div align="center">
-        <el-descriptions title="车主信息" class="margin-top" :column="2" :size="size" border>
+        <el-descriptions title="车主信息" class="margin-top" :column="2" border>
           <el-descriptions-item label="用户名">{{ this.detailsMessage.userName }}</el-descriptions-item>
           <el-descriptions-item label="性别">{{ this.detailsMessage.sex }}</el-descriptions-item>
           <el-descriptions-item label="年龄">{{ this.detailsMessage.age }}</el-descriptions-item>
@@ -89,12 +89,12 @@
           <el-descriptions-item label="更新时间">{{ this.detailsMessage.updateTime }}</el-descriptions-item>
           <el-descriptions-item label="结束时间">{{ this.detailsMessage.endTime }}</el-descriptions-item>
         </el-descriptions> <br><br>
-        <el-descriptions title="车主车辆信息" class="margin-top" :column="2" :size="size" border>
+        <el-descriptions title="车主车辆信息" class="margin-top" :column="2" border>
           <el-descriptions-item label="车牌号">{{ this.detailsMessage.carNumber }}</el-descriptions-item>
           <el-descriptions-item label="汽车品牌">{{ this.detailsMessage.carBrand }}</el-descriptions-item>
           <el-descriptions-item label="汽车名称">{{ this.detailsMessage.carName }}</el-descriptions-item>
           <el-descriptions-item label="车架号">{{ this.detailsMessage.engineNumber }}</el-descriptions-item>
-          <el-descriptions-item label="汽车图片">{{ this.detailsMessage.carPhoto }}</el-descriptions-item>
+          <el-descriptions-item label="汽车图片">{{ this.detailsMessageImagesUrl }}</el-descriptions-item>
         </el-descriptions>
       </div>
       <span slot="footer">
@@ -106,7 +106,7 @@
 </template>
 <script>
 
-import {allDrivers, deleteDriver} from '@/api/driver';
+import {allDrivers, deleteDriver, detailsByCarsRepairNumber} from '@/api/driver';
 import {queryMetaDataByType} from '@/api/metaData';
 import {selectCarNumbers} from "@/api/carsRepair";
 
@@ -116,6 +116,7 @@ export default {
     return {
       list: [],
       total: 0,
+      detailsMessageImagesUrl: '',
       metaDataList: [],
       carNumberList: [],
       metaDataType: 'CAR_BRAND_TYPE',
@@ -176,7 +177,8 @@ export default {
     },
     updateDriver(row) {
       this.$router.push({
-        path: '/driver/addDriver',
+        // path: '/driver/addDriver',
+        path: '/carsRepair/addDriver',
         query: {
           carsRepairNumber: row.carsRepairNumber
         }
@@ -193,7 +195,11 @@ export default {
     },
     details(row) {
       this.dialogVisible = true
-      this.detailsMessage = row
+      detailsByCarsRepairNumber(row.carsRepairNumber).then(res => {
+        this.detailsMessage = res.data
+        console.log('row.carPhoto', res.data)
+        this.detailsMessageImagesUrl = res.data.carPhoto.map(x => x.url)
+      })
     }
   }
 }

@@ -56,3 +56,10 @@ export function allDrivers(data) {
   })
 }
 
+export function detailsByCarsRepairNumber(carsRepairNumber) {
+  return request({
+    url: 'driver/detailsByCarsRepairNumber/' + carsRepairNumber,
+    method: 'get',
+    params: carsRepairNumber
+  })
+}
