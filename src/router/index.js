@@ -98,8 +98,8 @@ export const constantRoutes = [
         meta: {title: '维修设备列表', icon: 'table'}
       },
       {
-        path: 'addInsurance.vue',
-        name: 'addInsurance.vue',
+        path: 'addAdvices.vue',
+        name: 'addAdvices.vue',
         hidden: true,
         component: () => import('@/views/advices/addAdvice'),
         meta: {title: '添加维修设备', icon: 'table'}
@@ -241,6 +241,31 @@ export const constantRoutes = [
         hidden: true,
         component: () => import('@/views/insurance/addInsurance'),
         meta: {title: '添加保险信息', icon: 'table'}
+      }
+    ]
+  },
+
+  {
+    path: '/secondHandCar',
+    name: 'SecondHandCar',
+    component: Layout,
+    alwaysShow: true,
+    redirect: '/SecondHandCar',
+    // hidden: true,
+    meta: {title: '二手车信息', icon: 'el-icon-truck'},
+    children: [
+      {
+        path: 'allSecondHandCar',
+        name: 'allSecondHandCar',
+        component: () => import('@/views/secondHandCar/listSecondHandCar'),
+        meta: {title: '二手车信息列表', icon: 'table'}
+      },
+      {
+        path: 'addSecondHandCar',
+        name: 'addSecondHandCar',
+        hidden: true,
+        component: () => import('@/views/secondHandCar/addSecondHandCar'),
+        meta: {title: '添二手车信息', icon: 'table'}
       }
     ]
   },
