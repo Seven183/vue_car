@@ -1,64 +1,54 @@
 <template>
   <div class="app-container">
     <div class="app-header" style="width: 80%;">
-      <el-select filterable allow-create v-model="queryParams.carNumber" placeholder="车牌号" clearable
+      <el-select filterable allow-create v-model="queryParams.insuranceCompanyName" placeholder="保险公司名称" clearable
                  style="width: 15%;margin-right: 5px;"
                  @input="getList"
                  @keyup.enter.native="getList"
                  @clear="getList">
-        <el-option v-for="item in carNumberList" :key="item" :label="item" :value="item"/>
+        <el-option v-for="item in metaDataList" :key="item" :label="item.value" :value="item.value"/>
       </el-select>
-      <el-select filterable allow-create clearable placeholder="设备类型" v-model="queryParams.advicesType"
-                 style="width: 15%; margin-right: 5px;"
-                 @keyup.enter.native="getList"
-                 @input="getList"
-                 @clear="getList">
-        <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>
-      </el-select>
-      <el-input v-model="queryParams.advicesName" placeholder="设备名称" clearable style="width: 15%;margin: 5px;"
+      <el-input v-model="queryParams.insuranceCode" placeholder="保险单号" clearable style="width: 15%;margin-right: 5px;"
                 @keyup.enter.native="getList"
                 @clear="getList"
                 @input="getList"/>
-      <el-select filterable allow-create v-model="queryParams.status" placeholder="维修状态" clearable
-                 style="width: 15%;margin-right: 5px;"
-                 @input="getList"
-                 @keyup.enter.native="getList"
-                 @clear="getList">
-        <el-option v-for="item in carRepairStatusMetaDataList" :key="item.id" :label="item.code" :value="item.value"/>
-      </el-select>
+      <el-input v-model="queryParams.insuranceUser" clearable placeholder="保险人" clearable style="width: 15%;margin-right: 5px;"
+                @keyup.enter.native="getList"
+                @clear="getList"
+                @input="getList"/>
+      <el-input v-model="queryParams.insuranceIdCard" clearable placeholder="保险人身份证号" clearable style="width: 15%;margin-right: 5px;"
+                @keyup.enter.native="getList"
+                @clear="getList"
+                @input="getList"/>
+      <el-input v-model="queryParams.insurancePhone" placeholder="保险人手机号" clearable style="width: 15%;margin-right: 5px;"
+                @keyup.enter.native="getList"
+                @clear="getList"
+                @input="getList"/>
       <el-button style="margin: 5px;" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
-<!--      <el-button style="margin: 5px;" type="primary" icon="el-icon-edit" @click="addAdvice">-->
-<!--        {{ $t('table.add') }}-->
-<!--      </el-button>-->
+      <el-button style="margin: 5px;" type="primary" icon="el-icon-edit" @click="addInsurance">
+        {{ $t('table.add') }}
+      </el-button>
     </div>
     <div class="app-body">
       <el-table :data="list" stripe fit border highlight-current-row>
-        <el-table-column prop="carNumber" label="车牌号" align="center"></el-table-column>
-        <el-table-column prop="advicesType" label="设备类型" align="center"></el-table-column>
-        <el-table-column prop="advicesName" label="设备名称" align="center"></el-table-column>
-        <el-table-column prop="advicesQuantity" label="设备数量" align="center"></el-table-column>
-        <el-table-column prop="advicesPriceAmount" label="设备单价金额" align="center" sortable></el-table-column>
-        <el-table-column prop="advicesFullAmount" label="设备总金额" align="center" sortable></el-table-column>
-        <el-table-column prop="createTime" label="添加设备时间" align="center" sortable></el-table-column>
-        <el-table-column prop="updateTime" label="更新设备时间" align="center" sortable></el-table-column>
-        <el-table-column prop="status" label="维修状态" align="center" sortable>
+        <el-table-column prop="insuranceCompanyName" label="保险公司名称" align="center"></el-table-column>
+        <el-table-column prop="insuranceCode" label="保险单号" align="center"></el-table-column>
+        <el-table-column prop="insuranceUser" label="保险人" align="center"></el-table-column>
+        <el-table-column prop="insuranceIdCard" label="保险人身份证号" align="center"></el-table-column>
+        <el-table-column prop="insurancePhone" label="保险人手机号" align="center"></el-table-column>
+        <el-table-column prop="createTime" label="创建时间" align="center" sortable></el-table-column>
+        <el-table-column prop="updateTime" label="更新时间" align="center" sortable></el-table-column>
+        <el-table-column :label="$t('table.actions')" align="center" min-width="200" class-name="small-padding fixed-width">
           <template slot-scope="scope">
-            <el-tag v-for="item in status_list" v-if="item.key === scope.row.status" :type="item.type">
-              {{ item.value }}
-            </el-tag>
-          </template>
-        </el-table-column>
-<!--        <el-table-column :label="$t('table.actions')" align="center" min-width="200" class-name="small-padding fixed-width">-->
-<!--          <template slot-scope="scope">-->
-<!--            <el-button type="info" size="mini" style="min-width: 50px" @click="details(scope.row)">详情</el-button>-->
-<!--            <el-button type="primary" size="mini" style="min-width: 50px; margin-right: 10px" @click="updateAdvice(scope.row)">编辑</el-button>-->
-<!--            <el-popconfirm title="确定删除吗？" @confirm="deleteAdvice(scope.row)">-->
+            <el-button type="info" size="mini" style="min-width: 50px" @click="details(scope.row)">详情</el-button>
+            <el-button type="primary" size="mini" style="min-width: 50px; margin-right: 10px" @click="updateInsurance(scope.row)">编辑</el-button>
+<!--            <el-popconfirm title="确定删除吗？" @confirm="deleteInsurance(scope.row)">-->
 <!--              <el-button type="danger" size="mini" style="min-width: 40px" slot="reference">删除</el-button>-->
 <!--            </el-popconfirm>-->
-<!--          </template>-->
-<!--        </el-table-column>-->
+          </template>
+        </el-table-column>
       </el-table>
     </div>
     <div class="app-footer">
@@ -71,19 +61,22 @@
         @current-change="getListByNumber"
         @size-change="getListByPage"/>
     </div>
-    <el-dialog center title="维修设备详细信息" top="10vh" :visible.sync="dialogVisible">
+    <el-dialog center title="保险详细信息" top="10vh" :visible.sync="dialogVisible">
 <!--            <pre>{{ this.detailsMessage}}</pre>-->
-      <el-table :data="this.list">
-        <el-table-column property="carNumber" label="车牌号" width="130"></el-table-column>
-        <el-table-column property="advicesType" label="设备类型" width="130"></el-table-column>
-        <el-table-column property="advicesName" label="设备名称" width="130"></el-table-column>
-        <el-table-column property="advicesNumber" label="设备编号" width="130"></el-table-column>
-        <el-table-column property="advicesQuantity" label="设备数量" width="130"></el-table-column>
-        <el-table-column property="advicesPriceAmount" label="设备单价金额" width="130"></el-table-column>
-        <el-table-column property="advicesFullAmount" label="设备总金额" width="130"></el-table-column>
-        <el-table-column property="createTime" label="创建时间" width="180"></el-table-column>
-        <el-table-column property="updateTime" label="更新时间" width="180"></el-table-column>
-      </el-table>
+      <el-descriptions title="保险人基本信息" class="margin-top" :column="2" border>
+        <el-descriptions-item label="保险公司名称">{{ this.detailsMessage.insuranceCompanyName }}</el-descriptions-item>
+        <el-descriptions-item label="保险单号">{{ this.detailsMessage.insuranceCode }}</el-descriptions-item>
+        <el-descriptions-item label="保险人">{{ this.detailsMessage.insuranceUser }}</el-descriptions-item>
+        <el-descriptions-item label="保险人身份证号">{{ this.detailsMessage.insuranceIdCard }}</el-descriptions-item>
+        <el-descriptions-item label="保险人手机号">{{ this.detailsMessage.insurancePhone }}</el-descriptions-item>
+        <el-descriptions-item label="保险金额">{{ this.detailsMessage.insuranceAmount }}</el-descriptions-item>
+        <el-descriptions-item label="保险车辆品牌">{{ this.detailsMessage.insuranceCarBrand }}</el-descriptions-item>
+        <el-descriptions-item label="保险车辆名称">{{ this.detailsMessage.insuranceCarName }}</el-descriptions-item>
+        <el-descriptions-item label="保险开始时间">{{ this.detailsMessage.insuranceStartTime }}</el-descriptions-item>
+        <el-descriptions-item label="保险到期时间">{{ this.detailsMessage.insuranceEndTime }}</el-descriptions-item>
+        <el-descriptions-item label="创建时间">{{ this.detailsMessage.createTime }}</el-descriptions-item>
+        <el-descriptions-item label="更新时间">{{ this.detailsMessage.updateTime }}</el-descriptions-item>
+      </el-descriptions>
       <span slot="footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -92,9 +85,8 @@
   </div>
 </template>
 <script>
-import {allAdvices, deleteAdvice} from '@/api/advices';
-import {queryMetaDataByType} from "@/api/metaData";
-import {selectCarNumbers} from "@/api/carsRepair";
+import {queryMetaDataByType} from '@/api/metaData';
+import {allInsurance, deleteInsurance} from '@/api/insurance';
 
 export default {
   name: 'ListAdvices',
@@ -103,35 +95,23 @@ export default {
       list: [],
       total: 0,
       metaDataList: [],
-      carNumberList: [],
-      metaDataType: 'ADVICE_TYPE',
-      carRepairStatusMetaDataList: [],
-      carRepairStatusMetaDataType: 'CARREPAIR_STATUS_TYPE',
-      status_list: [
-        {key: 0, value: '维修中', type: "warn"},
-        {key: 1, value: '维修完成', type: "success"}
-      ],
+      metaDataType: 'INSURANCE_TYPE',
       dialogVisible: false,
       detailsMessage: '',
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        carNumber: null,
-        advicesType: null,
-        advicesName: null,
-        advicesNumber: null
+        insuranceCompanyName: null,
+        insuranceCode: null,
+        insuranceUser: null,
+        insuranceIdCard: null,
+        insurancePhone: null
       }
     }
   },
   mounted() {
     queryMetaDataByType(this.metaDataType).then((res) => {
       this.metaDataList = res.data
-    })
-    selectCarNumbers().then((res) => {
-      this.carNumberList = res.data
-    })
-    queryMetaDataByType(this.carRepairStatusMetaDataType).then((res) => {
-      this.carRepairStatusMetaDataList = res.data
     })
     this.getList()
   },
@@ -140,41 +120,41 @@ export default {
       this.getList()
     },
     getList() {
-      allAdvices(this.queryParams).then(res => {
+      allInsurance(this.queryParams).then(res => {
         this.list = res.data.list
         this.total = res.data.total
       })
     },
     getListByPage(size) {
       this.queryParams.pageSize = size
-      allAdvices(this.queryParams).then(res => {
+      allInsurance(this.queryParams).then(res => {
         this.list = res.data.list
         this.total = res.data.total
       })
     },
     getListByNumber(number) {
       this.queryParams.pageNum = number
-      allAdvices(this.queryParams).then(res => {
+      allInsurance(this.queryParams).then(res => {
         this.list = res.data.list
         this.total = res.data.total
       })
     },
-    updateAdvice(row) {
+    updateInsurance(row) {
       this.$router.push({
-        path: '/advice/addAdvice',
+        path: '/insurance/addInsurance',
         query: {
           carsRepairNumber: row.carsRepairNumber
         }
       })
     },
-    deleteAdvice(row) {
-      deleteAdvice(row.advicesId).then(res => {
+    deleteInsurance(row) {
+      deleteInsurance(row.insuranceId).then(res => {
         this.getList()
         this.$notify({title: '成功', message: '删除成功', type: 'success'})
       })
     },
-    addAdvice() {
-      this.$router.push('/advice/addAdvice')
+    addInsurance() {
+      this.$router.push('/insurance/addInsurance')
     },
     details(row) {
       this.dialogVisible = true
