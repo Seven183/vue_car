@@ -89,7 +89,7 @@ import {queryMetaDataByType} from '@/api/metaData';
 import {allInsurance, deleteInsurance} from '@/api/insurance';
 
 export default {
-  name: 'ListAdvices',
+  name: 'ListInsurance',
   data() {
     return {
       list: [],
@@ -143,7 +143,7 @@ export default {
       this.$router.push({
         path: '/insurance/addInsurance',
         query: {
-          carsRepairNumber: row.carsRepairNumber
+          insuranceCode: row.insuranceCode
         }
       })
     },

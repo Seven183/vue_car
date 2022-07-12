@@ -39,3 +39,10 @@ export function allSecondHandCar(data) {
     params: data
   })
 }
+
+export function selectCarNumbers() {
+  return request({
+    url: '/secondHandCar/selectCarNumbers',
+    method: 'get'
+  })
+}

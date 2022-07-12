@@ -106,7 +106,7 @@ import {createUniqueString} from "@/utils";
 import {fileDelete, fileUpload} from "@/api/fileUpload";
 
 export default {
-  name: 'AddCarsRepair',
+  name: 'AddSecondHandCar',
   data() {
     const moneyReg = (rule, value, callback) => {
       if (value.length > 10) {
