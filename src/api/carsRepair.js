@@ -62,3 +62,10 @@ export function statusOperate(carsRepairNumber, status) {
     params: { carsRepairNumber, status }
   })
 }
+
+export function selectCarsRepairType() {
+  return request({
+    url: 'carsRepair/selectCarsRepairType',
+    method: 'get'
+  })
+}

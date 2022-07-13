@@ -17,7 +17,7 @@
                  @input="getList"
                  @keyup.enter.native="getList"
                  @clear="getList">
-        <el-option v-for="item in faultMetaDataList" :key="item.id" :label="item.value" :value="item.value"/>
+        <el-option v-for="item in faultMetaDataList" :key="item.id" :label="item" :value="item"/>
       </el-select>
       <el-select filterable allow-create v-model="queryParams.status" placeholder="维修状态" clearable
                  style="width: 10%;margin-right: 5px;"
@@ -121,7 +121,7 @@ import {
   deleteCarsRepair,
   detailsByCarsRepairNumber,
   queryAllCarsRepair,
-  selectCarNumbers,
+  selectCarNumbers, selectCarsRepairType,
   statusOperate
 } from '@/api/carsRepair'
 import {queryMetaDataByType} from '@/api/metaData'
@@ -133,7 +133,6 @@ export default {
       list: [],
       total: 0,
       faultMetaDataList: [],
-      faultMetaDataType: 'FAULT_TYPE',
       carRepairStatusMetaDataList: [],
       carRepairStatusMetaDataType: 'CARREPAIR_STATUS_TYPE',
       carNumberList: [],
@@ -156,7 +155,7 @@ export default {
     }
   },
   mounted() {
-    queryMetaDataByType(this.faultMetaDataType).then((res) => {
+    selectCarsRepairType().then((res) => {
       this.faultMetaDataList = res.data
     })
     queryMetaDataByType(this.carRepairStatusMetaDataType).then((res) => {

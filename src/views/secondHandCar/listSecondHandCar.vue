@@ -1,18 +1,27 @@
 <template>
   <div class="app-container">
     <div class="app-header">
-      <el-input v-model="queryParams.buyerUser" placeholder="买家姓名" clearable style="width: 10%;margin-right: 5px;"
-                @keyup.enter.native="getList"
-                @clear="getList"
-                @input="getList"/>
-      <el-input v-model="queryParams.buyerIdCard" placeholder="买家身份证号" clearable style="width: 10%;margin-right: 5px;"
-                @keyup.enter.native="getList"
-                @clear="getList"
-                @input="getList"/>
-      <el-input v-model="queryParams.buyerPhone" placeholder="买家手机号" clearable style="width: 10%;margin-right: 5px;"
-                @keyup.enter.native="getList"
-                @clear="getList"
-                @input="getList"/>
+      <el-select filterable allow-create v-model="queryParams.buyerUser" placeholder="买家姓名" clearable
+                 style="width: 10%;margin-right: 5px;"
+                 @input="getList"
+                 @keyup.enter.native="getList"
+                 @clear="getList">
+        <el-option v-for="item in buyerUserList" :key="item" :label="item" :value="item"/>
+      </el-select>
+      <el-select filterable allow-create v-model="queryParams.buyerIdCard" placeholder="买家身份证号" clearable
+                 style="width: 10%;margin-right: 5px;"
+                 @input="getList"
+                 @keyup.enter.native="getList"
+                 @clear="getList">
+        <el-option v-for="item in buyerIdCardList" :key="item" :label="item" :value="item"/>
+      </el-select>
+      <el-select filterable allow-create v-model="queryParams.buyerPhone" placeholder="买家手机号" clearable
+                 style="width: 10%;margin-right: 5px;"
+                 @input="getList"
+                 @keyup.enter.native="getList"
+                 @clear="getList">
+        <el-option v-for="item in buyerPhoneList" :key="item" :label="item" :value="item"/>
+      </el-select>
       <el-select filterable allow-create v-model="queryParams.secondHandCarNumber" placeholder="二手车车牌号" clearable
                  style="width: 10%;margin-right: 5px;"
                  @input="getList"
@@ -34,7 +43,7 @@
       <el-button style="margin: 5px;" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
-      <el-button style="margin: 5px;" type="primary" icon="el-icon-edit" @click="addCarsRepair">
+      <el-button style="margin: 5px;" type="primary" icon="el-icon-edit" @click="addSecondHandCar">
         {{ $t('table.add') }}
       </el-button>
     </div>
@@ -99,7 +108,7 @@
           <el-descriptions-item label="二手车品牌">{{ this.detailsMessage.secondHandCarBrand }}</el-descriptions-item>
           <el-descriptions-item label="二手车名称">{{ this.detailsMessage.secondHandCarName }}</el-descriptions-item>
           <el-descriptions-item label="二手车车架号">{{ this.detailsMessage.secondHandCarEngineNumber }}</el-descriptions-item>
-          <el-descriptions-item label="二手车图片">{{ this.detailsMessage.secondHandCarPhotoJson }}</el-descriptions-item>
+          <el-descriptions-item label="二手车图片">{{ this.detailsMessageImagesUrl }}</el-descriptions-item>
           <el-descriptions-item label="二手车金额">{{ this.detailsMessage.secondHandCarAmount }}</el-descriptions-item>
           <el-descriptions-item label="创建时间">{{ this.detailsMessage.createTime }}</el-descriptions-item>
           <el-descriptions-item label="更新时间">{{ this.detailsMessage.updateTime }}</el-descriptions-item>
@@ -116,7 +125,7 @@
 
 import {
   allSecondHandCar,
-  deleteSecondHandCar,
+  deleteSecondHandCar, selectBuyerIdCards, selectBuyerPhones, selectBuyerUsers, selectCarBrands,
   selectCarNumbers,
   selectSecondHandCarById
 } from '@/api/secondHandCar'
@@ -129,6 +138,9 @@ export default {
       total: 0,
       carBrandList: [],
       carNumberList: [],
+      buyerPhoneList: [],
+      buyerUserList: [],
+      buyerIdCardList: [],
       detailsMessage: '',
       detailsMessageImagesUrl: '',
       dialogVisible: false,
@@ -148,6 +160,18 @@ export default {
   mounted() {
     selectCarNumbers().then((res) => {
       this.carNumberList = res.data
+    })
+    selectCarBrands().then((res) => {
+      this.carBrandList = res.data
+    })
+    selectBuyerPhones().then((res) => {
+      this.buyerPhoneList = res.data
+    })
+    selectBuyerUsers().then((res) => {
+      this.buyerUserList = res.data
+    })
+    selectBuyerIdCards().then((res) => {
+      this.buyerIdCardList = res.data
     })
     this.getList()
   },
@@ -194,7 +218,7 @@ export default {
     },
     selectSecondHandCarById(row) {
       this.dialogVisible = true
-      selectSecondHandCarById(row.carsRepairNumber).then(res => {
+      selectSecondHandCarById(row.secondHandCarId).then(res => {
         this.detailsMessage = res.data
         this.detailsMessageImagesUrl = res.data.carPhoto.map(x => x.url)
       })

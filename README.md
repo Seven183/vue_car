@@ -1,5 +1,5 @@
 # vue-admin-template
-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
+
 
 English | [简体中文](./README-zh.md)
 
@@ -27,6 +27,11 @@ git clone https://github.com/PanJiaChen/vue-admin-template.git
 
 # enter the project directory
 cd vue-admin-template
+
+npm config set registry https://registry.npm.taobao.org
+
+# 下载脚手架
+npm install -g @vue/cli
 
 # install dependency
 npm install

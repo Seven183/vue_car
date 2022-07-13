@@ -1,49 +1,122 @@
 <template>
   <div class="create">
     <div class="create-body">
-      <el-form ref="carsRepair_form" label-width=auto :rules="form_rules" :model="request_body" inline>
-        <el-form-item label="姓名" prop="userName">
-          <el-input v-model="request_body.userName" placeholder="请输入姓名" style="width: 200px"/>
+      <el-form ref="secondHandCar_form" label-width="auto" :rules="form_rules" :model="request_body" inline>
+        <el-form-item label="买家姓名" prop="buyerUser">
+          <el-input v-model="request_body.buyerUser" placeholder="请输入买家姓名" style="width: 200px" />
         </el-form-item>
-        <el-form-item label="联系方式" prop="phone">
-          <el-input v-model="request_body.phone" placeholder="请输入电话或者手机号" style="width: 200px"/>
+        <el-form-item label="买家身份证号" prop="buyerIdCard">
+          <el-input v-model="request_body.buyerIdCard" placeholder="请输入买家身份证号" style="width: 200px" />
         </el-form-item>
-        <el-form-item label="车牌号" prop="carNumber">
-          <el-input v-model="request_body.carNumber" placeholder="请输入车牌号" style="width: 200px"/>
+        <el-form-item label="买家手机号" prop="buyerPhone">
+          <el-input v-model.number="request_body.buyerPhone" placeholder="请输入买家手机号" style="width: 200px" />
         </el-form-item>
-        <el-form-item label="车品牌" prop="carBrand">
-          <el-select filterable allow-create v-model="request_body.carBrand" clearable style="width: 200px">
-            <el-option v-for="item in carBrandMetaDataList" :key="item.id" :label="item.value" :value="item.value"/>
+        <el-form-item label="买家年龄" prop="buyerAge">
+          <el-input v-model.number="request_body.buyerAge" placeholder="请输入买家年龄" style="width: 200px" />
+        </el-form-item>
+        <el-form-item label="买家性别" prop="buyerSex">
+          <el-select
+            v-model="request_body.buyerSex"
+            filterable
+            allow-create
+            clearable
+            placeholder="请输入买家性别"
+            style="width: 200px">
+            <el-option v-for="item in sexMetaDataList" :key="item.id" :label="item.value" :value="item.value" />
           </el-select>
         </el-form-item>
-        <el-form-item label="车名称" prop="carName">
-          <el-input v-model="request_body.carName" placeholder="请输入车名称" style="width: 200px"/>
+        <el-form-item label="买家地址" prop="buyerAddress">
+          <el-input v-model="request_body.buyerAddress" placeholder="请输入买家地址" style="width: 200px" type="textarea"/>
         </el-form-item>
-        <el-form-item label="维修类型" prop="carsRepairType">
-          <el-select filterable allow-create clearable v-model="request_body.carsRepairType" style="width: 200px">
-            <el-option v-for="item in faultMetaDataList" :key="item.id" :label="item.value" :value="item.value"/>
+        <el-form-item label="卖家姓名" prop="sellerUser">
+          <el-input
+            v-model="request_body.sellerUser"
+            placeholder="请输入卖家姓名"
+            style="width: 200px"
+          />
+        </el-form-item>
+        <el-form-item label="卖家身份证号" prop="sellerIdCard">
+          <el-input
+            v-model="request_body.sellerIdCard"
+            placeholder="请输入卖家身份证号"
+            style="width: 200px"
+          />
+        </el-form-item>
+        <el-form-item label="卖家手机号" prop="sellerPhone">
+          <el-input
+            v-model.number="request_body.sellerPhone"
+            placeholder="请输入卖家手机号"
+            style="width: 200px"
+          />
+        </el-form-item>
+        <el-form-item label="卖家年龄" prop="sellerAge">
+          <el-input
+            v-model.number="request_body.sellerAge"
+            placeholder="请输入卖家年龄"
+            style="width: 200px"
+          />
+        </el-form-item>
+        <el-form-item label="卖家性别" prop="sellerSex">
+          <el-select
+            v-model="request_body.sellerSex"
+            filterable
+            allow-create
+            clearable
+            placeholder="请输入卖家性别"
+            style="width: 200px"
+          >
+            <el-option v-for="item in sexMetaDataList" :key="item.id" :label="item.value" :value="item.value" />
           </el-select>
         </el-form-item>
-        <el-form-item label="维修内容" prop="carsRepairText">
-          <el-input v-model="request_body.carsRepairText" placeholder="请输入维修内容" style="width: 200px"
-                    type="textarea"/>
+        <el-form-item label="卖家地址" prop="sellerAddress">
+          <el-input
+            v-model="request_body.sellerAddress"
+            placeholder="请输入卖家地址"
+            style="width: 200px"
+            type="textarea"
+          />
         </el-form-item>
-        <el-form-item label="性别" prop="sex">
-          <el-select filterable allow-create clearable placeholder="请输入性别" v-model="request_body.sex"
-                     style="width: 200px">
-            <el-option v-for="item in sexMetaDataList" :key="item.id" :label="item.value" :value="item.value"/>
+        <el-form-item label="二手车车牌" prop="secondHandCarNumber">
+          <el-input
+            v-model="request_body.secondHandCarNumber"
+            placeholder="请输入二手车车牌"
+            style="width: 200px"
+          />
+        </el-form-item>
+
+        <el-form-item label="二手车金额" prop="secondHandCarAmount">
+          <el-input
+            v-model="request_body.secondHandCarAmount"
+            placeholder="请输入二手车金额"
+            style="width: 200px"
+          />
+        </el-form-item>
+        <el-form-item label="二手车品牌" prop="secondHandCarBrand">
+          <el-select
+            v-model="request_body.secondHandCarBrand"
+            filterable
+            allow-create
+            clearable
+            placeholder="请输入二手车品牌"
+            style="width: 200px">
+            <el-option v-for="item in carBrandMetaDataList" :key="item.id" :label="item.value" :value="item.value" />
           </el-select>
         </el-form-item>
-        <el-form-item label="年龄" prop="age">
-          <el-input v-model.number="request_body.age" placeholder="请输入年龄" style="width: 200px"/>
+        <el-form-item label="二手车名称" prop="secondHandCarName">
+          <el-input
+            v-model="request_body.secondHandCarName"
+            placeholder="请输入二手车名称"
+            style="width: 200px"
+          />
         </el-form-item>
-        <el-form-item label="联系地址" prop="address">
-          <el-input v-model="request_body.address" placeholder="请输入联系地址" style="width: 200px" type="textarea"/>
+        <el-form-item label="二手车车架号" prop="secondHandCarEngineNumber">
+          <el-input
+            v-model="request_body.secondHandCarEngineNumber"
+            placeholder="请输入二手车车架号"
+            style="width: 200px"
+          />
         </el-form-item>
-        <el-form-item label="车架号" prop="engineNumber">
-          <el-input v-model="request_body.engineNumber" placeholder="请输入车架号" style="width: 200px"/>
-        </el-form-item>
-        <el-form-item label="汽车图片">
+        <el-form-item label="二手车图片">
           <el-upload
             :action="actionUrl"
             multiple
@@ -53,44 +126,16 @@
             :on-progress="uploadPhoto"
             :on-exceed="handleExceed"
             :file-list="fileList"
-            list-type="picture">
+            list-type="picture"
+          >
             <el-button size="small" type="primary">点击上传汽车图片</el-button>
             <div slot="tip" class="el-upload__tip">上传照片总大小不超过100M</div>
           </el-upload>
         </el-form-item>
-        <el-form v-for="(filter,index) in request_body.advicesItems" :key="filter.id" label-width=auto :model="filter" inline>
-          <el-divider></el-divider>
-          <el-form-item label="设备类型" prop="advicesType" :rules="form_rules.advicesType">
-            <el-select v-model="filter.advicesType" filterable allow-create clearable style="width: 200px">
-              <el-option v-for="item in adviceMetaDataList" :key="item.id" :label="item.value" :value="item.value"/>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="设备名称" prop="advicesName" :rules="form_rules.advicesName">
-            <el-input v-model="filter.advicesName" placeholder="请输入设备名称" style="width: 200px"/>
-          </el-form-item>
-          <el-form-item label="设备编号" prop="advicesNumber" :rules="form_rules.advicesNumber">
-            <el-input v-model="filter.advicesNumber" placeholder="请输入设备编号" style="width: 200px"/>
-          </el-form-item>
-          <el-form-item label="设备数量" prop="advicesQuantity" :rules="form_rules.advicesQuantity">
-            <el-input v-model.number="filter.advicesQuantity" placeholder="请输入设备数量" style="width: 200px"
-                      @input="advicesItemsFullAmount(index)"/>
-          </el-form-item>
-          <el-form-item label="设备单价金额" prop="advicesPriceAmount" :rules="form_rules.advicesPriceAmount">
-            <el-input v-model="filter.advicesPriceAmount" placeholder="请输入设备单价金额" style="width: 200px"
-                      @input="advicesItemsFullAmount(index)"/>
-          </el-form-item>
-          <el-form-item label="设备总金额">
-            <el-input v-model="filter.advicesFullAmount" placeholder="请输入设备总金额"
-                      style="width: 200px ;margin-right: 30px"/>
-            <el-button type="danger" icon="el-icon-delete" circle class="delete_icon" @click="delete_item(filter)"/>
-            <br><br>
-          </el-form-item>
-        </el-form>
         <div style="margin: 50px">
           <el-form-item>
-            <el-button type="success" class="check_filter" icon="el-icon-plus" @click="add_item()">添加使用的工具</el-button>
-            <el-button v-if="createStatus" type="primary" @click="addSecondHandCar">新增本次维修记录</el-button>
-            <el-button v-if="!createStatus" type="primary" @click="updateCarsRepair">更新本次维修记录</el-button>
+            <el-button v-if="createStatus" type="primary" @click="addSecondHandCar">新增二手车记录</el-button>
+            <el-button v-if="!createStatus" type="primary" @click="updateSecondHandCar">更新二手车记录</el-button>
             <el-button @click="backHistory">返回</el-button>
           </el-form-item>
         </div>
@@ -100,10 +145,9 @@
 </template>
 
 <script>
-import {addCarsRepair, queryCarsRepairByCarsRepairNumber, updateCarsRepair} from '@/api/carsRepair'
-import {queryMetaDataByType} from "@/api/metaData";
-import {createUniqueString} from "@/utils";
-import {fileDelete, fileUpload} from "@/api/fileUpload";
+import { queryMetaDataByType } from '@/api/metaData'
+import { fileDelete, fileUpload } from '@/api/fileUpload'
+import { addSecondHandCar, selectSecondHandCarById, updateSecondHandCar } from '@/api/secondHandCar'
 
 export default {
   name: 'AddSecondHandCar',
@@ -128,38 +172,34 @@ export default {
       sexMetaDataList: [],
       carBrandMetaDataType: 'CAR_BRAND_TYPE',
       carBrandMetaDataList: [],
-      faultMetaDataType: 'FAULT_TYPE',
-      faultMetaDataList: [],
-      adviceMetaDataType: 'ADVICE_TYPE',
-      adviceMetaDataList: [],
       createStatus: true,
       form_rules: {
-        userName: [{required: true, message: '姓名不能为空', trigger: 'blur'}],
-        phone: [{required: true, message: '联系方式不能为空', trigger: 'blur'}],
-        carNumber: [{required: true, message: '车牌号不能为空', trigger: 'blur'}],
-        carsRepairType: [{required: true, message: '维修类型不能为空', trigger: 'blur'}],
-        driverName: [{required: true, message: '驾驶人姓名不能为空', trigger: 'blur'}],
-        age: [{type: 'number', message: '年龄必须为数字', trigger: 'blur'}],
-        carBrand: [{required: true, message: '车品牌不能为空', trigger: 'blur'}],
-        carName: [{required: true, message: '车名称不能为空', trigger: 'blur'}],
-        advicesQuantity: [{type: 'number', message: '设备数量为整数', trigger: 'blur'}],
-        advicesPriceAmount: [{validator: moneyReg, trigger: 'blur'}]
+        buyerUser: [{ required: true, message: '买家姓名不能为空', trigger: 'blur' }],
+        buyerIdCard: [{ required: true, message: '买家身份证号不能为空', trigger: 'blur' }],
+        buyerPhone: [{ required: true, message: '买家手机号不能为空', trigger: 'blur' }],
+        secondHandCarNumber: [{ required: true, message: '二手车车牌号不能为空', trigger: 'blur' }],
+        secondHandCarBrand: [{ required: true, message: '二手车品牌不能为空', trigger: 'blur' }],
+        secondHandCarAmount: [{ validator: moneyReg, trigger: 'blur', required: true }]
       },
       request_body: {
-        carNumber: null,
-        carsRepairType: null,
-        carsRepairText: null,
-        username: null,
-        phone: null,
-        sex: null,
-        age: null,
-        address: null,
-        photo: null,
-        carBrand: null,
-        carName: null,
-        engineNumber: null,
-        carPhoto: [],
-        advicesItems: []
+        buyerUser: null,
+        buyerIdCard: null,
+        buyerPhone: null,
+        buyerAge: null,
+        buyerSex: null,
+        buyerAddress: null,
+        sellerUser: null,
+        sellerIdCard: null,
+        sellerPhone: null,
+        sellerAge: null,
+        sellerSex: null,
+        sellerAddress: null,
+        secondHandCarAmount: null,
+        secondHandCarBrand: null,
+        secondHandCarNumber: null,
+        secondHandCarName: null,
+        secondHandCarEngineNumber: null,
+        carPhoto: []
       }
     }
   },
@@ -170,24 +210,18 @@ export default {
       this.actionUrl = 'http://localhost:9528' + process.env.VUE_APP_BASE_API + '/fileUpload'
     }
     const query = this.$route.query
-    if (query.carsRepairNumber) {
+    if (query.secondHandCarId) {
       this.createStatus = false
-      queryCarsRepairByCarsRepairNumber(query.carsRepairNumber).then((res) => {
+      selectSecondHandCarById(query.secondHandCarId).then((res) => {
         this.request_body = res.data
         this.fileList = res.data.carPhoto
       })
     }
-    queryMetaDataByType(this.faultMetaDataType).then((res) => {
-      this.faultMetaDataList = res.data
-    })
-    queryMetaDataByType(this.carBrandMetaDataType).then((res) => {
-      this.carBrandMetaDataList = res.data
-    })
     queryMetaDataByType(this.sexMetaDataType).then((res) => {
       this.sexMetaDataList = res.data
     })
-    queryMetaDataByType(this.adviceMetaDataType).then((res) => {
-      this.adviceMetaDataList = res.data
+    queryMetaDataByType(this.carBrandMetaDataType).then((res) => {
+      this.carBrandMetaDataList = res.data
     })
   },
   methods: {
@@ -220,51 +254,30 @@ export default {
         if (res.data) {
           this.request_body.carPhoto = this.request_body.carPhoto.filter(x => x.name !== file.name)
           fileList.filter(x => x.name !== file.name)
-          console.log('this.request_body.carPhoto', this.request_body.carPhoto)
-          console.log('fileList', fileList)
           return 1
         }
       })
     },
-    add_item() {
-      const item = {
-        id: createUniqueString(),
-        advicesType: null,
-        advicesName: null,
-        advicesNumber: null,
-        advicesQuantity: null,
-        advicesPriceAmount: null,
-        advicesFullAmount: null
-      }
-      this.request_body.advicesItems.push(item)
-    },
-    delete_item(filter) {
-      this.request_body.advicesItems = this.request_body.advicesItems.filter(item => item.id !== filter.id)
-    },
-    advicesItemsFullAmount(index) {
-      this.request_body.advicesItems[index].advicesFullAmount = this.request_body.advicesItems[index].advicesQuantity * this.request_body.advicesItems[index].advicesPriceAmount
-    },
-    updateCarsRepair() {
-      this.$refs['carsRepair_form'].validate((valid) => {
+    updateSecondHandCar() {
+      this.$refs['secondHandCar_form'].validate((valid) => {
         if (valid) {
-          updateCarsRepair(this.request_body).then((res) => {
-            this.$router.push('/carsRepair/allCarsRepairs')
-            this.$notify({title: '成功', message: '更新成功', type: 'success'})
+          updateSecondHandCar(this.request_body).then((res) => {
+            this.$router.push('/secondHandCar/allSecondHandCar')
+            this.$notify({ title: '成功', message: '更新成功', type: 'success' })
           })
         }
       })
     },
 
-    addCarsRepair() {
-      this.$refs['carsRepair_form'].validate((valid) => {
+    addSecondHandCar() {
+      this.$refs['secondHandCar_form'].validate((valid) => {
         if (valid) {
-          addCarsRepair(this.request_body).then((res) => {
-            var message = res.success
-            if (message === true) {
-              this.$router.push('/carsRepair/allCarsRepairs')
-              this.$notify({title: '成功', message: '创建成功', type: 'success'})
+          addSecondHandCar(this.request_body).then((res) => {
+            if (res.success === true) {
+              this.$router.push('/secondHandCar/allSecondHandCar')
+              this.$notify({ title: '成功', message: '创建成功', type: 'success' })
             } else {
-              this.$alert(this.message['data'], '创建失败', {confirmButtonText: '确定'})
+              this.$alert(this.message['data'], '创建失败', { confirmButtonText: '确定' })
             }
           })
         }

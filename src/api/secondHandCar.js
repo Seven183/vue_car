@@ -46,3 +46,31 @@ export function selectCarNumbers() {
     method: 'get'
   })
 }
+
+export function selectCarBrands() {
+  return request({
+    url: '/secondHandCar/selectCarBrands',
+    method: 'get'
+  })
+}
+
+export function selectBuyerPhones() {
+  return request({
+    url: '/secondHandCar/selectBuyerPhones',
+    method: 'get'
+  })
+}
+
+export function selectBuyerUsers() {
+  return request({
+    url: '/secondHandCar/selectBuyerUsers',
+    method: 'get'
+  })
+}
+
+export function selectBuyerIdCards() {
+  return request({
+    url: '/secondHandCar/selectBuyerIdCards',
+    method: 'get'
+  })
+}

@@ -39,3 +39,38 @@ export function allInsurance(data) {
     params: data
   })
 }
+
+export function selectInsuranceCompanyName() {
+  return request({
+    url: '/insurance/selectInsuranceCompanyName',
+    method: 'get'
+  })
+}
+
+export function selectInsuranceCode() {
+  return request({
+    url: '/insurance/selectInsuranceCode',
+    method: 'get'
+  })
+}
+
+export function selectInsuranceUser() {
+  return request({
+    url: '/insurance/selectInsuranceUser',
+    method: 'get'
+  })
+}
+
+export function selectInsuranceIdCard() {
+  return request({
+    url: '/insurance/selectInsuranceIdCard',
+    method: 'get'
+  })
+}
+
+export function selectInsurancePhone() {
+  return request({
+    url: '/insurance/selectInsurancePhone',
+    method: 'get'
+  })
+}

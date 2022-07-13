@@ -6,24 +6,36 @@
                  @input="getList"
                  @keyup.enter.native="getList"
                  @clear="getList">
-        <el-option v-for="item in metaDataList" :key="item" :label="item.value" :value="item.value"/>
+        <el-option v-for="item in insuranceCompanyNameList" :key="item" :label="item" :value="item"/>
       </el-select>
-      <el-input v-model="queryParams.insuranceCode" placeholder="保险单号" clearable style="width: 15%;margin-right: 5px;"
-                @keyup.enter.native="getList"
-                @clear="getList"
-                @input="getList"/>
-      <el-input v-model="queryParams.insuranceUser" clearable placeholder="保险人" clearable style="width: 15%;margin-right: 5px;"
-                @keyup.enter.native="getList"
-                @clear="getList"
-                @input="getList"/>
-      <el-input v-model="queryParams.insuranceIdCard" clearable placeholder="保险人身份证号" clearable style="width: 15%;margin-right: 5px;"
-                @keyup.enter.native="getList"
-                @clear="getList"
-                @input="getList"/>
-      <el-input v-model="queryParams.insurancePhone" placeholder="保险人手机号" clearable style="width: 15%;margin-right: 5px;"
-                @keyup.enter.native="getList"
-                @clear="getList"
-                @input="getList"/>
+      <el-select filterable allow-create v-model="queryParams.insuranceCode" placeholder="保险单号" clearable
+                 style="width: 15%;margin-right: 5px;"
+                 @input="getList"
+                 @keyup.enter.native="getList"
+                 @clear="getList">
+        <el-option v-for="item in insuranceCodeList" :key="item" :label="item" :value="item"/>
+      </el-select>
+      <el-select filterable allow-create v-model="queryParams.insuranceUser" placeholder="保险人" clearable
+                 style="width: 15%;margin-right: 5px;"
+                 @input="getList"
+                 @keyup.enter.native="getList"
+                 @clear="getList">
+        <el-option v-for="item in insuranceUserList" :key="item" :label="item" :value="item"/>
+      </el-select>
+      <el-select filterable allow-create v-model="queryParams.insuranceIdCard" placeholder="保险人身份证号" clearable
+                 style="width: 15%;margin-right: 5px;"
+                 @input="getList"
+                 @keyup.enter.native="getList"
+                 @clear="getList">
+        <el-option v-for="item in insuranceIdCardList" :key="item" :label="item" :value="item"/>
+      </el-select>
+      <el-select filterable allow-create v-model="queryParams.insurancePhone" placeholder="保险人手机号" clearable
+                 style="width: 15%;margin-right: 5px;"
+                 @input="getList"
+                 @keyup.enter.native="getList"
+                 @clear="getList">
+        <el-option v-for="item in insurancePhoneList" :key="item" :label="item" :value="item"/>
+      </el-select>
       <el-button style="margin: 5px;" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
@@ -44,9 +56,6 @@
           <template slot-scope="scope">
             <el-button type="info" size="mini" style="min-width: 50px" @click="details(scope.row)">详情</el-button>
             <el-button type="primary" size="mini" style="min-width: 50px; margin-right: 10px" @click="updateInsurance(scope.row)">编辑</el-button>
-<!--            <el-popconfirm title="确定删除吗？" @confirm="deleteInsurance(scope.row)">-->
-<!--              <el-button type="danger" size="mini" style="min-width: 40px" slot="reference">删除</el-button>-->
-<!--            </el-popconfirm>-->
           </template>
         </el-table-column>
       </el-table>
@@ -85,8 +94,13 @@
   </div>
 </template>
 <script>
-import {queryMetaDataByType} from '@/api/metaData';
-import {allInsurance, deleteInsurance} from '@/api/insurance';
+import {
+  allInsurance,
+  deleteInsurance,
+  selectInsuranceCode,
+  selectInsuranceCompanyName, selectInsuranceIdCard, selectInsurancePhone,
+  selectInsuranceUser
+} from '@/api/insurance';
 
 export default {
   name: 'ListInsurance',
@@ -94,7 +108,11 @@ export default {
     return {
       list: [],
       total: 0,
-      metaDataList: [],
+      insuranceCompanyNameList: [],
+      insuranceCodeList: [],
+      insuranceUserList: [],
+      insuranceIdCardList: [],
+      insurancePhoneList: [],
       metaDataType: 'INSURANCE_TYPE',
       dialogVisible: false,
       detailsMessage: '',
@@ -110,8 +128,20 @@ export default {
     }
   },
   mounted() {
-    queryMetaDataByType(this.metaDataType).then((res) => {
-      this.metaDataList = res.data
+    selectInsuranceCompanyName(this.metaDataType).then((res) => {
+      this.insuranceCompanyNameList = res.data
+    })
+    selectInsuranceCode(this.metaDataType).then((res) => {
+      this.insuranceCodeList = res.data
+    })
+    selectInsuranceUser(this.metaDataType).then((res) => {
+      this.insuranceUserList = res.data
+    })
+    selectInsuranceIdCard(this.metaDataType).then((res) => {
+      this.insuranceIdCardList = res.data
+    })
+    selectInsurancePhone(this.metaDataType).then((res) => {
+      this.insurancePhoneList = res.data
     })
     this.getList()
   },
