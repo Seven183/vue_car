@@ -196,31 +196,6 @@ export const constantRoutes = [
   },
 
   {
-    path: '/member',
-    name: 'Member',
-    component: Layout,
-    alwaysShow: true,
-    redirect: '/member',
-    hidden: true,
-    meta: {title: '会员信息', icon: 'el-icon-user'},
-    children: [
-      {
-        path: 'allMembers',
-        name: 'allMembers',
-        component: () => import('@/views/member/listMembers'),
-        meta: {title: '会员信息列表', icon: 'table'}
-      },
-      {
-        path: 'addMember',
-        name: 'addMember',
-        hidden: true,
-        component: () => import('@/views/member/addMember'),
-        meta: {title: '添加会员信息', icon: 'table'}
-      }
-    ]
-  },
-
-  {
     path: '/insurance',
     name: 'Insurance',
     component: Layout,
@@ -266,6 +241,31 @@ export const constantRoutes = [
         hidden: true,
         component: () => import('@/views/secondHandCar/addSecondHandCar'),
         meta: {title: '添二手车信息', icon: 'table'}
+      }
+    ]
+  },
+
+  {
+    path: '/member',
+    name: 'Member',
+    component: Layout,
+    alwaysShow: true,
+    redirect: '/member',
+    // hidden: true,
+    meta: {title: '会员信息', icon: 'el-icon-user'},
+    children: [
+      {
+        path: 'allMembers',
+        name: 'allMembers',
+        component: () => import('@/views/member/listMembers'),
+        meta: {title: '会员信息列表', icon: 'table'}
+      },
+      {
+        path: 'addMember',
+        name: 'addMember',
+        hidden: true,
+        component: () => import('@/views/member/addMember'),
+        meta: {title: '添加会员信息', icon: 'table'}
       }
     ]
   },

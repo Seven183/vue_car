@@ -32,6 +32,14 @@ export function selectMemberById(memberId) {
   })
 }
 
+export function allMember(data) {
+  return request({
+    url: 'member/allMember',
+    method: 'get',
+    params: data
+  })
+}
+
 export function selectCarNumbers() {
   return request({
     url: 'member/selectCarNumbers',
@@ -39,11 +47,24 @@ export function selectCarNumbers() {
   })
 }
 
-export function allMember(data) {
+export function selectCarBrands() {
   return request({
-    url: 'member/allMember',
-    method: 'get',
-    params: data
+    url: 'member/selectCarBrands',
+    method: 'get'
+  })
+}
+
+export function selectMemberPhones() {
+  return request({
+    url: 'member/selectMemberPhones',
+    method: 'get'
+  })
+}
+
+export function selectMemberUsers() {
+  return request({
+    url: 'member/selectMemberUsers',
+    method: 'get'
   })
 }
 

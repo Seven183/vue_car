@@ -1,14 +1,20 @@
 <template>
   <div class="app-container">
     <div class="app-header" style="width: 80%;">
-      <el-input filterable allow-create v-model="queryParams.memberName" placeholder="会员名" clearable style="width: 15%;margin-right: 5px;"
-                @input="getList"
-                @keyup.enter.native="getList"
-                @clear="getList"/>
-      <el-input v-model="queryParams.phone" placeholder="联系方式" clearable style="width: 15%;margin: 5px;"
-                @input="getList"
-                @keyup.enter.native="getList"
-                @clear="getList"/>
+      <el-select filterable allow-create v-model="queryParams.memberName" placeholder="会员名" clearable
+                 style="width: 15%;margin: 5px;"
+                 @keyup.enter.native="getList"
+                 @clear="getList"
+                 @input="getList">
+        <el-option v-for="item in memberUserList" :key="item" :label="item" :value="item"/>
+      </el-select>
+      <el-select filterable allow-create v-model="queryParams.phone" placeholder="联系方式" clearable
+                 style="width: 15%;margin: 5px;"
+                 @keyup.enter.native="getList"
+                 @clear="getList"
+                 @input="getList">
+        <el-option v-for="item in memberPhoneList" :key="item" :label="item" :value="item"/>
+      </el-select>
       <el-select filterable allow-create v-model="queryParams.carNumber" placeholder="车牌号" clearable
                  style="width: 15%;margin: 5px;"
                  @keyup.enter.native="getList"
@@ -21,7 +27,7 @@
                  @input="getList"
                  @keyup.enter.native="getList"
                  @clear="getList">
-        <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>
+        <el-option v-for="item in carBrandList" :key="item" :label="item" :value="item"/>
       </el-select>
       <el-button style="margin: 5px;" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
@@ -38,6 +44,8 @@
         <el-table-column prop="age" label="年龄" align="center"></el-table-column>
         <el-table-column prop="phone" label="联系方式" align="center"></el-table-column>
         <el-table-column prop="address" label="联系地址" align="center"></el-table-column>
+        <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
+        <el-table-column prop="updateTime" label="更新时间" align="center"></el-table-column>
         <el-table-column :label="$t('table.actions')" align="center" min-width="180" class-name="small-padding fixed-width">
           <template slot-scope="scope">
             <el-button type="info" size="mini" style="min-width: 50px" @click="details(scope.row)">详情</el-button>
@@ -91,8 +99,14 @@
 </template>
 <script>
 
-import {allMember, deleteMember, selectCarNumbers} from '@/api/member'
-import {queryMetaDataByType} from '@/api/metaData'
+import {
+  allMember,
+  deleteMember,
+  selectCarBrands,
+  selectCarNumbers,
+  selectMemberPhones,
+  selectMemberUsers
+} from '@/api/member'
 
 export default {
   name: 'ListMember',
@@ -101,8 +115,9 @@ export default {
       list: [],
       total: 0,
       carNumberList: [],
-      metaDataList: [],
-      metaDataType: 'CAR_BRAND_TYPE',
+      carBrandList: [],
+      memberPhoneList: [],
+      memberUserList: [],
       dialogVisible: false,
       detailsMessage: '',
       queryParams: {
@@ -117,11 +132,17 @@ export default {
     }
   },
   mounted() {
-    queryMetaDataByType(this.metaDataType).then((res) => {
-      this.metaDataList = res.data
-    })
     selectCarNumbers().then((res) => {
       this.carNumberList = res.data
+    })
+    selectCarBrands().then((res) => {
+      this.carBrandList = res.data
+    })
+    selectMemberPhones().then((res) => {
+      this.memberPhoneList = res.data
+    })
+    selectMemberUsers().then((res) => {
+      this.memberUserList = res.data
     })
     this.getList()
   },
