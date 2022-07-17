@@ -1,5 +1,5 @@
 {
-  "name": "vue-admin-template",
+  "name": "car_page",
   "version": "4.4.0",
   "description": "A vue admin template with Element UI & axios & iconfont & permission control & lint",
   "author": "Pan <panfree23@gmail.com>",
@@ -14,7 +14,7 @@
     "test:ci": "npm run lint && npm run test:unit"
   },
   "dependencies": {
-    "axios": "0.18.1",
+    "axios": "0.21.1",
     "core-js": "3.6.5",
     "echarts": "^5.3.3",
     "element-ui": "2.15.7",
@@ -25,8 +25,8 @@
     "view-design": "^4.7.0",
     "vue": "2.6.10",
     "vue-i18n": "7.3.2",
-    "vue-router": "3.0.6",
-    "vuex": "3.1.0"
+    "vue-router": "3.5.2",
+    "vuex": "3.6.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "4.4.4",
