@@ -81,7 +81,7 @@ export const constantRoutes = [
       {
         path: 'allCarsRepairs',
         name: 'allCarsRepairs',
-        component: () => import('@/views/carsRepair/listCarsRepairs'),
+        component: () => import('@/views/carsRepair/listCarsRepairsDialog'),
         meta: {title: '车辆维修列表', icon: 'table'}
       },
       {
@@ -207,7 +207,7 @@ export const constantRoutes = [
       {
         path: 'allInsurance',
         name: 'allInsurance',
-        component: () => import('@/views/insurance/listInsurance'),
+        component: () => import('@/views/insurance/listInsuranceDialog'),
         meta: {title: '保险信息列表', icon: 'table'}
       },
       {
@@ -232,7 +232,7 @@ export const constantRoutes = [
       {
         path: 'allSecondHandCar',
         name: 'allSecondHandCar',
-        component: () => import('@/views/secondHandCar/listSecondHandCar'),
+        component: () => import('@/views/secondHandCar/listSecondHandCarDialog'),
         meta: {title: '二手车信息列表', icon: 'table'}
       },
       {
@@ -257,7 +257,7 @@ export const constantRoutes = [
       {
         path: 'allMembers',
         name: 'allMembers',
-        component: () => import('@/views/member/listMembers'),
+        component: () => import('@/views/member/listMembersDialog'),
         meta: {title: '会员信息列表', icon: 'table'}
       },
       {
