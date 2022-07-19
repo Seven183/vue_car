@@ -34,7 +34,7 @@
         @keyup.enter.native="getList"
         @clear="getList"
       >
-        <el-option v-for="item in faultMetaDataList" :key="item.id" :label="item" :value="item" />
+        <el-option v-for="item in faultMetaDataList" :key="item.id" :label="item.value" :value="item.value" />
       </el-select>
       <el-select
         v-model="queryParams.status"
@@ -74,7 +74,7 @@
       <el-button style="margin: 5px;" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
-      <el-button style="margin: 5px;" type="primary" icon="el-icon-edit" @click="add">
+      <el-button style="margin: 5px;" type="success" icon="el-icon-edit" @click="add">
         {{ $t('table.add') }}
       </el-button>
     </div>
@@ -266,7 +266,7 @@
         </el-form>
       </el-form>
       <span slot="footer">
-        <el-button type="success" class="check_filter" icon="el-icon-plus" @click="add_item()">添加使用的工具</el-button>
+        <el-button type="success" @click="add_item()">添加使用的工具</el-button>
         <el-button v-if="addCarsRepairDialogVisible" type="primary" @click="addCarsRepair">新增本次维修记录</el-button>
         <el-button v-if="updateCarsRepairDialogVisible" type="primary" @click="updateCarsRepair">更新本次维修记录</el-button>
         <el-button @click="cancel">返回</el-button>
