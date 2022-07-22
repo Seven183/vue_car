@@ -270,9 +270,9 @@
         </el-form>
       </el-form>
       <span slot="footer">
-        <el-button type="success" @click="add_item()">添加使用的工具</el-button>
-        <el-button v-if="addCarsRepairDialogVisible" type="primary" @click="addCarsRepair">新增本次维修记录</el-button>
-        <el-button v-if="updateCarsRepairDialogVisible" type="primary" @click="updateCarsRepair">更新本次维修记录</el-button>
+        <el-button type="success" @click="add_item()">添加设备信息</el-button>
+        <el-button v-if="addCarsRepairDialogVisible" type="primary" @click="addCarsRepair">新增维修记录</el-button>
+        <el-button v-if="updateCarsRepairDialogVisible" type="primary" @click="updateCarsRepair">更新维修记录</el-button>
         <el-button type="primary" @click="cancel">返回</el-button>
       </span>
     </el-dialog>

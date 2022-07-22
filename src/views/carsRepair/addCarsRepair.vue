@@ -88,9 +88,9 @@
         </el-form>
         <div style="margin: 50px">
           <el-form-item>
-            <el-button type="success" class="check_filter" icon="el-icon-plus" @click="add_item()">添加使用的工具</el-button>
-            <el-button v-if="createStatus" type="primary" @click="addCarsRepair">新增本次维修记录</el-button>
-            <el-button v-if="!createStatus" type="primary" @click="updateCarsRepair">更新本次维修记录</el-button>
+            <el-button type="success" class="check_filter" icon="el-icon-plus" @click="add_item()">添加设备信息</el-button>
+            <el-button v-if="createStatus" type="primary" @click="addCarsRepair">新增维修记录</el-button>
+            <el-button v-if="!createStatus" type="primary" @click="updateCarsRepair">更新维修记录</el-button>
             <el-button type="primary" @click="backHistory">返回</el-button>
           </el-form-item>
         </div>
