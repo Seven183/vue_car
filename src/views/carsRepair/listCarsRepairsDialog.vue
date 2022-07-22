@@ -100,12 +100,12 @@
         <el-table-column :label="$t('table.actions')" align="center" min-width="200" class-name="small-padding fixed-width">
           <template slot-scope="scope">
             <el-button type="info" size="mini" style="min-width: 50px;" @click="detailsByCarsRepairNumber(scope.row)">详情</el-button>
-            <el-button type="primary" size="mini" style="min-width: 50px; margin-right: 10px" @click="edit(scope.row)">编辑</el-button>
+            <el-button v-if="!scope.row.status" type="primary" size="mini" style="min-width: 50px; margin-right: 10px" @click="edit(scope.row)">编辑</el-button>
             <el-popconfirm title="确定删除吗？" @confirm="deleteCarsRepair(scope.row)">
               <el-button slot="reference" type="danger" size="mini" style="min-width: 40px; margin-right: 10px">删除</el-button>
             </el-popconfirm>
             <el-popconfirm title="确定已经完成了吗？" @confirm="statusOperate(scope.row, 1)">
-              <el-button slot="reference" type="success" size="mini" style="min-width: 40px">是否完成</el-button>
+              <el-button v-if="!scope.row.status" slot="reference" type="success" size="mini" style="min-width: 40px">是否完成</el-button>
             </el-popconfirm>
           </template>
         </el-table-column>
