@@ -63,3 +63,31 @@ export function detailsByCarsRepairNumber(carsRepairNumber) {
     params: carsRepairNumber
   })
 }
+
+export function selectCarNumbers() {
+  return request({
+    url: 'driver/selectCarNumbers',
+    method: 'get'
+  })
+}
+
+export function selectPhone() {
+  return request({
+    url: 'driver/selectPhone',
+    method: 'get'
+  })
+}
+
+export function selectCarBrand() {
+  return request({
+    url: 'driver/selectCarBrand',
+    method: 'get'
+  })
+}
+
+export function selectName() {
+  return request({
+    url: 'driver/selectName',
+    method: 'get'
+  })
+}

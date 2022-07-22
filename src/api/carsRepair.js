@@ -48,13 +48,6 @@ export function detailsByCarsRepairNumber(carsRepairNumber) {
   })
 }
 
-export function selectCarNumbers() {
-  return request({
-    url: 'carsRepair/selectCarNumbers',
-    method: 'get'
-  })
-}
-
 export function statusOperate(carsRepairNumber, status) {
   return request({
     url: 'carsRepair/statusOperate',
@@ -66,6 +59,20 @@ export function statusOperate(carsRepairNumber, status) {
 export function selectCarsRepairType() {
   return request({
     url: 'carsRepair/selectCarsRepairType',
+    method: 'get'
+  })
+}
+
+export function selectCarNumbers() {
+  return request({
+    url: 'carsRepair/selectCarNumbers',
+    method: 'get'
+  })
+}
+
+export function selectPhone() {
+  return request({
+    url: 'carsRepair/selectPhone',
     method: 'get'
   })
 }

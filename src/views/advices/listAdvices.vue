@@ -13,18 +13,21 @@
                  @keyup.enter.native="getList"
                  @input="getList"
                  @clear="getList">
-        <el-option v-for="item in metaDataList" :key="item.id" :label="item.value" :value="item.value"/>
+        <el-option v-for="item in advicesTypeList" :key="item" :label="item" :value="item"/>
       </el-select>
-      <el-input v-model="queryParams.advicesName" placeholder="设备名称" clearable style="width: 15%;margin: 5px;"
-                @keyup.enter.native="getList"
-                @clear="getList"
-                @input="getList"/>
+      <el-select filterable allow-create clearable placeholder="设备名称" v-model="queryParams.advicesName"
+                 style="width: 15%; margin-right: 5px;"
+                 @keyup.enter.native="getList"
+                 @input="getList"
+                 @clear="getList">
+        <el-option v-for="item in advicesNameList" :key="item" :label="item" :value="item"/>
+      </el-select>
       <el-select filterable allow-create v-model="queryParams.status" placeholder="维修状态" clearable
                  style="width: 15%;margin-right: 5px;"
                  @input="getList"
                  @keyup.enter.native="getList"
                  @clear="getList">
-        <el-option v-for="item in carRepairStatusMetaDataList" :key="item.id" :label="item.code" :value="item.value"/>
+        <el-option v-for="item in status_list" :key="item.key" :label="item.value" :value="item.key"/>
       </el-select>
       <el-button style="margin: 5px;" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
@@ -92,9 +95,7 @@
   </div>
 </template>
 <script>
-import {allAdvices, deleteAdvice} from '@/api/advices';
-import {queryMetaDataByType} from "@/api/metaData";
-import {selectCarNumbers} from "@/api/carsRepair";
+import {allAdvices, deleteAdvice, selectAdvicesName, selectAdvicesType, selectCarNumbers} from '@/api/advices'
 
 export default {
   name: 'ListAdvices',
@@ -102,14 +103,12 @@ export default {
     return {
       list: [],
       total: 0,
-      metaDataList: [],
       carNumberList: [],
-      metaDataType: 'ADVICE_TYPE',
-      carRepairStatusMetaDataList: [],
-      carRepairStatusMetaDataType: 'CARREPAIR_STATUS_TYPE',
+      advicesNameList: [],
+      advicesTypeList: [],
       status_list: [
-        {key: 0, value: '维修中', type: "warn"},
-        {key: 1, value: '维修完成', type: "success"}
+        {key: 0, value: '维修中', type: 'warn'},
+        {key: 1, value: '维修完成', type: 'success'}
       ],
       dialogVisible: false,
       detailsMessage: '',
@@ -124,14 +123,14 @@ export default {
     }
   },
   mounted() {
-    queryMetaDataByType(this.metaDataType).then((res) => {
-      this.metaDataList = res.data
-    })
     selectCarNumbers().then((res) => {
       this.carNumberList = res.data
     })
-    queryMetaDataByType(this.carRepairStatusMetaDataType).then((res) => {
-      this.carRepairStatusMetaDataList = res.data
+    selectAdvicesType().then((res) => {
+      this.advicesTypeList = res.data
+    })
+    selectAdvicesName().then((res) => {
+      this.advicesNameList = res.data
     })
     this.getList()
   },

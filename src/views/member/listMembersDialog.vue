@@ -63,14 +63,15 @@
     <div class="app-body">
       <el-table :data="list" stripe fit border highlight-current-row>
         <el-table-column prop="memberName" label="会员名" align="center" />
+        <el-table-column prop="phone" label="联系方式" align="center" />
         <el-table-column prop="carNumber" label="车牌号" align="center" />
+        <el-table-column prop="carBrand" label="车品牌" align="center" />
         <el-table-column prop="memberSex" label="会员性别" align="center" />
         <el-table-column prop="age" label="年龄" align="center" />
-        <el-table-column prop="phone" label="联系方式" align="center" />
         <el-table-column prop="address" label="联系地址" align="center" />
         <el-table-column prop="createTime" label="创建时间" align="center" />
         <el-table-column prop="updateTime" label="更新时间" align="center" />
-        <el-table-column :label="$t('table.actions')" align="center" min-width="180" class-name="small-padding fixed-width">
+        <el-table-column :label="$t('table.actions')" align="center" min-width="160" class-name="small-padding fixed-width">
           <template slot-scope="scope">
             <el-button type="info" size="mini" style="min-width: 50px" @click="details(scope.row)">详情</el-button>
             <el-button type="primary" size="mini" style="min-width: 50px;margin-right: 10px" @click="edit(scope.row)">编辑</el-button>

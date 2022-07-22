@@ -59,3 +59,24 @@ export function allAdvices(data) {
   })
 }
 
+export function selectAdvicesType() {
+  return request({
+    url: 'advice/selectAdvicesType',
+    method: 'get'
+  })
+}
+
+export function selectCarNumbers() {
+  return request({
+    url: 'advice/selectCarNumbers',
+    method: 'get'
+  })
+}
+
+export function selectAdvicesName() {
+  return request({
+    url: 'advice/selectAdvicesName',
+    method: 'get'
+  })
+}
+

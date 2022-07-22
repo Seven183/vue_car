@@ -1,35 +1,80 @@
 <template>
   <div class="app-container">
     <div class="app-header">
-      <el-input v-model="queryParams.phone" placeholder="手机号" clearable style="width: 10%;margin-right: 5px;"
-                @keyup.enter.native="getList"
-                @clear="getList"
-                @input="getList"/>
-      <el-select filterable allow-create v-model="queryParams.carNumber" placeholder="车牌号" clearable
-                 style="width: 10%;margin-right: 5px;"
-                 @input="getList"
-                 @keyup.enter.native="getList"
-                 @clear="getList">
-        <el-option v-for="item in carNumberList" :key="item" :label="item" :value="item"/>
+      <el-select
+        v-model="queryParams.phone"
+        filterable
+        allow-create
+        placeholder="手机号"
+        clearable
+        style="width: 10%;margin-right: 5px;"
+        @input="getList"
+        @keyup.enter.native="getList"
+        @clear="getList"
+      >
+        <el-option v-for="item in phoneList" :key="item" :label="item" :value="item" />
       </el-select>
-      <el-select filterable allow-create v-model="queryParams.carsRepairType" placeholder="维修类型" clearable
-                 style="width: 10%;margin-right: 5px;"
-                 @input="getList"
-                 @keyup.enter.native="getList"
-                 @clear="getList">
-        <el-option v-for="item in faultMetaDataList" :key="item.id" :label="item" :value="item"/>
+      <el-select
+        v-model="queryParams.carNumber"
+        filterable
+        allow-create
+        placeholder="车牌号"
+        clearable
+        style="width: 10%;margin-right: 5px;"
+        @input="getList"
+        @keyup.enter.native="getList"
+        @clear="getList"
+      >
+        <el-option v-for="item in carNumberList" :key="item" :label="item" :value="item" />
       </el-select>
-      <el-select filterable allow-create v-model="queryParams.status" placeholder="维修状态" clearable
-                 style="width: 10%;margin-right: 5px;"
-                 @input="getList"
-                 @keyup.enter.native="getList"
-                 @clear="getList">
-        <el-option v-for="item in carRepairStatusMetaDataList" :key="item.id" :label="item.code" :value="item.value"/>
+      <el-select
+        v-model="queryParams.carsRepairType"
+        filterable
+        allow-create
+        placeholder="维修类型"
+        clearable
+        style="width: 10%;margin-right: 5px;"
+        @input="getList"
+        @keyup.enter.native="getList"
+        @clear="getList"
+      >
+        <el-option v-for="item in faultList" :key="item" :label="item" :value="item" />
       </el-select>
-      <el-date-picker v-model="queryParams.startCreateTime" align="right" style="width: 10%;margin: 5px;" type="date"
-                      placeholder="开始日期" @input="getList" @clear="getList" @keyup.enter.native="getList" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
-      <el-date-picker v-model="queryParams.endCreateTime" align="right" style="width: 10%;margin: 5px;" type="date"
-                      placeholder="结束日期" @input="getList" @clear="getList" @keyup.enter.native="getList" value-format="yyyy-MM-dd HH:mm:ss"></el-date-picker>
+      <el-select
+        v-model="queryParams.status"
+        filterable
+        allow-create
+        placeholder="维修状态"
+        clearable
+        style="width: 10%;margin-right: 5px;"
+        @input="getList"
+        @keyup.enter.native="getList"
+        @clear="getList"
+      >
+        <el-option v-for="item in status_list" :key="item.key" :label="item.value" :value="item.key" />
+      </el-select>
+      <el-date-picker
+        v-model="queryParams.startCreateTime"
+        align="right"
+        style="width: 10%;margin: 5px;"
+        type="date"
+        placeholder="开始日期"
+        value-format="yyyy-MM-dd HH:mm:ss"
+        @input="getList"
+        @clear="getList"
+        @keyup.enter.native="getList"
+      />
+      <el-date-picker
+        v-model="queryParams.endCreateTime"
+        align="right"
+        style="width: 10%;margin: 5px;"
+        type="date"
+        placeholder="结束日期"
+        value-format="yyyy-MM-dd HH:mm:ss"
+        @input="getList"
+        @clear="getList"
+        @keyup.enter.native="getList"
+      />
       <el-button style="margin: 5px;" type="primary" icon="el-icon-search" @click="getList">
         {{ $t('table.search') }}
       </el-button>
@@ -39,12 +84,12 @@
     </div>
     <div class="app-body">
       <el-table :data="list" stripe fit border highlight-current-row>
-        <el-table-column prop="userName" label="姓名" align="center"></el-table-column>
-        <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
-        <el-table-column prop="carNumber" label="车牌号" align="center"></el-table-column>
-        <el-table-column prop="carsRepairType" label="维修类型" align="center"></el-table-column>
-        <el-table-column prop="carsRepairText" label="维修内容" align="center" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="createTime" label="维修时间" align="center" sortable></el-table-column>
+        <el-table-column prop="userName" label="姓名" align="center" />
+        <el-table-column prop="phone" label="手机号" align="center" />
+        <el-table-column prop="carNumber" label="车牌号" align="center" />
+        <el-table-column prop="carsRepairType" label="维修类型" align="center" />
+        <el-table-column prop="carsRepairText" label="维修内容" align="center" show-overflow-tooltip />
+        <el-table-column prop="createTime" label="维修时间" align="center" sortable />
         <el-table-column prop="status" label="维修状态" align="center" sortable>
           <template slot-scope="scope">
             <el-tag v-for="item in status_list" v-if="item.key === scope.row.status" :type="item.type">
@@ -57,10 +102,10 @@
             <el-button type="info" size="mini" style="min-width: 50px;" @click="detailsByCarsRepairNumber(scope.row)">详情</el-button>
             <el-button type="primary" size="mini" style="min-width: 50px; margin-right: 10px" @click="updateCarsRepair(scope.row)">编辑</el-button>
             <el-popconfirm title="确定删除吗？" @confirm="deleteCarsRepair(scope.row)">
-              <el-button type="danger" size="mini" style="min-width: 40px; margin-right: 10px" slot="reference">删除</el-button>
+              <el-button slot="reference" type="danger" size="mini" style="min-width: 40px; margin-right: 10px">删除</el-button>
             </el-popconfirm>
             <el-popconfirm title="确定已经完成了吗？" @confirm="statusOperate(scope.row, 1)">
-              <el-button type="success" size="mini" style="min-width: 40px" slot="reference">是否完成</el-button>
+              <el-button slot="reference" type="success" size="mini" style="min-width: 40px">是否完成</el-button>
             </el-popconfirm>
           </template>
         </el-table-column>
@@ -74,10 +119,11 @@
         :page-count="queryParams.pageNum"
         :page-size="queryParams.pageSize"
         @current-change="getListByNumber"
-        @size-change="getListByPage"/>
+        @size-change="getListByPage"
+      />
     </div>
     <el-dialog center title="车辆维修详细信息" top="5vh" :visible.sync="dialogVisible">
-<!--      <pre>{{ this.detailsMessage }}</pre>-->
+      <!--      <pre>{{ this.detailsMessage }}</pre>-->
       <div align="center">
         <el-descriptions title="基本信息" class="margin-top" :column="2" border>
           <el-descriptions-item label="姓名">{{ this.detailsMessage.userName }}</el-descriptions-item>
@@ -99,14 +145,14 @@
           <el-descriptions-item label="汽车图片">{{ this.detailsMessageImagesUrl }}</el-descriptions-item>
         </el-descriptions>
         <br><br>
-        <el-descriptions title="设备信息"/>
+        <el-descriptions title="设备信息" />
         <el-table :data="this.detailsMessage.advicesItems">
-          <el-table-column property="advicesType" label="设备类型" width="170"></el-table-column>
-          <el-table-column property="advicesName" label="设备名称" width="170"></el-table-column>
-          <el-table-column property="advicesNumber" label="设备编号" width="170"></el-table-column>
-          <el-table-column property="advicesQuantity" label="设备数量" width="160"></el-table-column>
-          <el-table-column property="advicesPriceAmount" label="设备单价金额" width="170"></el-table-column>
-          <el-table-column property="advicesFullAmount" label="设备总金额" width="170"></el-table-column>
+          <el-table-column property="advicesType" label="设备类型" width="170" />
+          <el-table-column property="advicesName" label="设备名称" width="170" />
+          <el-table-column property="advicesNumber" label="设备编号" width="170" />
+          <el-table-column property="advicesQuantity" label="设备数量" width="160" />
+          <el-table-column property="advicesPriceAmount" label="设备单价金额" width="170" />
+          <el-table-column property="advicesFullAmount" label="设备总金额" width="170" />
         </el-table>
       </div>
       <span slot="footer">
@@ -121,10 +167,9 @@ import {
   deleteCarsRepair,
   detailsByCarsRepairNumber,
   queryAllCarsRepair,
-  selectCarNumbers, selectCarsRepairType,
+  selectCarNumbers, selectCarsRepairType, selectPhone,
   statusOperate
 } from '@/api/carsRepair'
-import {queryMetaDataByType} from '@/api/metaData'
 
 export default {
   name: 'ListCarsRepairs',
@@ -133,12 +178,12 @@ export default {
       list: [],
       total: 0,
       faultMetaDataList: [],
-      carRepairStatusMetaDataList: [],
-      carRepairStatusMetaDataType: 'CARREPAIR_STATUS_TYPE',
       carNumberList: [],
+      faultList: [],
+      phoneList: [],
       status_list: [
-        {key: 0, value: '维修中', type: "warn"},
-        {key: 1, value: '维修完成', type: "success"}
+        { key: 0, value: '维修中', type: 'warn' },
+        { key: 1, value: '维修完成', type: 'success' }
       ],
       detailsMessage: '',
       detailsMessageImagesUrl: '',
@@ -158,11 +203,14 @@ export default {
     selectCarsRepairType().then((res) => {
       this.faultMetaDataList = res.data
     })
-    queryMetaDataByType(this.carRepairStatusMetaDataType).then((res) => {
-      this.carRepairStatusMetaDataList = res.data
-    })
     selectCarNumbers().then((res) => {
       this.carNumberList = res.data
+    })
+    selectPhone().then((res) => {
+      this.phoneList = res.data
+    })
+    selectCarsRepairType().then((res) => {
+      this.faultList = res.data
     })
     this.getList()
   },
@@ -201,13 +249,13 @@ export default {
     deleteCarsRepair(row) {
       deleteCarsRepair(row.carsRepairNumber).then(res => {
         this.getList()
-        this.$notify({title: '成功', message: '删除成功', type: 'success'})
+        this.$notify({ title: '成功', message: '删除成功', type: 'success' })
       })
     },
     statusOperate(row, status) {
       statusOperate(row.carsRepairNumber, status).then(res => {
         this.getList()
-        this.$notify({title: '成功', message: '已完成', type: 'success'})
+        this.$notify({ title: '成功', message: '已完成', type: 'success' })
       })
     },
     detailsByCarsRepairNumber(row) {

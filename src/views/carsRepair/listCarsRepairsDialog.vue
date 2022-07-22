@@ -1,15 +1,19 @@
 <template>
   <div class="app-container">
     <div class="app-header">
-      <el-input
+      <el-select
         v-model="queryParams.phone"
+        filterable
+        allow-create
         placeholder="手机号"
         clearable
         style="width: 10%;margin-right: 5px;"
+        @input="getList"
         @keyup.enter.native="getList"
         @clear="getList"
-        @input="getList"
-      />
+      >
+        <el-option v-for="item in phoneList" :key="item" :label="item" :value="item" />
+      </el-select>
       <el-select
         v-model="queryParams.carNumber"
         filterable
@@ -34,7 +38,7 @@
         @keyup.enter.native="getList"
         @clear="getList"
       >
-        <el-option v-for="item in faultMetaDataList" :key="item.id" :label="item.value" :value="item.value" />
+        <el-option v-for="item in faultList" :key="item" :label="item" :value="item" />
       </el-select>
       <el-select
         v-model="queryParams.status"
@@ -47,7 +51,7 @@
         @keyup.enter.native="getList"
         @clear="getList"
       >
-        <el-option v-for="item in carRepairStatusMetaDataList" :key="item.id" :label="item.code" :value="item.value" />
+        <el-option v-for="item in status_list" :key="item.key" :label="item.value" :value="item.key" />
       </el-select>
       <el-date-picker
         v-model="queryParams.startCreateTime"
@@ -269,7 +273,7 @@
         <el-button type="success" @click="add_item()">添加使用的工具</el-button>
         <el-button v-if="addCarsRepairDialogVisible" type="primary" @click="addCarsRepair">新增本次维修记录</el-button>
         <el-button v-if="updateCarsRepairDialogVisible" type="primary" @click="updateCarsRepair">更新本次维修记录</el-button>
-        <el-button @click="cancel">返回</el-button>
+        <el-button type="primary" @click="cancel">返回</el-button>
       </span>
     </el-dialog>
   </div>
@@ -280,7 +284,7 @@ import {
   deleteCarsRepair,
   detailsByCarsRepairNumber,
   queryAllCarsRepair, queryCarsRepairByCarsRepairNumber,
-  selectCarNumbers,
+  selectCarNumbers, selectCarsRepairType, selectPhone,
   statusOperate, updateCarsRepair
 } from '@/api/carsRepair'
 import { queryMetaDataByType } from '@/api/metaData'
@@ -311,11 +315,11 @@ export default {
       carBrandMetaDataList: [],
       faultMetaDataType: 'FAULT_TYPE',
       faultMetaDataList: [],
+      faultList: [],
+      phoneList: [],
+      carNumberList: [],
       adviceMetaDataType: 'ADVICE_TYPE',
       adviceMetaDataList: [],
-      carRepairStatusMetaDataList: [],
-      carRepairStatusMetaDataType: 'CARREPAIR_STATUS_TYPE',
-      carNumberList: [],
       status_list: [
         { key: 0, value: '维修中', type: 'warn' },
         { key: 1, value: '维修完成', type: 'success' }
@@ -382,11 +386,14 @@ export default {
     queryMetaDataByType(this.adviceMetaDataType).then((res) => {
       this.adviceMetaDataList = res.data
     })
-    queryMetaDataByType(this.carRepairStatusMetaDataType).then((res) => {
-      this.carRepairStatusMetaDataList = res.data
-    })
     selectCarNumbers().then((res) => {
       this.carNumberList = res.data
+    })
+    selectPhone().then((res) => {
+      this.phoneList = res.data
+    })
+    selectCarsRepairType().then((res) => {
+      this.faultList = res.data
     })
     this.getList()
   },
