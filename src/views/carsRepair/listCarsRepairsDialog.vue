@@ -229,45 +229,45 @@
             <div slot="tip" class="el-upload__tip">上传照片总大小不超过100M</div>
           </el-upload>
         </el-form-item>
-        <el-form v-for="(filter,index) in request_body.advicesItems" :key="filter.id" label-width="auto" :model="filter" inline>
-          <el-divider />
-          <el-form-item label="设备类型" prop="advicesType" :rules="form_rules.advicesType">
-            <el-select v-model="filter.advicesType" filterable allow-create clearable style="width: 200px">
-              <el-option v-for="item in adviceMetaDataList" :key="item.id" :label="item.value" :value="item.value" />
-            </el-select>
-          </el-form-item>
-          <el-form-item label="设备名称" prop="advicesName" :rules="form_rules.advicesName">
-            <el-input v-model="filter.advicesName" placeholder="请输入设备名称" style="width: 200px" />
-          </el-form-item>
-          <el-form-item label="设备编号" prop="advicesNumber" :rules="form_rules.advicesNumber">
-            <el-input v-model="filter.advicesNumber" placeholder="请输入设备编号" style="width: 200px" />
-          </el-form-item>
-          <el-form-item label="设备数量" prop="advicesQuantity" :rules="form_rules.advicesQuantity">
-            <el-input
-              v-model.number="filter.advicesQuantity"
-              placeholder="请输入设备数量"
-              style="width: 200px"
-              @input="advicesItemsFullAmount(index)"
-            />
-          </el-form-item>
-          <el-form-item label="设备单价金额" prop="advicesPriceAmount" :rules="form_rules.advicesPriceAmount">
-            <el-input
-              v-model="filter.advicesPriceAmount"
-              placeholder="请输入设备单价金额"
-              style="width: 200px"
-              @input="advicesItemsFullAmount(index)"
-            />
-          </el-form-item>
-          <el-form-item label="设备总金额">
-            <el-input
-              v-model="filter.advicesFullAmount"
-              placeholder="请输入设备总金额"
-              style="width: 200px ;margin-right: 30px"
-            />
-            <el-button type="danger" icon="el-icon-delete" circle class="delete_icon" @click="delete_item(filter)" />
-            <br><br>
-          </el-form-item>
-        </el-form>
+      </el-form>
+      <el-form v-for="(filter,index) in request_body.advicesItems" :key="filter.id" label-width="auto" :model="filter" inline>
+        <el-divider />
+        <el-form-item label="设备类型" prop="advicesType" :rules="form_rules.advicesType">
+          <el-select v-model="filter.advicesType" filterable allow-create clearable style="width: 200px">
+            <el-option v-for="item in adviceMetaDataList" :key="item.id" :label="item.value" :value="item.value" />
+          </el-select>
+        </el-form-item>
+        <el-form-item label="设备名称" prop="advicesName" :rules="form_rules.advicesName">
+          <el-input v-model="filter.advicesName" placeholder="请输入设备名称" style="width: 200px" />
+        </el-form-item>
+        <el-form-item label="设备编号" prop="advicesNumber" :rules="form_rules.advicesNumber">
+          <el-input v-model="filter.advicesNumber" placeholder="请输入设备编号" style="width: 200px" />
+        </el-form-item>
+        <el-form-item label="设备数量" prop="advicesQuantity" :rules="form_rules.advicesQuantity">
+          <el-input
+            v-model.number="filter.advicesQuantity"
+            placeholder="请输入设备数量"
+            style="width: 200px"
+            @input="advicesItemsFullAmount(index)"
+          />
+        </el-form-item>
+        <el-form-item label="设备单价金额" prop="advicesPriceAmount" :rules="form_rules.advicesPriceAmount">
+          <el-input
+            v-model="filter.advicesPriceAmount"
+            placeholder="请输入设备单价金额"
+            style="width: 200px"
+            @input="advicesItemsFullAmount(index)"
+          />
+        </el-form-item>
+        <el-form-item label="设备总金额">
+          <el-input
+            v-model="filter.advicesFullAmount"
+            placeholder="请输入设备总金额"
+            style="width: 200px ;margin-right: 30px"
+          />
+          <el-button type="danger" icon="el-icon-delete" circle class="delete_icon" @click="delete_item(filter)" />
+          <br><br>
+        </el-form-item>
       </el-form>
       <span slot="footer">
         <el-button type="success" @click="add_item()">添加设备信息</el-button>
